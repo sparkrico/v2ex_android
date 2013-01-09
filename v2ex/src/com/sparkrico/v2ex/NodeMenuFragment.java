@@ -45,7 +45,7 @@ public class NodeMenuFragment extends ListFragment{
 		
 		simpleAdapter = new SimpleAdapter(getActivity(), data, 
 				android.R.layout.simple_list_item_1, 
-				new String[]{"name"}, 
+				new String[]{"title"}, 
 				new int[]{android.R.id.text1});
 		setListAdapter(simpleAdapter);
 		
@@ -68,9 +68,17 @@ public class NodeMenuFragment extends ListFragment{
 				data.clear();
 				
 				Map<String, String> map;
+				
+				//add all
+				map = new HashMap<String, String>();
+				map.put("title", "all");
+				map.put("name", "");
+				data.add(map);
+				
 				for (Node node : list) {
 					map = new HashMap<String, String>();
-					map.put("name", node.getTitle());
+					map.put("title", node.getTitle());
+					map.put("name", node.getName());
 					data.add(map);
 				}
 				
@@ -81,7 +89,7 @@ public class NodeMenuFragment extends ListFragment{
 	
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id) {
-		Fragment newContent = new TopicsFragment();
+		Fragment newContent = new TopicsFragment(data.get(position).get("name"));
 		if (newContent != null)
 			switchFragment(newContent);
 	}

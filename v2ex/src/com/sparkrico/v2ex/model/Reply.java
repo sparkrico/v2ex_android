@@ -1,41 +1,25 @@
 package com.sparkrico.v2ex.model;
 
-import java.io.Serializable;
+public class Reply {
 
-public class Topic implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private long id;
-	private String title;
-	private String url;
+	private int thanks;
 	private String content;
 	private String content_rendered;
-	private int replies;
 	private MemberMini member;
-	private Node node;
 	private long created;
 	private long last_modified;
-	private long last_touched;
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getTitle() {
-		return title;
+	public int getThanks() {
+		return thanks;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setThanks(int thanks) {
+		this.thanks = thanks;
 	}
 	public String getContent() {
 		return content;
@@ -49,23 +33,11 @@ public class Topic implements Serializable{
 	public void setContent_rendered(String content_rendered) {
 		this.content_rendered = content_rendered;
 	}
-	public int getReplies() {
-		return replies;
-	}
-	public void setReplies(int replies) {
-		this.replies = replies;
-	}
 	public MemberMini getMember() {
 		return member;
 	}
 	public void setMember(MemberMini member) {
 		this.member = member;
-	}
-	public Node getNode() {
-		return node;
-	}
-	public void setNode(Node node) {
-		this.node = node;
 	}
 	public long getCreated() {
 		return created;
@@ -79,11 +51,4 @@ public class Topic implements Serializable{
 	public void setLast_modified(long last_modified) {
 		this.last_modified = last_modified;
 	}
-	public long getLast_touched() {
-		return last_touched;
-	}
-	public void setLast_touched(long last_touched) {
-		this.last_touched = last_touched;
-	}
-	
 }

@@ -15,22 +15,23 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.sparkrico.v2ex.model.Node;
 import com.sparkrico.v2ex.util.ApiUtil;
 
-public class MainActivity extends SlidingFragmentActivity{
+public class MainActivity extends SlidingFragmentActivity {
 
 	private Fragment mContent;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.responsive_content_frame);
-		
+
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
 			setBehindContentView(R.layout.menu_frame);
 			getSlidingMenu().setSlidingEnabled(true);
-			getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			getSlidingMenu()
+					.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 			// show home as up so we can toggle
-//			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} else {
 			// add a dummy view
 			View v = new View(this);
@@ -41,20 +42,16 @@ public class MainActivity extends SlidingFragmentActivity{
 
 		// set the Above View Fragment
 		if (savedInstanceState != null)
-			mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+			mContent = getSupportFragmentManager().getFragment(
+					savedInstanceState, "mContent");
 		if (mContent == null)
-			mContent = new TopicsFragment();	
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.content_frame, mContent)
-		.commit();
+			mContent = new TopicsFragment("");
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, mContent).commit();
 		// set the Behind View Fragment
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.menu_frame, new NodeMenuFragment())
-		.commit();
-		
-		
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.menu_frame, new NodeMenuFragment()).commit();
+
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
@@ -63,22 +60,22 @@ public class MainActivity extends SlidingFragmentActivity{
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 	}
-	
-	private void init(){
+
+	private void init() {
 		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-		asyncHttpClient.get(String.format(ApiUtil.nodes_show, "","ios"), new AsyncHttpResponseHandler(){
-			@Override
-			public void onSuccess(int statusCode, String content) {
-				super.onSuccess(statusCode, content);
-				Gson gson = new Gson();
-				Node node = (Node) gson.fromJson(content, Node.class);
-				
-				Log.i("", "getUrl:"+node.getUrl());
-				Log.i("", "getHeader:"+node.getHeader());
-			}
-		});
-		
-		
+		asyncHttpClient.get(String.format(ApiUtil.nodes_show, "", "ios"),
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, String content) {
+						super.onSuccess(statusCode, content);
+						Gson gson = new Gson();
+						Node node = (Node) gson.fromJson(content, Node.class);
+
+						Log.i("", "getUrl:" + node.getUrl());
+						Log.i("", "getHeader:" + node.getHeader());
+					}
+				});
+
 	}
 
 	@Override
@@ -90,10 +87,8 @@ public class MainActivity extends SlidingFragmentActivity{
 
 	public void switchContent(final Fragment fragment) {
 		mContent = fragment;
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.content_frame, fragment)
-		.commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
 		Handler h = new Handler();
 		h.postDelayed(new Runnable() {
 			public void run() {

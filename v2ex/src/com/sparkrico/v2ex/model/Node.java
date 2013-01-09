@@ -1,8 +1,14 @@
 package com.sparkrico.v2ex.model;
 
-public class Node {
+import java.io.Serializable;
 
-	private int id;
+public class Node implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long id;
 	private String name;
 	private String url;
 	private String title;
@@ -11,10 +17,10 @@ public class Node {
 	private String header;
 	private String footer;
 	private long created;
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {

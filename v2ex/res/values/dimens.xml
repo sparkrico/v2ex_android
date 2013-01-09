@@ -22,4 +22,8 @@
 
     <integer name="num_cols">1</integer>
 
+    
+    <!-- topic item -->
+    <dimen name="first_size">18sp</dimen>
+    <dimen name="second_size">12sp</dimen>
 </resources>
