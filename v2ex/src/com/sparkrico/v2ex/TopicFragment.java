@@ -26,6 +26,7 @@ import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
+import com.sparkrico.v2ex.util.DateUtil;
 import com.umeng.analytics.MobclickAgent;
 
 public class TopicFragment extends FragmentActivity{
@@ -86,6 +87,7 @@ public class TopicFragment extends FragmentActivity{
 	
 	private void initTop(){
 		ivFace.setImageUrl(topic.getMember().getAvatar_large());
+		tvLast.setText(DateUtil.timeAgo(topic.getLast_touched()));
 		tvNode.setText(topic.getNode().getTitle());
 		tvUser.setText(topic.getMember().getUsername());
 		tvTitle.setText(topic.getTitle());
@@ -96,8 +98,8 @@ public class TopicFragment extends FragmentActivity{
 	private void setupListView(){
 		simpleAdapter = new SimpleAdapter(this, data,
 				R.layout.reply_item, 
-				new String[] { "content", "username", "image"}, 
-				new int[] { R.id.content, R.id.user, R.id.image });
+				new String[] { "content", "username", "image", "date"}, 
+				new int[] { R.id.content, R.id.user, R.id.image, R.id.last });
 		simpleAdapter.setViewBinder(new ViewBinder() {
 			
 			@Override
@@ -140,6 +142,7 @@ public class TopicFragment extends FragmentActivity{
 					map.put("content", reply.getContent_rendered());
 					map.put("username", reply.getMember().getUsername());
 					map.put("thanks", "" + reply.getThanks());
+					map.put("date", DateUtil.timeAgo(reply.getLast_modified()));
 					
 					data.add(map);
 				}

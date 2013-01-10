@@ -124,6 +124,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class color {
         public static final int holo_blue_bright=0x7f050000;
         public static final int replies=0x7f050001;
+        public static final int topic_replies_divider=0x7f050002;
     }
     public static final class dimen {
         /**  topic item 

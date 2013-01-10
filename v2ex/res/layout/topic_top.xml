@@ -75,4 +75,8 @@
         android:paddingRight="4dip"
         android:textSize="@dimen/first_size" />
 
+    <ImageView
+	    android:layout_width="match_parent"
+	    android:layout_height="10dip"
+	    android:src="@color/topic_replies_divider"/>
 </LinearLayout>

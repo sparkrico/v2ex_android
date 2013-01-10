@@ -2,4 +2,6 @@
 <resources>
     
     <color name="replies">#ffAAB0C6</color>
+    
+    <color name="topic_replies_divider">#ffE2E2e9</color>
 </resources>
