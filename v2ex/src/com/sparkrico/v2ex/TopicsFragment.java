@@ -25,6 +25,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
+import com.sparkrico.v2ex.util.DateUtil;
 
 public class TopicsFragment extends ListFragment {
 
@@ -50,8 +51,8 @@ public class TopicsFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.topic_list_item, new String[] { "title", "node",
-						"username", "replies", "image" }, new int[] { R.id.title,
-						R.id.node, R.id.user, R.id.replies, R.id.image });
+						"username", "replies", "image", "date" }, new int[] { R.id.title,
+						R.id.node, R.id.user, R.id.replies, R.id.image, R.id.last });
 		simpleAdapter.setViewBinder(new ViewBinder() {
 			
 			@Override
@@ -97,6 +98,7 @@ public class TopicsFragment extends ListFragment {
 					map.put("node", topic.getNode().getName());
 					map.put("username", topic.getMember().getUsername());
 					map.put("replies", "" + topic.getReplies());
+					map.put("date", DateUtil.timeAgo(topic.getLast_touched()));
 					
 					map.put("topic", topic);
 					data.add(map);

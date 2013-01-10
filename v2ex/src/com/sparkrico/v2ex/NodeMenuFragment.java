@@ -3,19 +3,25 @@ package com.sparkrico.v2ex;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,16 +29,21 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sparkrico.v2ex.model.Node;
 import com.sparkrico.v2ex.util.ApiUtil;
+import com.sparkrico.v2ex.util.ComparableNode;
 
 public class NodeMenuFragment extends ListFragment{
 	
 	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	
 	SimpleAdapter simpleAdapter;
+	
+	TextView tvCurrent;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.list, null);
+		View v = inflater.inflate(R.layout.list, null);
+		tvCurrent = (TextView) v.findViewById(R.id.current);
+		return v;
 	}
 
 	@Override
@@ -48,6 +59,36 @@ public class NodeMenuFragment extends ListFragment{
 				new String[]{"title"}, 
 				new int[]{android.R.id.text1});
 		setListAdapter(simpleAdapter);
+		getListView().setOnScrollListener(new ListView.OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				switch (scrollState) {
+				case OnScrollListener.SCROLL_STATE_IDLE:
+					tvCurrent.setVisibility(View.GONE);
+					break;
+				case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+				case OnScrollListener.SCROLL_STATE_FLING:
+					tvCurrent.setVisibility(View.VISIBLE);
+					break;
+
+				default:
+					break;
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if(data.size()>0){
+					String current = data.get(firstVisibleItem).get("name");
+					if(!TextUtils.isEmpty(current))
+						tvCurrent.setText(String.valueOf(current.toUpperCase().charAt(0)));
+					else
+						tvCurrent.setText("");
+				}
+			}
+		});
 		
 		loadAllNodes();
 	}
@@ -83,6 +124,10 @@ public class NodeMenuFragment extends ListFragment{
 						data.add(map);
 					}
 				}
+				
+				ComparableNode comparableNode = new ComparableNode();
+				
+				Collections.sort(data, comparableNode);
 				
 				simpleAdapter.notifyDataSetChanged();
 			}

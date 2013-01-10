@@ -26,4 +26,6 @@
     <!-- topic item -->
     <dimen name="first_size">18sp</dimen>
     <dimen name="second_size">12sp</dimen>
+    
+    <dimen name="node_select_size">36sp</dimen>
 </resources>
