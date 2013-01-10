@@ -75,11 +75,13 @@ public class NodeMenuFragment extends ListFragment{
 				map.put("name", "");
 				data.add(map);
 				
-				for (Node node : list) {
-					map = new HashMap<String, String>();
-					map.put("title", node.getTitle());
-					map.put("name", node.getName());
-					data.add(map);
+				if(list != null){
+					for (Node node : list) {
+						map = new HashMap<String, String>();
+						map.put("title", node.getTitle());
+						map.put("name", node.getName());
+						data.add(map);
+					}
 				}
 				
 				simpleAdapter.notifyDataSetChanged();

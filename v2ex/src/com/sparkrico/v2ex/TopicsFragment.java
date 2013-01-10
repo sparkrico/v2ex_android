@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleAdapter.ViewBinder;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
 
@@ -48,8 +50,20 @@ public class TopicsFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.topic_list_item, new String[] { "title", "node",
-						"username", "replies" }, new int[] { R.id.title,
-						R.id.node, R.id.user, R.id.replies });
+						"username", "replies", "image" }, new int[] { R.id.title,
+						R.id.node, R.id.user, R.id.replies, R.id.image });
+		simpleAdapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Object data,
+					String textRepresentation) {
+				if(view instanceof SmartImageView){
+					((SmartImageView)view).setImageUrl((String)data);
+					return true;
+				}
+				return false;
+			}
+		});
 		setListAdapter(simpleAdapter);
 
 		String node = getArguments().getString("node");
@@ -78,7 +92,7 @@ public class TopicsFragment extends ListFragment {
 				Map<String, Object> map;
 				for (Topic topic : list) {
 					map = new HashMap<String, Object>();
-					map.put("image", topic.getMember().getAvatar_normal());
+					map.put("image", topic.getMember().getAvatar_large());
 					map.put("title", topic.getTitle());
 					map.put("node", topic.getNode().getName());
 					map.put("username", topic.getMember().getUsername());

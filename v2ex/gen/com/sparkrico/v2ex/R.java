@@ -143,12 +143,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int defaultshadow=0x7f020001;
         public static final int defaultshadowright=0x7f020002;
         public static final int divider=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int replies=0x7f020005;
-        public static final int shadow=0x7f020006;
-        public static final int umeng_common_gradient_green=0x7f020007;
-        public static final int umeng_common_gradient_orange=0x7f020008;
-        public static final int umeng_common_gradient_red=0x7f020009;
+        public static final int face=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int replies=0x7f020006;
+        public static final int shadow=0x7f020007;
+        public static final int umeng_common_gradient_green=0x7f020008;
+        public static final int umeng_common_gradient_orange=0x7f020009;
+        public static final int umeng_common_gradient_red=0x7f02000a;
     }
     public static final class id {
         public static final int content=0x7f04000a;

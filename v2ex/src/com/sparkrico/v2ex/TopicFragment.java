@@ -9,16 +9,20 @@ import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
@@ -28,7 +32,7 @@ public class TopicFragment extends FragmentActivity{
 	
 	Topic topic;
 	
-	ImageView ivFace;
+	SmartImageView ivFace;
 	TextView tvNode;
 	TextView tvUser;
 	TextView tvLast;
@@ -69,7 +73,7 @@ public class TopicFragment extends FragmentActivity{
 	private void setupViews(){
 		View v = getLayoutInflater().inflate(R.layout.topic_top, null);
 		
-		ivFace = (ImageView) v.findViewById(R.id.image);
+		ivFace = (SmartImageView) v.findViewById(R.id.image);
 		tvNode = (TextView) v.findViewById(R.id.node);
 		tvUser = (TextView) v.findViewById(R.id.user);
 		tvLast = (TextView) v.findViewById(R.id.last);
@@ -81,17 +85,35 @@ public class TopicFragment extends FragmentActivity{
 	}
 	
 	private void initTop(){
+		ivFace.setImageUrl(topic.getMember().getAvatar_large());
 		tvNode.setText(topic.getNode().getTitle());
 		tvUser.setText(topic.getMember().getUsername());
 		tvTitle.setText(topic.getTitle());
-		tvContent.setText(topic.getContent());
+		tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+		tvContent.setText(Html.fromHtml(topic.getContent_rendered()));
 	}
 	
 	private void setupListView(){
 		simpleAdapter = new SimpleAdapter(this, data,
 				R.layout.reply_item, 
-				new String[] { "content", "username",}, 
-				new int[] { R.id.content, R.id.user });
+				new String[] { "content", "username", "image"}, 
+				new int[] { R.id.content, R.id.user, R.id.image });
+		simpleAdapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Object data,
+					String textRepresentation) {
+				if(view instanceof TextView){
+					((TextView)view).setMovementMethod(LinkMovementMethod.getInstance());
+					((TextView)view).setText(Html.fromHtml((String)data));
+					return true;
+				} else if (view instanceof SmartImageView){
+					((SmartImageView)view).setImageUrl((String)data);
+					return true;
+				}
+				return false;
+			}
+		});
 		listView.setAdapter(simpleAdapter);
 	}
 	
@@ -114,8 +136,8 @@ public class TopicFragment extends FragmentActivity{
 				Map<String, Object> map;
 				for (Reply reply : list) {
 					map = new HashMap<String, Object>();
-					map.put("image", reply.getMember().getAvatar_normal());
-					map.put("content", reply.getContent());
+					map.put("image", reply.getMember().getAvatar_large());
+					map.put("content", reply.getContent_rendered());
 					map.put("username", reply.getMember().getUsername());
 					map.put("thanks", "" + reply.getThanks());
 					
@@ -126,5 +148,6 @@ public class TopicFragment extends FragmentActivity{
 			}
 		});
 	}
+	
 }
 

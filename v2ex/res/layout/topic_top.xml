@@ -9,12 +9,12 @@
         android:layout_height="wrap_content"
         android:padding="4dip" >
 
-        <ImageView
+        <com.loopj.android.image.SmartImageView
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="4dip"
+            android:padding="4dip"
             android:src="@drawable/avatar_normal" />
 
         <LinearLayout
