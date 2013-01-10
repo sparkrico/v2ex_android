@@ -14,6 +14,8 @@ import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.sparkrico.v2ex.model.Node;
 import com.sparkrico.v2ex.util.ApiUtil;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends SlidingFragmentActivity {
 
@@ -23,6 +25,8 @@ public class MainActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.responsive_content_frame);
+		
+		UmengUpdateAgent.update(this);
 
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
@@ -59,6 +63,18 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	private void init() {

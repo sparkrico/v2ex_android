@@ -22,6 +22,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
+import com.umeng.analytics.MobclickAgent;
 
 public class TopicFragment extends FragmentActivity{
 	
@@ -51,6 +52,18 @@ public class TopicFragment extends FragmentActivity{
 		setupListView();
 		
 		loadReplies(String.format(ApiUtil.replies_show, ""+topic.getId(), ""));
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 	
 	private void setupViews(){

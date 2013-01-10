@@ -71,7 +71,7 @@ public class NodeMenuFragment extends ListFragment{
 				
 				//add all
 				map = new HashMap<String, String>();
-				map.put("title", "all");
+				map.put("title", "È«²¿");
 				map.put("name", "");
 				data.add(map);
 				

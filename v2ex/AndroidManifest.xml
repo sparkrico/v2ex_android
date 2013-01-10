@@ -8,6 +8,10 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -25,6 +29,15 @@
         </activity>
         
         <activity android:name=".TopicFragment"/>
+        
+        <service
+		    android:name="com.umeng.common.net.DownloadingService"
+		    android:exported="true"
+		    android:process=":DownloadingService" >
+		</service>
+        
+        <meta-data android:value="50ee0c2b5270156beb000045" android:name="UMENG_APPKEY"></meta-data>
+		<meta-data android:value="V2EX" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

@@ -146,6 +146,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020004;
         public static final int replies=0x7f020005;
         public static final int shadow=0x7f020006;
+        public static final int umeng_common_gradient_green=0x7f020007;
+        public static final int umeng_common_gradient_orange=0x7f020008;
+        public static final int umeng_common_gradient_red=0x7f020009;
     }
     public static final class id {
         public static final int content=0x7f04000a;
@@ -157,7 +160,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int left=0x7f040000;
         public static final int margin=0x7f040002;
         public static final int menu_frame=0x7f040005;
-        public static final int menu_settings=0x7f040014;
+        public static final int menu_settings=0x7f04001e;
         public static final int node=0x7f040012;
         public static final int replies=0x7f040011;
         public static final int right=0x7f040001;
@@ -168,6 +171,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidingmenurowtitle=0x7f04000f;
         public static final int title=0x7f040010;
         public static final int top=0x7f040007;
+        public static final int umeng_common_app=0x7f040014;
+        public static final int umeng_common_appIcon=0x7f040015;
+        public static final int umeng_common_description=0x7f04001c;
+        public static final int umeng_common_notification=0x7f04001a;
+        public static final int umeng_common_notification_controller=0x7f040017;
+        public static final int umeng_common_progress_bar=0x7f04001d;
+        public static final int umeng_common_progress_text=0x7f040016;
+        public static final int umeng_common_rich_notification_cancel=0x7f040019;
+        public static final int umeng_common_rich_notification_continue=0x7f040018;
+        public static final int umeng_common_title=0x7f04001b;
         public static final int user=0x7f040008;
     }
     public static final class integer {
@@ -186,14 +199,31 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int topic=0x7f030009;
         public static final int topic_list_item=0x7f03000a;
         public static final int topic_top=0x7f03000b;
+        public static final int umeng_common_download_notification=0x7f03000c;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;
     }
     public static final class string {
+        public static final int UMAppUpdate=0x7f08000f;
+        public static final int UMBreak_Network=0x7f08000a;
+        public static final int UMDialog_InstallAPK=0x7f080012;
+        public static final int UMGprsCondition=0x7f08000d;
+        public static final int UMNewVersion=0x7f08000c;
+        public static final int UMNotNow=0x7f080010;
+        public static final int UMToast_IsUpdating=0x7f080011;
+        public static final int UMUpdateNow=0x7f08000e;
+        public static final int UMUpdateTitle=0x7f08000b;
         public static final int app_name=0x7f080000;
-        public static final int hello_world=0x7f080001;
-        public static final int menu_settings=0x7f080002;
+        public static final int menu_settings=0x7f080001;
+        public static final int umeng_common_action_cancel=0x7f080006;
+        public static final int umeng_common_action_continue=0x7f080005;
+        public static final int umeng_common_action_info_exist=0x7f080002;
+        public static final int umeng_common_action_pause=0x7f080004;
+        public static final int umeng_common_download_failed=0x7f080009;
+        public static final int umeng_common_download_notification_prefix=0x7f080007;
+        public static final int umeng_common_info_interrupt=0x7f080003;
+        public static final int umeng_common_network_break_alert=0x7f080008;
     }
     public static final class style {
         /** 
