@@ -26,6 +26,7 @@ import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
+import com.sparkrico.v2ex.util.HtmlUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -96,7 +97,7 @@ public class TopicFragment extends FragmentActivity{
 		tvUser.setText(topic.getMember().getUsername());
 		tvTitle.setText(topic.getTitle());
 		tvContent.setMovementMethod(LinkMovementMethod.getInstance());
-		tvContent.setText(Html.fromHtml(topic.getContent_rendered()));
+		tvContent.setText(Html.fromHtml(HtmlUtil.formatAtLink(topic.getContent_rendered())));
 	}
 	
 	private void setupListView(){
@@ -143,7 +144,7 @@ public class TopicFragment extends FragmentActivity{
 				for (Reply reply : list) {
 					map = new HashMap<String, Object>();
 					map.put("image", ScreenUtil.choiceAvatarSize(isLarge, reply.getMember()));
-					map.put("content", reply.getContent_rendered());
+					map.put("content", HtmlUtil.formatAtLink(reply.getContent_rendered()));
 					map.put("username", reply.getMember().getUsername());
 					map.put("thanks", "" + reply.getThanks());
 					map.put("date", DateUtil.timeAgo(reply.getLast_modified()));
