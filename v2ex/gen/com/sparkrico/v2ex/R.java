@@ -194,16 +194,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_main=0x7f030000;
         public static final int list=0x7f030001;
         public static final int menu_frame=0x7f030002;
-        public static final int reply_item=0x7f030003;
-        public static final int responsive_content_frame=0x7f030004;
-        public static final int shadow=0x7f030005;
-        public static final int slidingmenumain=0x7f030006;
-        public static final int slidingmenumainlist=0x7f030007;
-        public static final int slidingmenurow=0x7f030008;
-        public static final int topic=0x7f030009;
-        public static final int topic_list_item=0x7f03000a;
-        public static final int topic_top=0x7f03000b;
-        public static final int umeng_common_download_notification=0x7f03000c;
+        public static final int node_list=0x7f030003;
+        public static final int reply_item=0x7f030004;
+        public static final int responsive_content_frame=0x7f030005;
+        public static final int shadow=0x7f030006;
+        public static final int slidingmenumain=0x7f030007;
+        public static final int slidingmenumainlist=0x7f030008;
+        public static final int slidingmenurow=0x7f030009;
+        public static final int topic=0x7f03000a;
+        public static final int topic_list_item=0x7f03000b;
+        public static final int topic_top=0x7f03000c;
+        public static final int umeng_common_download_notification=0x7f03000d;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;

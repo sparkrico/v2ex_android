@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -41,7 +39,7 @@ public class NodeMenuFragment extends ListFragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.list, null);
+		View v = inflater.inflate(R.layout.node_list, null);
 		tvCurrent = (TextView) v.findViewById(R.id.current);
 		return v;
 	}
@@ -49,11 +47,6 @@ public class NodeMenuFragment extends ListFragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-//		String[] birds = new String[]{"a","b","c"};
-//		ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(getActivity(), 
-//				android.R.layout.simple_list_item_1, android.R.id.text1, birds);
-//		setListAdapter(colorAdapter);
-		
 		simpleAdapter = new SimpleAdapter(getActivity(), data, 
 				android.R.layout.simple_list_item_1, 
 				new String[]{"title"}, 

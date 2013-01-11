@@ -46,7 +46,7 @@ public class TopicsFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(android.R.layout.list_content, null);
+		return inflater.inflate(R.layout.list, null);
 	}
 
 	@Override
@@ -71,6 +71,7 @@ public class TopicsFragment extends ListFragment {
 			}
 		});
 		setListAdapter(simpleAdapter);
+		getListView().setEmptyView(getActivity().findViewById(android.R.id.empty));
 
 		String node = getArguments().getString("node");
 		if (TextUtils.isEmpty(node))
