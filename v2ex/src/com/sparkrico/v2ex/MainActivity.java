@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -16,6 +17,8 @@ import com.sparkrico.v2ex.model.Node;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 public class MainActivity extends SlidingFragmentActivity {
 
@@ -27,7 +30,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		setContentView(R.layout.responsive_content_frame);
 		
 		UmengUpdateAgent.update(this);
-
+		
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
 			setBehindContentView(R.layout.menu_frame);

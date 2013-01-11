@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
@@ -27,6 +26,7 @@ import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
+import com.sparkrico.v2ex.util.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 
 public class TopicFragment extends FragmentActivity{
@@ -44,11 +44,15 @@ public class TopicFragment extends FragmentActivity{
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
 	SimpleAdapter simpleAdapter;
+	
+	boolean isLarge;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
+		
+		isLarge = ScreenUtil.isLargeScreen(this);
 		
 		topic = (Topic) getIntent().getSerializableExtra("topic");
 		
@@ -86,7 +90,7 @@ public class TopicFragment extends FragmentActivity{
 	}
 	
 	private void initTop(){
-		ivFace.setImageUrl(topic.getMember().getAvatar_large());
+		ivFace.setImageUrl(ScreenUtil.choiceAvatarSize(isLarge, topic.getMember()));
 		tvLast.setText(DateUtil.timeAgo(topic.getLast_touched()));
 		tvNode.setText(topic.getNode().getTitle());
 		tvUser.setText(topic.getMember().getUsername());
@@ -138,7 +142,7 @@ public class TopicFragment extends FragmentActivity{
 				Map<String, Object> map;
 				for (Reply reply : list) {
 					map = new HashMap<String, Object>();
-					map.put("image", reply.getMember().getAvatar_large());
+					map.put("image", ScreenUtil.choiceAvatarSize(isLarge, reply.getMember()));
 					map.put("content", reply.getContent_rendered());
 					map.put("username", reply.getMember().getUsername());
 					map.put("thanks", "" + reply.getThanks());

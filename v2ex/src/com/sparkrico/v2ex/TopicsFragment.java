@@ -26,12 +26,15 @@ import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
+import com.sparkrico.v2ex.util.ScreenUtil;
 
 public class TopicsFragment extends ListFragment {
 
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
 	SimpleAdapter simpleAdapter;
+	
+	boolean isLarge;
 	
 	public TopicsFragment(String node) {
 		Bundle bundle = new Bundle();
@@ -49,6 +52,8 @@ public class TopicsFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		isLarge = ScreenUtil.isLargeScreen(getActivity());
+		
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.topic_list_item, new String[] { "title", "node",
 						"username", "replies", "image", "date" }, new int[] { R.id.title,
@@ -89,11 +94,11 @@ public class TopicsFragment extends ListFragment {
 				Collection<Topic> list = gson.fromJson(content, collectionType);
 
 				data.clear();
-
+				
 				Map<String, Object> map;
 				for (Topic topic : list) {
 					map = new HashMap<String, Object>();
-					map.put("image", topic.getMember().getAvatar_large());
+					map.put("image", ScreenUtil.choiceAvatarSize(isLarge, topic.getMember()));
 					map.put("title", topic.getTitle());
 					map.put("node", topic.getNode().getName());
 					map.put("username", topic.getMember().getUsername());
