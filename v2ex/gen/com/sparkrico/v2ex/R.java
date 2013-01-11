@@ -139,6 +139,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int second_size=0x7f060008;
         public static final int shadow_width=0x7f060006;
         public static final int slidingmenu_offset=0x7f060004;
+        public static final int text_size_medium=0x7f06000a;
     }
     public static final class drawable {
         public static final int avatar_normal=0x7f020000;
@@ -163,8 +164,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int last=0x7f04000a;
         public static final int left=0x7f040000;
         public static final int margin=0x7f040002;
+        public static final int menu_about=0x7f04001f;
         public static final int menu_frame=0x7f040006;
-        public static final int menu_settings=0x7f04001f;
         public static final int node=0x7f040013;
         public static final int replies=0x7f040012;
         public static final int right=0x7f040001;
@@ -192,43 +193,48 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int list=0x7f030001;
-        public static final int menu_frame=0x7f030002;
-        public static final int node_list=0x7f030003;
-        public static final int reply_item=0x7f030004;
-        public static final int responsive_content_frame=0x7f030005;
-        public static final int shadow=0x7f030006;
-        public static final int slidingmenumain=0x7f030007;
-        public static final int slidingmenumainlist=0x7f030008;
-        public static final int slidingmenurow=0x7f030009;
-        public static final int topic=0x7f03000a;
-        public static final int topic_list_item=0x7f03000b;
-        public static final int topic_top=0x7f03000c;
-        public static final int umeng_common_download_notification=0x7f03000d;
+        public static final int dialog_about=0x7f030001;
+        public static final int list=0x7f030002;
+        public static final int menu_frame=0x7f030003;
+        public static final int node_list=0x7f030004;
+        public static final int reply_item=0x7f030005;
+        public static final int responsive_content_frame=0x7f030006;
+        public static final int shadow=0x7f030007;
+        public static final int slidingmenumain=0x7f030008;
+        public static final int slidingmenumainlist=0x7f030009;
+        public static final int slidingmenurow=0x7f03000a;
+        public static final int topic=0x7f03000b;
+        public static final int topic_list_item=0x7f03000c;
+        public static final int topic_top=0x7f03000d;
+        public static final int umeng_common_download_notification=0x7f03000e;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;
     }
     public static final class string {
-        public static final int UMAppUpdate=0x7f08000f;
-        public static final int UMBreak_Network=0x7f08000a;
-        public static final int UMDialog_InstallAPK=0x7f080012;
-        public static final int UMGprsCondition=0x7f08000d;
-        public static final int UMNewVersion=0x7f08000c;
-        public static final int UMNotNow=0x7f080010;
-        public static final int UMToast_IsUpdating=0x7f080011;
-        public static final int UMUpdateNow=0x7f08000e;
-        public static final int UMUpdateTitle=0x7f08000b;
+        public static final int UMAppUpdate=0x7f080013;
+        public static final int UMBreak_Network=0x7f08000e;
+        public static final int UMDialog_InstallAPK=0x7f080016;
+        public static final int UMGprsCondition=0x7f080011;
+        public static final int UMNewVersion=0x7f080010;
+        public static final int UMNotNow=0x7f080014;
+        public static final int UMToast_IsUpdating=0x7f080015;
+        public static final int UMUpdateNow=0x7f080012;
+        public static final int UMUpdateTitle=0x7f08000f;
+        public static final int about_body=0x7f080005;
+        public static final int about_licenses=0x7f080004;
         public static final int app_name=0x7f080000;
+        public static final int menu_about=0x7f080002;
         public static final int menu_settings=0x7f080001;
-        public static final int umeng_common_action_cancel=0x7f080006;
-        public static final int umeng_common_action_continue=0x7f080005;
-        public static final int umeng_common_action_info_exist=0x7f080002;
-        public static final int umeng_common_action_pause=0x7f080004;
-        public static final int umeng_common_download_failed=0x7f080009;
-        public static final int umeng_common_download_notification_prefix=0x7f080007;
-        public static final int umeng_common_info_interrupt=0x7f080003;
-        public static final int umeng_common_network_break_alert=0x7f080008;
+        public static final int title_about=0x7f080003;
+        public static final int umeng_common_action_cancel=0x7f08000a;
+        public static final int umeng_common_action_continue=0x7f080009;
+        public static final int umeng_common_action_info_exist=0x7f080006;
+        public static final int umeng_common_action_pause=0x7f080008;
+        public static final int umeng_common_download_failed=0x7f08000d;
+        public static final int umeng_common_download_notification_prefix=0x7f08000b;
+        public static final int umeng_common_info_interrupt=0x7f080007;
+        public static final int umeng_common_network_break_alert=0x7f08000c;
     }
     public static final class style {
         /** 

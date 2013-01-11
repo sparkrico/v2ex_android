@@ -3,5 +3,13 @@
 
     <string name="app_name">v2ex</string>
     <string name="menu_settings">设置</string>
+    <string name="menu_about">关于</string>
 
+    <string name="title_about">关于</string>
+    
+    <string name="about_licenses">Open Source Licenses</string>
+    <string name="about_body"><![CDATA[
+        <b>V2EX</b><br>
+        Version %s<br><br>
+    ]]></string>
 </resources>

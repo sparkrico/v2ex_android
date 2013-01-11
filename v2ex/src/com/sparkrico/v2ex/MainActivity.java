@@ -3,22 +3,15 @@ package com.sparkrico.v2ex;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.sparkrico.v2ex.model.Node;
-import com.sparkrico.v2ex.util.ApiUtil;
+import com.sparkrico.v2ex.util.HelpUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
 
 public class MainActivity extends SlidingFragmentActivity {
 
@@ -80,28 +73,24 @@ public class MainActivity extends SlidingFragmentActivity {
 		MobclickAgent.onPause(this);
 	}
 
-	private void init() {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-		asyncHttpClient.get(String.format(ApiUtil.nodes_show, "", "ios"),
-				new AsyncHttpResponseHandler() {
-					@Override
-					public void onSuccess(int statusCode, String content) {
-						super.onSuccess(statusCode, content);
-						Gson gson = new Gson();
-						Node node = (Node) gson.fromJson(content, Node.class);
-
-						Log.i("", "getUrl:" + node.getUrl());
-						Log.i("", "getHeader:" + node.getHeader());
-					}
-				});
-
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_about:
+			HelpUtil.showAbout(this);
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void switchContent(final Fragment fragment) {
