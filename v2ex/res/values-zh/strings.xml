@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">v2ex</string>
+    <string name="app_name">V2EX</string>
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
 

@@ -36,9 +36,10 @@ public class TopicsFragment extends ListFragment {
 	
 	boolean isLarge;
 	
-	public TopicsFragment(String node) {
+	public TopicsFragment(String node, String title) {
 		Bundle bundle = new Bundle();
 		bundle.putString("node", node);
+		bundle.putString("title", title);
 		
 		setArguments(bundle);
 	}
@@ -71,13 +72,18 @@ public class TopicsFragment extends ListFragment {
 			}
 		});
 		setListAdapter(simpleAdapter);
-		getListView().setEmptyView(getActivity().findViewById(android.R.id.empty));
 
 		String node = getArguments().getString("node");
 		if (TextUtils.isEmpty(node))
 			loadAllNodes(ApiUtil.topics_latest);
 		else
 			loadAllNodes(String.format(ApiUtil.topics_show, "", "", "", node));
+		
+		String title = getArguments().getString("title");
+		if (TextUtils.isEmpty(node))
+			getActivity().setTitle(R.string.app_name);
+		else
+			getActivity().setTitle(title);
 	}
 
 	private void loadAllNodes(String url) {

@@ -45,7 +45,7 @@ public class MainActivity extends SlidingFragmentActivity {
 			mContent = getSupportFragmentManager().getFragment(
 					savedInstanceState, "mContent");
 		if (mContent == null)
-			mContent = new TopicsFragment("");
+			mContent = new TopicsFragment("", "");
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, mContent).commit();
 		// set the Behind View Fragment

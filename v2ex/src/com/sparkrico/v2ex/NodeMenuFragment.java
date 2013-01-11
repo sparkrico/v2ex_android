@@ -129,7 +129,8 @@ public class NodeMenuFragment extends ListFragment{
 	
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id) {
-		Fragment newContent = new TopicsFragment(data.get(position).get("name"));
+		Fragment newContent = new TopicsFragment(data.get(position).get("name"),
+				data.get(position).get("title"));
 		if (newContent != null)
 			switchFragment(newContent);
 	}
