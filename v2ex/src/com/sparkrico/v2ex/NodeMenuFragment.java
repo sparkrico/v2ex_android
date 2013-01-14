@@ -22,6 +22,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -97,32 +98,36 @@ public class NodeMenuFragment extends ListFragment{
 				
 				Type collectionType = new TypeToken<Collection<Node>>(){}.getType();
 				
-				Collection<Node> list = gson.fromJson(content, collectionType);
-				
-				data.clear();
-				
-				Map<String, String> map;
-				
-				//add all
-				map = new HashMap<String, String>();
-				map.put("title", "È«²¿");
-				map.put("name", "");
-				data.add(map);
-				
-				if(list != null){
-					for (Node node : list) {
-						map = new HashMap<String, String>();
-						map.put("title", node.getTitle());
-						map.put("name", node.getName());
-						data.add(map);
+				try{
+					Collection<Node> list = gson.fromJson(content, collectionType);
+					
+					data.clear();
+					
+					Map<String, String> map;
+					
+					//add all
+					map = new HashMap<String, String>();
+					map.put("title", getString(R.string.latest));
+					map.put("name", "");
+					data.add(map);
+					
+					if(list != null){
+						for (Node node : list) {
+							map = new HashMap<String, String>();
+							map.put("title", node.getTitle());
+							map.put("name", node.getName());
+							data.add(map);
+						}
 					}
+					
+					ComparableNode comparableNode = new ComparableNode();
+					
+					Collections.sort(data, comparableNode);
+					
+					simpleAdapter.notifyDataSetChanged();
+				} catch (JsonSyntaxException e){
+					e.printStackTrace();
 				}
-				
-				ComparableNode comparableNode = new ComparableNode();
-				
-				Collections.sort(data, comparableNode);
-				
-				simpleAdapter.notifyDataSetChanged();
 			}
 		});
 	}

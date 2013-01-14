@@ -7,6 +7,8 @@
 
     <string name="title_about">about</string>
     
+    <string name="latest">Lastest</string>
+    
     <string name="about_licenses">Open Source Licenses</string>
     <string name="about_body"><![CDATA[
         <b>V2EX</b><br>

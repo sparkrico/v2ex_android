@@ -19,6 +19,7 @@ import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -34,7 +35,7 @@ public class TopicsFragment extends ListFragment {
 
 	SimpleAdapter simpleAdapter;
 	
-	boolean isLarge;
+	float density;
 	
 	public TopicsFragment(String node, String title) {
 		Bundle bundle = new Bundle();
@@ -53,7 +54,7 @@ public class TopicsFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		isLarge = ScreenUtil.isLargeScreen(getActivity());
+		density = ScreenUtil.getScreenDensity(getActivity());
 		
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.topic_list_item, new String[] { "title", "node",
@@ -81,7 +82,7 @@ public class TopicsFragment extends ListFragment {
 		
 		String title = getArguments().getString("title");
 		if (TextUtils.isEmpty(node))
-			getActivity().setTitle(R.string.app_name);
+			getActivity().setTitle(R.string.latest);
 		else
 			getActivity().setTitle(title);
 	}
@@ -95,28 +96,32 @@ public class TopicsFragment extends ListFragment {
 
 				Gson gson = new Gson();
 
-				Type collectionType = new TypeToken<Collection<Topic>>() {
-				}.getType();
+				Type collectionType = new TypeToken<Collection<Topic>>() {}.getType();
 
-				Collection<Topic> list = gson.fromJson(content, collectionType);
-
-				data.clear();
-				
-				Map<String, Object> map;
-				for (Topic topic : list) {
-					map = new HashMap<String, Object>();
-					map.put("image", ScreenUtil.choiceAvatarSize(isLarge, topic.getMember()));
-					map.put("title", topic.getTitle());
-					map.put("node", topic.getNode().getName());
-					map.put("username", topic.getMember().getUsername());
-					map.put("replies", "" + topic.getReplies());
-					map.put("date", DateUtil.timeAgo(topic.getLast_touched()));
+				try{
+					Collection<Topic> list = gson.fromJson(content, collectionType);
+	
+					data.clear();
 					
-					map.put("topic", topic);
-					data.add(map);
+					Map<String, Object> map;
+					for (Topic topic : list) {
+						map = new HashMap<String, Object>();
+						map.put("image", ScreenUtil.choiceAvatarSize(density, topic.getMember()));
+						map.put("title", topic.getTitle());
+						map.put("node", topic.getNode().getName());
+						map.put("username", topic.getMember().getUsername());
+						map.put("replies", "" + topic.getReplies());
+						map.put("date", DateUtil.timeAgo(topic.getLast_touched()));
+						
+						map.put("topic", topic);
+						data.add(map);
+					}
+	
+					simpleAdapter.notifyDataSetChanged();
+				
+				}catch (JsonSyntaxException e){
+					e.printStackTrace();
 				}
-
-				simpleAdapter.notifyDataSetChanged();
 			}
 		});
 	}

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_margin="4dip"
-        android:src="@drawable/avatar_normal" />
+        android:src="@drawable/avatar_normal"/>
 
     <TextView
         android:id="@+id/title"

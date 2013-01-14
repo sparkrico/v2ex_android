@@ -7,6 +7,8 @@
 
     <string name="title_about">关于</string>
     
+     <string name="latest">最新</string>
+    
     <string name="about_licenses">Open Source Licenses</string>
     <string name="about_body"><![CDATA[
         <b>V2EX</b><br>

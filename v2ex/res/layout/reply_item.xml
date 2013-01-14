@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:padding="4dip"
-        android:src="@drawable/avatar_normal" />
+        android:src="@drawable/avatar_normal"/>
 
     <LinearLayout android:id="@+id/top"
         android:layout_width="match_parent"

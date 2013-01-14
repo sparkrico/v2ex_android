@@ -13,7 +13,7 @@ public class DateUtil {
 	private static  PrettyTime p = new PrettyTime(new Locale("ZH_CN"));
 
 	public static String formatDate(long d){
-		return sdf.format(new Date(d));
+		return sdf.format(new Date(d*1000));
 	}
 	
 	public static String timeAgo(long d){
