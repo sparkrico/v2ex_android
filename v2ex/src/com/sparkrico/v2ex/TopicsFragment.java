@@ -35,6 +35,8 @@ public class TopicsFragment extends ListFragment {
 
 	SimpleAdapter simpleAdapter;
 	
+	AsyncHttpClient asyncHttpClient;
+	
 	float density;
 	
 	public TopicsFragment(String node, String title) {
@@ -43,6 +45,12 @@ public class TopicsFragment extends ListFragment {
 		bundle.putString("title", title);
 		
 		setArguments(bundle);
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		asyncHttpClient = new AsyncHttpClient();
 	}
 
 	@Override
@@ -86,9 +94,14 @@ public class TopicsFragment extends ListFragment {
 		else
 			getActivity().setTitle(title);
 	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		asyncHttpClient.cancelRequests(getActivity(), true);
+	}
 
 	private void loadAllNodes(String url) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, String content) {

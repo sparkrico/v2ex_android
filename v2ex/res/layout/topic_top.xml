@@ -72,6 +72,24 @@
         android:paddingLeft="4dip"
         android:paddingRight="4dip"
         android:textSize="@dimen/first_size" />
+    
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button 
+            android:id="@+id/prev"
+            android:text="-"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"/>
+        <Button 
+            android:id="@+id/next"
+            android:text="+"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"/>
+    </LinearLayout>
 
     <ImageView
 	    android:layout_width="match_parent"

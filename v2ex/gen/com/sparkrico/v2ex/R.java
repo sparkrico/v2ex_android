@@ -168,9 +168,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int left=0x7f040000;
         public static final int loading=0x7f040016;
         public static final int margin=0x7f040002;
-        public static final int menu_about=0x7f040023;
+        public static final int menu_about=0x7f040025;
         public static final int menu_frame=0x7f04000e;
+        public static final int next=0x7f04001a;
         public static final int node=0x7f040018;
+        public static final int prev=0x7f040019;
         public static final int replies=0x7f040017;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
@@ -180,16 +182,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidingmenurowtitle=0x7f040015;
         public static final int title=0x7f04000b;
         public static final int top=0x7f040007;
-        public static final int umeng_common_app=0x7f040019;
-        public static final int umeng_common_appIcon=0x7f04001a;
-        public static final int umeng_common_description=0x7f040021;
-        public static final int umeng_common_notification=0x7f04001f;
-        public static final int umeng_common_notification_controller=0x7f04001c;
-        public static final int umeng_common_progress_bar=0x7f040022;
-        public static final int umeng_common_progress_text=0x7f04001b;
-        public static final int umeng_common_rich_notification_cancel=0x7f04001e;
-        public static final int umeng_common_rich_notification_continue=0x7f04001d;
-        public static final int umeng_common_title=0x7f040020;
+        public static final int umeng_common_app=0x7f04001b;
+        public static final int umeng_common_appIcon=0x7f04001c;
+        public static final int umeng_common_description=0x7f040023;
+        public static final int umeng_common_notification=0x7f040021;
+        public static final int umeng_common_notification_controller=0x7f04001e;
+        public static final int umeng_common_progress_bar=0x7f040024;
+        public static final int umeng_common_progress_text=0x7f04001d;
+        public static final int umeng_common_rich_notification_cancel=0x7f040020;
+        public static final int umeng_common_rich_notification_continue=0x7f04001f;
+        public static final int umeng_common_title=0x7f040022;
         public static final int user=0x7f040009;
     }
     public static final class integer {

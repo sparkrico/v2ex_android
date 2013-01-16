@@ -54,11 +54,15 @@ public class MemberFragment extends FragmentActivity implements OnItemClickListe
 	SimpleAdapter simpleAdapter;
 	
 	float density;
+	
+	AsyncHttpClient asyncHttpClient;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
+		
+		asyncHttpClient = new AsyncHttpClient();
 		
 		density = ScreenUtil.getScreenDensity(this);
 		
@@ -89,6 +93,12 @@ public class MemberFragment extends FragmentActivity implements OnItemClickListe
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		asyncHttpClient.cancelRequests(getApplicationContext(), true);
 	}
 	
 	private void setupViews(){
@@ -140,7 +150,6 @@ public class MemberFragment extends FragmentActivity implements OnItemClickListe
 	}
 	
 	private void loadMember(String url) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, String content) {
@@ -171,7 +180,6 @@ public class MemberFragment extends FragmentActivity implements OnItemClickListe
 	}
 	
 	private void loadTopics(String url) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, String content) {

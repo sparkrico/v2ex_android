@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,9 +16,11 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -47,6 +50,8 @@ public class TopicFragment extends FragmentActivity implements
 
 	ListView listView;
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+	
+	Button buttonPrev, buttonNext;
 
 	ProgressBar loading;
 
@@ -55,21 +60,31 @@ public class TopicFragment extends FragmentActivity implements
 	TopicAdapter topicAdapter;
 
 	float density;
+	
+	long topic_id;
+	
+	AsyncHttpClient asyncHttpClient;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
-
-		density = ScreenUtil.getScreenDensity(this);
-
-		topic = (Topic) getIntent().getSerializableExtra("topic");
-
+		
 		setupViews();
-		initTop();
 		setupListView();
-
-		loadReplies(String.format(ApiUtil.replies_show, "" + topic.getId(), ""));
+		
+		asyncHttpClient = new AsyncHttpClient();
+		
+		density = ScreenUtil.getScreenDensity(this);
+		topic = (Topic) getIntent().getSerializableExtra("topic");
+		if(topic == null){
+			topic_id = getIntent().getLongExtra("id", 0);
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), null);
+		}else{
+			topic_id = topic.getId();
+			initTop(topic);
+			loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
+		}
 	}
 
 	@Override
@@ -100,23 +115,27 @@ public class TopicFragment extends FragmentActivity implements
 		listView.addHeaderView(v, "", false);
 
 		loading = (ProgressBar) findViewById(R.id.loading);
+		
+		//
+		buttonPrev = (Button) findViewById(R.id.prev);
+		buttonPrev.setOnClickListener(this);
+		buttonNext = (Button) findViewById(R.id.next);
+		buttonNext.setOnClickListener(this);
 	}
 
-	private void initTop() {
+	/**
+	 * init topic info
+	 * @param topic
+	 */
+	private void initTop(Topic topic) {
 		ivFace.setImageUrl(ScreenUtil.choiceAvatarSize(density,
 				topic.getMember()));
-		tvLast.setText(DateUtil.timeAgo(topic.getLast_touched()) + " | " + topic.getId());
+		tvLast.setText(DateUtil.timeAgo(topic.getCreated()) + " | " + topic.getId() 
+				+"\n"+ DateUtil.timeAgo(topic.getLast_touched()) );
 		tvNode.setText(topic.getNode().getTitle());
 		tvUser.setText(topic.getMember().getUsername());
 		tvTitle.setText(topic.getTitle());
 		HtmlUtil.formatHtml(tvContent, topic.getContent_rendered());
-		
-//		tvContent.setMovementMethod(LinkMovementMethod.getInstance());
-//		tvContent
-//				.setText(Html.fromHtml(
-//						HtmlUtil.formatAtLink(topic.getContent_rendered()),
-//						null, null));
-//		HtmlUtil.linkMember(tvContent);
 	}
 
 	private void setupListView() {
@@ -149,9 +168,47 @@ public class TopicFragment extends FragmentActivity implements
 	// });
 	// listView.setAdapter(simpleAdapter);
 	// }
-	//
+	
+	private void loadTopic(String url, final ProgressDialog pd) {
+		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, String content) {
+				super.onSuccess(statusCode, content);
+				Gson gson = new Gson();
+				
+				Type collectionType = new TypeToken<Collection<Topic>>() {
+				}.getType();
+
+				try {
+					Collection<Topic> list = gson.fromJson(content,
+							collectionType);
+					if(list.isEmpty())
+						Toast.makeText(getApplicationContext(), "没有topic_id为 "+topic_id+" 的主题", Toast.LENGTH_SHORT).show();
+					else{
+						for (Topic topic: list) {
+							initTop(topic);
+							data.clear();
+							topicAdapter.notifyDataSetChanged();
+							loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
+							break;
+						}
+					}
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFinish() {
+				super.onFinish();
+				if (pd.isShowing() && pd != null) {
+                    pd.dismiss();
+                }
+			}
+		});
+	}
+	
 	private void loadReplies(String url) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, String content) {
@@ -206,12 +263,34 @@ public class TopicFragment extends FragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
-		Intent intent = new Intent(getApplicationContext(),
-				MemberFragment.class);
-		intent.putExtra("username", topic.getMember().getUsername());
-		startActivity(intent);
-	}
+		switch (v.getId()) {
+		case R.id.image:
+			Intent intent = new Intent(getApplicationContext(),
+					MemberFragment.class);
+			intent.putExtra("username", topic.getMember().getUsername());
+			startActivity(intent);
+			break;
+		case R.id.prev:
+			asyncHttpClient.cancelRequests(getApplicationContext(), true);
+			topic_id--;
+			final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",
+	                true);
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd);
+			break;
+		case R.id.next:
+			asyncHttpClient.cancelRequests(getApplicationContext(), true);
+			topic_id++;
+			final ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
+	                true);
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd1);
+			break;
 
+		default:
+			break;
+		}
+		
+	}
+	
 	public class TopicAdapter extends BaseAdapter {
 
 		List<Map<String, Object>> mData;
