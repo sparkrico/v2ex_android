@@ -7,6 +7,7 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/list_padding"
         android:paddingRight="@dimen/list_padding" />
@@ -19,6 +20,7 @@
         android:background="@drawable/replies"
         android:padding="6dip"
         android:layout_centerInParent="true"
+        android:layout_above="@+id/bottom_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     
@@ -28,7 +30,25 @@
         android:text="@string/app_name"
         android:textSize="@dimen/node_select_size"
         android:layout_centerInParent="true"
+        android:layout_above="@+id/bottom_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+	
+    <LinearLayout android:id="@+id/bottom_bar"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView 
+            android:text="ORDER"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+       	 	android:layout_height="wrap_content"/>
+        <ToggleButton android:id="@+id/toggle"
+            android:textOn="HOT"
+    		android:textOff="ABC"
+    		android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+       	 	android:layout_height="wrap_content"/>
+    </LinearLayout>
 </RelativeLayout>

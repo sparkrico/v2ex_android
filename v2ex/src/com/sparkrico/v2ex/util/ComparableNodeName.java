@@ -8,7 +8,7 @@ import java.util.Map;
  * @author xiecheng(sparkrico@yahoo.com.cn)
  *
  */
-public class ComparableNode implements Comparator<Map<String, String>> {
+public class ComparableNodeName implements Comparator<Map<String, String>> {
 
 	private static final String KEY = "name";
 	
