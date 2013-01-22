@@ -1,5 +1,9 @@
 package com.sparkrico.v2ex.util;
 
+import com.sparkrico.v2ex.WebActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -40,5 +44,11 @@ public class HtmlUtil {
 			}
 			tv.setText(style);
 		}
+	}
+	
+	public static void openUrl(Context context, String url){
+		Intent intent = new Intent(context, WebActivity.class);
+		intent.putExtra("url", url);
+		context.startActivity(intent);
 	}
 }

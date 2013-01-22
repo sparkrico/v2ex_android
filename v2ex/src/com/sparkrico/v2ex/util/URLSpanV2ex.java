@@ -2,14 +2,14 @@ package com.sparkrico.v2ex.util;
 
 import java.util.List;
 
-import com.sparkrico.v2ex.MemberFragment;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Browser;
 import android.text.style.URLSpan;
 import android.view.View;
+
+import com.sparkrico.v2ex.MemberFragment;
 
 public class URLSpanV2ex extends URLSpan {
 
@@ -33,11 +33,12 @@ public class URLSpanV2ex extends URLSpan {
 			intent.putExtra("username", username);
 			context.startActivity(intent);
 		}else{
-			Uri uri = Uri.parse(getURL());
 			Context context = widget.getContext();
-			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-			intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
-			context.startActivity(intent);
+//			Uri uri = Uri.parse(getURL());
+//			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//			intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
+//			context.startActivity(intent);
+			HtmlUtil.openUrl(context, getURL());
 		}
 	}
 }

@@ -29,6 +29,7 @@
     
     <dimen name="node_select_size">36sp</dimen>
     
+    <dimen name="progress_height">2dip</dimen>
     
     <dimen name="text_size_medium">14sp</dimen>
 </resources>

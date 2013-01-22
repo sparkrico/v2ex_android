@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".TopicFragment" />
         <activity android:name=".MemberFragment"/>
+        <activity android:name=".WebActivity"
+            android:theme="@android:style/Theme.NoTitleBar"/>
 
         <service
             android:name="com.umeng.common.net.DownloadingService"

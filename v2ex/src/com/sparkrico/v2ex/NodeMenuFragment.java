@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -43,6 +44,7 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	SimpleAdapter simpleAdapter;
 	
 	TextView tvCurrent;
+	RelativeLayout relativeLayout;
 	
 	SharedPreferences sharedPreferences;
 	int type;
@@ -60,6 +62,8 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.node_list, null);
 		tvCurrent = (TextView) v.findViewById(R.id.current);
+		relativeLayout = (RelativeLayout) v.findViewById(R.id.bottom_bar);
+		relativeLayout.setOnClickListener(this);
 		toggleButton = (ToggleButton) v.findViewById(R.id.toggle);
 		toggleButton.setOnClickListener(this);
 		return v;
@@ -200,6 +204,9 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	        	data.remove(0);
 	        	OrderNode();
 	            break;
+	        case R.id.bottom_bar:
+	        	getListView().setSelection(0);
+	        	break;
 	    }
 	}
 }
