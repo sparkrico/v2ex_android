@@ -1,15 +1,19 @@
 package com.sparkrico.v2ex;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
+import com.umeng.analytics.MobclickAgent;
 
 public class WebActivity extends FragmentActivity {
 
@@ -52,9 +56,31 @@ public class WebActivity extends FragmentActivity {
 //						Toast.LENGTH_SHORT).show();
 			}
 		});
+		webView.setDownloadListener(new DownloadListener() {
+			
+			@Override
+			public void onDownloadStart(String url, String userAgent,
+					String contentDisposition, String mimetype, long contentLength) {
+				 Uri uri = Uri.parse(url);  
+				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);  
+				 startActivity(intent);  
+			}
+		});
 		setupWebviewSettings();
 
 		webView.loadUrl(url);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 	
 	private void setupWebviewSettings() {
