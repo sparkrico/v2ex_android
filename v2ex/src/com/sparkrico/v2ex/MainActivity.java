@@ -85,6 +85,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_about:
 			HelpUtil.showAbout(this);
+//			startActivity(new Intent(this, LoginActivity.class));
 			break;
 
 		default:

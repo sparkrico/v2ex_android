@@ -15,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 import android.widget.SimpleAdapter.ViewBinder;
 
 import com.google.gson.Gson;
@@ -37,6 +39,8 @@ public class TopicsFragment extends ListFragment {
 	
 	AsyncHttpClient asyncHttpClient;
 	
+	ProgressBar progressBar;
+	
 	float density;
 	
 	public TopicsFragment(String node, String title) {
@@ -56,7 +60,9 @@ public class TopicsFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.list, null);
+		View v = inflater.inflate(R.layout.list, null);
+		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
+		return v;
 	}
 
 	@Override
@@ -103,6 +109,25 @@ public class TopicsFragment extends ListFragment {
 
 	private void loadAllNodes(String url) {
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
+			
+			@Override
+			public void onStart() {
+				super.onStart();
+				progressBar.setVisibility(View.VISIBLE);
+			}
+			
+			@Override
+			public void onFinish() {
+				super.onFinish();
+				progressBar.setVisibility(View.GONE);
+			}
+			
+			@Override
+			public void onFailure(Throwable error, String content) {
+				super.onFailure(error, content);
+				Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+			}
+			
 			@Override
 			public void onSuccess(int statusCode, String content) {
 				super.onSuccess(statusCode, content);

@@ -137,4 +137,17 @@ public class HelpUtil {
                     .create();
         }
     }
+    
+    public static String getVersionName(Context context){
+    	PackageManager pm = context.getPackageManager();
+        String packageName = context.getPackageName();
+    	String versionName;
+        try {
+            PackageInfo info = pm.getPackageInfo(packageName, 0);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            versionName = "N/A";
+        }
+        return versionName;
+    }
 }

@@ -23,4 +23,8 @@ public class ApiUtil {
 	//members
 	public static final String members_show = baseUrl + "members/show.json?username=%s";
 	
+	
+	public static final String login = "http://v2ex.com/signin";
+	
+	public static final String pwd = "xc090110";
 }

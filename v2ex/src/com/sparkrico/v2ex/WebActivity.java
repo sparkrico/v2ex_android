@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
@@ -31,9 +32,40 @@ public class WebActivity extends FragmentActivity {
 		if (TextUtils.isEmpty(url))
 			finish();
 		progressBar = (ProgressBar) findViewById(android.R.id.progress);
-		webView = (WebView) findViewById(R.id.webview);
-
 		progressBar.setVisibility(View.VISIBLE);
+		webView = (WebView) findViewById(R.id.webview);
+		
+		setupWebview();
+		setupWebviewSettings();
+
+		webView.loadUrl(url);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			// 执行系统返回按钮时优先执行WebView的goBack()
+			if (webView.canGoBack()) {
+				webView.goBack();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	private void setupWebview(){
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
@@ -63,24 +95,9 @@ public class WebActivity extends FragmentActivity {
 					String contentDisposition, String mimetype, long contentLength) {
 				 Uri uri = Uri.parse(url);  
 				 Intent intent = new Intent(Intent.ACTION_VIEW, uri);  
-				 startActivity(intent);  
+				 startActivity(intent);
 			}
 		});
-		setupWebviewSettings();
-
-		webView.loadUrl(url);
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MobclickAgent.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MobclickAgent.onPause(this);
 	}
 	
 	private void setupWebviewSettings() {
@@ -90,8 +107,8 @@ public class WebActivity extends FragmentActivity {
 		webSettings.setSupportZoom(true);
 		webSettings.setBuiltInZoomControls(true);
 		webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
-		webView.getSettings().setLoadWithOverviewMode(true);
-	    webView.getSettings().setUseWideViewPort(true);
+		webSettings.setLoadWithOverviewMode(true);
+		webSettings.setUseWideViewPort(true);
 		
 //		webSettings.setAppCacheEnabled(true);
 //		webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);

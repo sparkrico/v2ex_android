@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sparkrico.v2ex"
     android:versionCode="4"
-    android:versionName="1.0.3" >
+    android:versionName="1.0.4" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".TopicFragment" />
         <activity android:name=".MemberFragment"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".WebActivity"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
