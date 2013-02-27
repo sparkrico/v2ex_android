@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -46,6 +47,7 @@ import com.sparkrico.v2ex.model.Node;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.ComparableNodeName;
 import com.sparkrico.v2ex.util.ComparableNodeTopicCount;
+import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.FileUtil;
 import com.sparkrico.v2ex.util.HelpUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
@@ -63,6 +65,8 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	int type;
 	
 	ToggleButton toggleButton; 
+	ToggleButton toggleButtonRefresh;
+	Button buttonRefresh;
 	ProgressBar progressBar;
 	EditText etSearch;
 	TextView tvAppVersion;
@@ -84,6 +88,10 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 		relativeLayout.setOnClickListener(this);
 		toggleButton = (ToggleButton) v.findViewById(R.id.toggle);
 		toggleButton.setOnClickListener(this);
+		buttonRefresh = (Button) v.findViewById(R.id.refresh);
+		buttonRefresh.setOnClickListener(this);
+		toggleButtonRefresh = (ToggleButton) v.findViewById(R.id.show_refresh);
+		toggleButtonRefresh.setOnClickListener(this);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
 		tvAppVersion = (TextView) v.findViewById(R.id.app_version);
 //		etSearch = (EditText) v.findViewById(R.id.search);
@@ -170,38 +178,43 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 			handleResult(content);
 		}else{
 			//load from url
-			AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-			asyncHttpClient.get(ApiUtil.nodes_all, new AsyncHttpResponseHandler(){
-				
-				@Override
-				public void onStart() {
-					super.onStart();
-					progressBar.setVisibility(View.VISIBLE);
-				}
-				
-				@Override
-				public void onFinish() {
-					super.onFinish();
-					progressBar.setVisibility(View.GONE);
-				}
-				
-				@Override
-				public void onSuccess(int statusCode, String content) {
-					super.onSuccess(statusCode, content);
-					//save to cache
-					putCache(content);
-					SharedPreferencesUtils.putNodeCacheDateTime(getActivity(), ""+System.currentTimeMillis());
-					//
-					handleResult(content);
-				}
-				
-				@Override
-				public void onFailure(Throwable error, String content) {
-					super.onFailure(error, content);
-					Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
-				}
-			});
+			loadAllNotesFromUrl();
 		}
+	}
+	
+	private void loadAllNotesFromUrl(){
+		//load from url
+		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		asyncHttpClient.get(ApiUtil.nodes_all, new AsyncHttpResponseHandler(){
+			
+			@Override
+			public void onStart() {
+				super.onStart();
+				progressBar.setVisibility(View.VISIBLE);
+			}
+			
+			@Override
+			public void onFinish() {
+				super.onFinish();
+				progressBar.setVisibility(View.GONE);
+			}
+			
+			@Override
+			public void onSuccess(int statusCode, String content) {
+				super.onSuccess(statusCode, content);
+				//save to cache
+				putCache(content);
+				SharedPreferencesUtils.putNodeCacheDateTime(getActivity(), System.currentTimeMillis());
+				//
+				handleResult(content);
+			}
+			
+			@Override
+			public void onFailure(Throwable error, String content) {
+				super.onFailure(error, content);
+				Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 	
 	private String getCache(){
@@ -327,6 +340,14 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	        	data.remove(0);
 	        	OrderNode();
 	            break;
+	        case R.id.refresh:
+	        	loadAllNotesFromUrl();
+	        	break;
+	        case R.id.show_refresh:
+	        	buttonRefresh.setText("»º´æ:"+DateUtil.formatDate(SharedPreferencesUtils.getNodeCacheDateTime(getActivity())/1000));
+	        	buttonRefresh.setVisibility(toggleButtonRefresh.isChecked()?
+	        			View.VISIBLE:View.GONE);
+	        	break;
 	        case R.id.bottom_bar:
 	        	getListView().setSelection(0);
 	        	break;

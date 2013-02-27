@@ -18,16 +18,16 @@ public class SharedPreferencesUtils {
 		return context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
 	}
 	
-	public static void putNodeCacheDateTime(Context context, String str){
+	public static void putNodeCacheDateTime(Context context, long date){
 		SharedPreferences sharedPreferences = getSharedPreferences(context);
 		Editor editor = sharedPreferences.edit();
-		editor.putString(NODE_CACHE_DATETIME, str);
+		editor.putLong(NODE_CACHE_DATETIME, date);
 		editor.commit();
 	}
 	
-	public static String getNodeCacheDateTime(Context context){
+	public static long getNodeCacheDateTime(Context context){
 		SharedPreferences sharedPreferences = getSharedPreferences(context);
-		return sharedPreferences.getString(NODE_CACHE_DATETIME, "");
+		return sharedPreferences.getLong(NODE_CACHE_DATETIME, 0);
 	}
 	
 }

@@ -7,12 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -64,6 +69,8 @@ public class TopicFragment extends FragmentActivity implements
 	long topic_id;
 	
 	AsyncHttpClient asyncHttpClient;
+	
+	boolean leftRight = false;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -98,6 +105,23 @@ public class TopicFragment extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
+	DialogFragment newFragment;
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			if (leftRight){
+				newFragment = NoticeAlertDialogFragment.newInstance(
+		                android.R.string.dialog_alert_title, R.string.dialog_content);
+				newFragment.setCancelable(false);
+				newFragment.show(getSupportFragmentManager(), "notice_dialog");
+				return false;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 
 	private void setupViews() {
 		View v = getLayoutInflater().inflate(R.layout.topic_top, null);
@@ -271,6 +295,7 @@ public class TopicFragment extends FragmentActivity implements
 			startActivity(intent);
 			break;
 		case R.id.prev:
+			leftRight = true;
 			asyncHttpClient.cancelRequests(getApplicationContext(), true);
 			topic_id--;
 			final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",
@@ -278,6 +303,7 @@ public class TopicFragment extends FragmentActivity implements
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd);
 			break;
 		case R.id.next:
+			leftRight = true;
 			asyncHttpClient.cancelRequests(getApplicationContext(), true);
 			topic_id++;
 			final ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
@@ -383,5 +409,61 @@ public class TopicFragment extends FragmentActivity implements
 			public TextView tvContent;
 		}
 	}
+	
+	//点击了确定
+    public void doPositiveClick() {
+    	leftRight = false;
+    	finish();
+    }
+
+    //点击了取消
+    public void doNegativeClick() {
+    }
+	
+	public static class NoticeAlertDialogFragment extends DialogFragment {
+
+    	/**
+    	 * 
+    	 * @param title 标题
+    	 * @param message 内容
+    	 * @param notice_version 版本
+    	 * @return
+    	 */
+        public static NoticeAlertDialogFragment newInstance(int title, int message) {
+        	NoticeAlertDialogFragment frag = new NoticeAlertDialogFragment();
+            Bundle args = new Bundle();
+            args.putInt("title", title);
+            args.putInt("message", message);
+            frag.setArguments(args);
+            return frag;
+        }
+        
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            int title = getArguments().getInt("title");
+            int message = getArguments().getInt("message");
+
+            return new AlertDialog.Builder(getActivity())
+                    .setIcon(R.drawable.ic_launcher)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                ((TopicFragment)getActivity()).doPositiveClick();
+                            }
+                        }
+                    )
+                    .setNegativeButton(android.R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                ((TopicFragment)getActivity()).doNegativeClick();
+                            }
+                        }
+                    )
+                    .create();
+        }
+        
+    }
 
 }

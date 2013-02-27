@@ -15,5 +15,9 @@
         Version %s<br>
     ]]>
     </string>
+    
+    <string name="refresh">refresh nodes</string>
+    <string name="show_refresh">node cache</string>
+    <string name="dialog_content">are you back?</string>
 
 </resources>
