@@ -204,7 +204,9 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 				super.onSuccess(statusCode, content);
 				//save to cache
 				putCache(content);
-				SharedPreferencesUtils.putNodeCacheDateTime(getActivity(), System.currentTimeMillis());
+				SharedPreferencesUtils.putNodeCacheDateTime(getActivity(), 
+						DateUtil.formatDate(System.currentTimeMillis()/1000));
+				buttonRefresh.setText("»º´æ:"+SharedPreferencesUtils.getNodeCacheDateTime(getActivity()));
 				//
 				handleResult(content);
 			}
@@ -344,7 +346,7 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	        	loadAllNotesFromUrl();
 	        	break;
 	        case R.id.show_refresh:
-	        	buttonRefresh.setText("»º´æ:"+DateUtil.formatDate(SharedPreferencesUtils.getNodeCacheDateTime(getActivity())/1000));
+	        	buttonRefresh.setText("»º´æ:"+SharedPreferencesUtils.getNodeCacheDateTime(getActivity()));
 	        	buttonRefresh.setVisibility(toggleButtonRefresh.isChecked()?
 	        			View.VISIBLE:View.GONE);
 	        	break;
