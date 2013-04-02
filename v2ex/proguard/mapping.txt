@@ -3567,7 +3567,7 @@ com.sparkrico.v2ex.PullToRefreshListFragment -> com.sparkrico.v2ex.l:
     android.widget.TextView mStandardEmptyView -> ac
     void setupPullToRefreshListView(android.view.View) -> a
 com.sparkrico.v2ex.TopicFragment -> com.sparkrico.v2ex.TopicFragment:
-    com.sparkrico.v2ex.model.Topic topic -> a
+    com.sparkrico.v2ex.model.Topic mTopic -> a
     com.loopj.android.image.SmartImageView ivFace -> b
     android.widget.TextView tvNode -> c
     android.widget.TextView tvUser -> d

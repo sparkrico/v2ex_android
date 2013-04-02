@@ -44,7 +44,7 @@ import com.umeng.analytics.MobclickAgent;
 public class TopicFragment extends FragmentActivity implements
 		View.OnClickListener {
 
-	Topic topic;
+	Topic mTopic;
 
 	SmartImageView ivFace;
 	TextView tvNode;
@@ -83,13 +83,13 @@ public class TopicFragment extends FragmentActivity implements
 		asyncHttpClient = new AsyncHttpClient();
 		
 		density = ScreenUtil.getScreenDensity(this);
-		topic = (Topic) getIntent().getSerializableExtra("topic");
-		if(topic == null){
+		mTopic = (Topic) getIntent().getSerializableExtra("topic");
+		if(mTopic == null){
 			topic_id = getIntent().getLongExtra("id", 0);
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), null);
 		}else{
-			topic_id = topic.getId();
-			initTop(topic);
+			topic_id = mTopic.getId();
+			initTop(mTopic);
 			loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
 		}
 	}
@@ -212,6 +212,7 @@ public class TopicFragment extends FragmentActivity implements
 						Toast.makeText(getApplicationContext(), "没有topic_id为 "+topic_id+" 的主题", Toast.LENGTH_SHORT).show();
 					else{
 						for (Topic topic: list) {
+							mTopic = topic;
 							initTop(topic);
 							data.clear();
 							topicAdapter.notifyDataSetChanged();
@@ -293,7 +294,7 @@ public class TopicFragment extends FragmentActivity implements
 		case R.id.image:
 			Intent intent = new Intent(getApplicationContext(),
 					MemberFragment.class);
-			intent.putExtra("username", topic.getMember().getUsername());
+			intent.putExtra("username", mTopic.getMember().getUsername());
 			startActivity(intent);
 			break;
 		case R.id.prev:
@@ -313,7 +314,7 @@ public class TopicFragment extends FragmentActivity implements
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd1);
 			break;
 		case R.id.open_url:
-			HtmlUtil.openUrl(this, topic.getUrl());
+			HtmlUtil.openUrl(this, mTopic.getUrl());
 			break;
 
 		default:
