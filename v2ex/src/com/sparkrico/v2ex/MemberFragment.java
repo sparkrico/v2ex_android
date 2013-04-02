@@ -116,6 +116,8 @@ public class MemberFragment extends FragmentActivity implements OnItemClickListe
 		listView.setOnItemClickListener(this);
 		
 		loading = (ProgressBar) findViewById(R.id.loading);
+		
+		findViewById(R.id.control).setVisibility(View.GONE);
 	}
 	
 	private void initTop(Member member){
