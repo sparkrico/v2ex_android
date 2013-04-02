@@ -26,5 +26,5 @@ public class ApiUtil {
 	
 	public static final String login = "http://v2ex.com/signin";
 	
-	public static final String pwd = "xc090110";
+	public static final String pwd = "";
 }
