@@ -9,20 +9,23 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 import android.widget.SimpleAdapter.ViewBinder;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
@@ -30,8 +33,9 @@ import com.sparkrico.v2ex.model.Topic;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
+import com.sparkrico.v2ex.util.SharedPreferencesUtils;
 
-public class TopicsFragment extends ListFragment {
+public class TopicsFragment extends PullToRefreshListFragment implements OnItemClickListener {
 
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
@@ -62,6 +66,9 @@ public class TopicsFragment extends ListFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.list, null);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
+		
+		setupPullToRefreshListView(v);
+		mList.setMode(PullToRefreshBase.Mode.DISABLED);
 		return v;
 	}
 
@@ -86,13 +93,30 @@ public class TopicsFragment extends ListFragment {
 				return false;
 			}
 		});
-		setListAdapter(simpleAdapter);
-
+		mList.setAdapter(simpleAdapter);
+		mList.setOnItemClickListener(this);
+		mList.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				loadTopics();
+			}
+		});
+		
+		loadTopics();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		asyncHttpClient.cancelRequests(getActivity(), true);
+	}
+	
+	private void loadTopics(){
 		String node = getArguments().getString("node");
 		if (TextUtils.isEmpty(node))
-			loadAllNodes(ApiUtil.topics_latest);
+			loadAllTopics(ApiUtil.topics_latest);
 		else
-			loadAllNodes(String.format(ApiUtil.topics_show, "", "", "", node));
+			loadAllTopics(String.format(ApiUtil.topics_show, "", "", "", node));
 		
 		String title = getArguments().getString("title");
 		if (TextUtils.isEmpty(node))
@@ -101,13 +125,11 @@ public class TopicsFragment extends ListFragment {
 			getActivity().setTitle(title);
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-		asyncHttpClient.cancelRequests(getActivity(), true);
+	private String getUpdateLabel(){
+		return getString(R.string.updated_at) + SharedPreferencesUtils.getTopicsLastUpdateDateTime(getActivity());
 	}
 
-	private void loadAllNodes(String url) {
+	private void loadAllTopics(String url) {
 		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 			
 			@Override
@@ -120,6 +142,7 @@ public class TopicsFragment extends ListFragment {
 			public void onFinish() {
 				super.onFinish();
 				progressBar.setVisibility(View.GONE);
+				mList.onRefreshComplete();
 			}
 			
 			@Override
@@ -156,7 +179,10 @@ public class TopicsFragment extends ListFragment {
 					}
 	
 					simpleAdapter.notifyDataSetChanged();
-				
+					
+					SharedPreferencesUtils.putTopicsLastUpdateDateTime(getActivity(), 
+							DateUtil.formatDate(System.currentTimeMillis()/1000));
+					mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel());
 				}catch (JsonSyntaxException e){
 					e.printStackTrace();
 				}
@@ -165,9 +191,9 @@ public class TopicsFragment extends ListFragment {
 	}
 	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		Topic topic = (Topic) data.get(position).get("topic");
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Topic topic = (Topic) data.get(position-1).get("topic");
 		
 		Intent intent = new Intent(getActivity(), TopicFragment.class);
 		intent.putExtra("topic", topic);

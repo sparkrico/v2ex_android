@@ -145,6 +145,8 @@ public class TopicFragment extends FragmentActivity implements
 		buttonPrev.setOnClickListener(this);
 		buttonNext = (Button) findViewById(R.id.next);
 		buttonNext.setOnClickListener(this);
+		
+		findViewById(R.id.open_url).setOnClickListener(this);
 	}
 
 	/**
@@ -309,6 +311,9 @@ public class TopicFragment extends FragmentActivity implements
 			final ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
 	                true);
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd1);
+			break;
+		case R.id.open_url:
+			HtmlUtil.openUrl(this, topic.getUrl());
 			break;
 
 		default:

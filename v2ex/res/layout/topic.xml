@@ -38,6 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_width="0dip"/>
         <Button 
+            android:id="@+id/open_url"
+            android:text="@string/open_url"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"/>
+        <Button 
             android:id="@+id/next"
             android:text="@string/next"
             android:layout_weight="1"

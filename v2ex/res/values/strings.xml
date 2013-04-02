@@ -7,6 +7,7 @@
     <string name="title_about">about</string>
     <string name="latest">Lastest</string>
     <string name="prev">&#060;</string>
+    <string name="open_url">browser</string>
     <string name="next">></string>
     <string name="about_licenses">Open Source Licenses</string>
     <string name="about_body">
@@ -19,5 +20,8 @@
     <string name="refresh">refresh nodes</string>
     <string name="show_refresh">node cache</string>
     <string name="dialog_content">are you back?</string>
+    
+    <string name="updated_at">updated at:</string>
+    <string name="cached_at">cached at:</string>
 
 </resources>

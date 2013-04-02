@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,11 +27,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ import android.widget.ToggleButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sparkrico.v2ex.model.Node;
@@ -52,14 +55,14 @@ import com.sparkrico.v2ex.util.FileUtil;
 import com.sparkrico.v2ex.util.HelpUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
 
-public class NodeMenuFragment extends ListFragment implements OnClickListener{
+public class NodeMenuFragment extends PullToRefreshListFragment implements OnClickListener, OnItemClickListener{
 	
 	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	
 	SimpleAdapter simpleAdapter;
 	
 	TextView tvCurrent;
-	RelativeLayout relativeLayout;
+	LinearLayout bottomeLayout;
 	
 	SharedPreferences sharedPreferences;
 	int type;
@@ -84,8 +87,8 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.node_list, null);
 		tvCurrent = (TextView) v.findViewById(R.id.current);
-		relativeLayout = (RelativeLayout) v.findViewById(R.id.bottom_bar);
-		relativeLayout.setOnClickListener(this);
+		bottomeLayout = (LinearLayout) v.findViewById(R.id.bottom_bar);
+		bottomeLayout.setOnClickListener(this);
 		toggleButton = (ToggleButton) v.findViewById(R.id.toggle);
 		toggleButton.setOnClickListener(this);
 		buttonRefresh = (Button) v.findViewById(R.id.refresh);
@@ -94,6 +97,9 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 		toggleButtonRefresh.setOnClickListener(this);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
 		tvAppVersion = (TextView) v.findViewById(R.id.app_version);
+		
+		setupPullToRefreshListView(v);
+		
 //		etSearch = (EditText) v.findViewById(R.id.search);
 //		etSearch.addTextChangedListener(new SearchTextWatcher());
 		return v;
@@ -132,8 +138,9 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 				android.R.layout.simple_list_item_1, 
 				new String[]{"title"}, 
 				new int[]{android.R.id.text1});
-		setListAdapter(simpleAdapter);
-		getListView().setOnScrollListener(new ListView.OnScrollListener() {
+		mList.setAdapter(simpleAdapter);
+		mList.setOnItemClickListener(this);
+		mList.setOnScrollListener(new ListView.OnScrollListener() {
 			
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -165,6 +172,12 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 				}
 			}
 		});
+		mList.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				loadAllNotesFromUrl();
+			}
+		});
 		
 		loadAllNodes();
 	}
@@ -175,6 +188,7 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 		//
 		if(!TextUtils.isEmpty(content)){
 			Log.d("", "load from cache");
+			mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel());
 			handleResult(content);
 		}else{
 			//load from url
@@ -197,6 +211,7 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 			public void onFinish() {
 				super.onFinish();
 				progressBar.setVisibility(View.GONE);
+				mList.onRefreshComplete();
 			}
 			
 			@Override
@@ -206,7 +221,8 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 				putCache(content);
 				SharedPreferencesUtils.putNodeCacheDateTime(getActivity(), 
 						DateUtil.formatDate(System.currentTimeMillis()/1000));
-				buttonRefresh.setText("ª∫¥Ê:"+SharedPreferencesUtils.getNodeCacheDateTime(getActivity()));
+				buttonRefresh.setText(getUpdateLabel());
+				mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel());
 				//
 				handleResult(content);
 			}
@@ -287,13 +303,16 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 			OrderNode();
 		} catch (JsonSyntaxException e){
 			e.printStackTrace();
+		} finally{
+			mList.onRefreshComplete();
 		}
 	}
-	
 	@Override
-	public void onListItemClick(ListView lv, View v, int position, long id) {
-		Fragment newContent = new TopicsFragment(data.get(position).get("name"),
-				data.get(position).get("title"));
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Map<String, String> map = data.get(position-1);
+		Fragment newContent = new TopicsFragment(map.get("name"),
+				map.get("title"));
 		if (newContent != null)
 			switchFragment(newContent);
 	}
@@ -328,6 +347,14 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 		
 		simpleAdapter.notifyDataSetChanged();
 	}
+	
+	/**
+	 * »°ª∫¥Ê ±º‰
+	 * @return
+	 */
+	private String getUpdateLabel(){
+		return getString(R.string.cached_at) + SharedPreferencesUtils.getNodeCacheDateTime(getActivity());
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -346,12 +373,12 @@ public class NodeMenuFragment extends ListFragment implements OnClickListener{
 	        	loadAllNotesFromUrl();
 	        	break;
 	        case R.id.show_refresh:
-	        	buttonRefresh.setText("ª∫¥Ê:"+SharedPreferencesUtils.getNodeCacheDateTime(getActivity()));
+	        	buttonRefresh.setText(getUpdateLabel());
 	        	buttonRefresh.setVisibility(toggleButtonRefresh.isChecked()?
 	        			View.VISIBLE:View.GONE);
 	        	break;
 	        case R.id.bottom_bar:
-	        	getListView().setSelection(0);
+//	        	mList.setSelection(0);
 	        	break;
 	    }
 	}

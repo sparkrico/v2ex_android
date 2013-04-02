@@ -7,6 +7,7 @@
     <string name="title_about">关于</string>
     <string name="latest">最新</string>
     <string name="prev">&#060;</string>
+    <string name="open_url">浏览器</string>
     <string name="next">></string>
     <string name="about_licenses">Open Source Licenses</string>
     <string name="about_body">
@@ -19,4 +20,6 @@
     <string name="show_refresh">节点缓存</string>
 	<string name="dialog_content">确定要返回吗？</string>
 
+	<string name="updated_at">更新:</string>
+	<string name="cached_at">缓存:</string>
 </resources>
