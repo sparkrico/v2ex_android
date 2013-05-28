@@ -31,7 +31,6 @@
         </activity>
         <activity android:name=".TopicFragment" />
         <activity android:name=".MemberFragment"/>
-        <activity android:name=".LoginActivity"/>
         <activity android:name=".WebActivity"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
