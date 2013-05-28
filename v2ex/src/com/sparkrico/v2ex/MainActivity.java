@@ -11,6 +11,7 @@ import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.sparkrico.v2ex.util.HelpUtil;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.analytics.ReportPolicy;
 import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends SlidingFragmentActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		setContentView(R.layout.responsive_content_frame);
 		
 		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
 		
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {

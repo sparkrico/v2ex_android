@@ -9,6 +9,8 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,6 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Topic;
@@ -35,30 +36,36 @@ import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
 
-public class TopicsFragment extends PullToRefreshListFragment implements OnItemClickListener {
+public class TopicsFragment extends PullToRefreshListFragment implements
+		OnItemClickListener {
 
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
 	SimpleAdapter simpleAdapter;
-	
-	AsyncHttpClient asyncHttpClient;
-	
+
 	ProgressBar progressBar;
-	
+
 	float density;
-	
+
+	Handler mHandler = new Handler() {
+
+		public void dispatchMessage(android.os.Message msg) {
+			Toast.makeText(getActivity(), String.valueOf(msg.obj),
+					Toast.LENGTH_SHORT).show();
+		};
+	};
+
 	public TopicsFragment(String node, String title) {
 		Bundle bundle = new Bundle();
 		bundle.putString("node", node);
 		bundle.putString("title", title);
-		
+
 		setArguments(bundle);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		asyncHttpClient = new AsyncHttpClient();
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class TopicsFragment extends PullToRefreshListFragment implements OnItemC
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.list, null);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
-		
+
 		setupPullToRefreshListView(v);
 		mList.setMode(PullToRefreshBase.Mode.DISABLED);
 		return v;
@@ -76,18 +83,19 @@ public class TopicsFragment extends PullToRefreshListFragment implements OnItemC
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		density = ScreenUtil.getScreenDensity(getActivity());
-		
+
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.topic_list_item, new String[] { "title", "node",
-						"username", "replies", "image", "date" }, new int[] { R.id.title,
-						R.id.node, R.id.user, R.id.replies, R.id.image, R.id.last });
+						"username", "replies", "image", "date" }, new int[] {
+						R.id.title, R.id.node, R.id.user, R.id.replies,
+						R.id.image, R.id.last });
 		simpleAdapter.setViewBinder(new ViewBinder() {
-			
+
 			@Override
 			public boolean setViewValue(View view, Object data,
 					String textRepresentation) {
-				if(view instanceof SmartImageView){
-					((SmartImageView)view).setImageUrl((String)data);
+				if (view instanceof SmartImageView) {
+					((SmartImageView) view).setImageUrl((String) data);
 					return true;
 				}
 				return false;
@@ -101,102 +109,129 @@ public class TopicsFragment extends PullToRefreshListFragment implements OnItemC
 				loadTopics();
 			}
 		});
-		
+
 		loadTopics();
 	}
-	
+
 	@Override
 	public void onStop() {
 		super.onStop();
-		asyncHttpClient.cancelRequests(getActivity(), true);
+		((App) getActivity().getApplication()).getAsyncHttpClient()
+				.cancelRequests(getActivity(), true);
 	}
-	
-	private void loadTopics(){
+
+	private void loadTopics() {
 		String node = getArguments().getString("node");
 		if (TextUtils.isEmpty(node))
 			loadAllTopics(ApiUtil.topics_latest);
 		else
 			loadAllTopics(String.format(ApiUtil.topics_show, "", "", "", node));
-		
+
 		String title = getArguments().getString("title");
 		if (TextUtils.isEmpty(node))
 			getActivity().setTitle(R.string.latest);
 		else
 			getActivity().setTitle(title);
 	}
-	
-	private String getUpdateLabel(){
-		return getString(R.string.updated_at) + SharedPreferencesUtils.getTopicsLastUpdateDateTime(getActivity());
+
+	private String getUpdateLabel() {
+		return getString(R.string.updated_at)
+				+ SharedPreferencesUtils
+						.getTopicsLastUpdateDateTime(getActivity());
 	}
 
 	private void loadAllTopics(String url) {
-		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
-			
-			@Override
-			public void onStart() {
-				super.onStart();
-				progressBar.setVisibility(View.VISIBLE);
-			}
-			
-			@Override
-			public void onFinish() {
-				super.onFinish();
-				progressBar.setVisibility(View.GONE);
-				mList.onRefreshComplete();
-			}
-			
-			@Override
-			public void onFailure(Throwable error, String content) {
-				super.onFailure(error, content);
-				Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
-			}
-			
-			@Override
-			public void onSuccess(int statusCode, String content) {
-				super.onSuccess(statusCode, content);
+		((App) getActivity().getApplication()).getAsyncHttpClient().get(url,
+				new AsyncHttpResponseHandler() {
 
-				Gson gson = new Gson();
-
-				Type collectionType = new TypeToken<Collection<Topic>>() {}.getType();
-
-				try{
-					Collection<Topic> list = gson.fromJson(content, collectionType);
-	
-					data.clear();
-					
-					Map<String, Object> map;
-					for (Topic topic : list) {
-						map = new HashMap<String, Object>();
-						map.put("image", ScreenUtil.choiceAvatarSize(density, topic.getMember()));
-						map.put("title", topic.getTitle());
-						map.put("node", topic.getNode().getName());
-						map.put("username", topic.getMember().getUsername());
-						map.put("replies", "" + topic.getReplies());
-						map.put("date", DateUtil.timeAgo(topic.getLast_touched()));
-						
-						map.put("topic", topic);
-						data.add(map);
+					@Override
+					public void onStart() {
+						super.onStart();
+						progressBar.setVisibility(View.VISIBLE);
 					}
-	
-					simpleAdapter.notifyDataSetChanged();
-					
-					SharedPreferencesUtils.putTopicsLastUpdateDateTime(getActivity(), 
-							DateUtil.formatDate(System.currentTimeMillis()/1000));
-					mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel());
-				}catch (JsonSyntaxException e){
-					e.printStackTrace();
-				}
-			}
-		});
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						progressBar.setVisibility(View.GONE);
+						mList.onRefreshComplete();
+					}
+
+					@Override
+					public void onFailure(Throwable error, String content) {
+						super.onFailure(error, content);
+						if (TextUtils.isEmpty(content)) {
+							mHandler.sendMessage(Message.obtain(mHandler, 0,
+									"获取失败，请重试！"));
+							return;
+						}
+					}
+
+					@Override
+					public void onSuccess(int statusCode, String content) {
+						super.onSuccess(statusCode, content);
+						if (TextUtils.isEmpty(content)) {
+							mHandler.sendMessage(Message.obtain(mHandler, 0,
+									"获取失败，请重试！"));
+							return;
+						}
+
+						try {
+							Gson gson = new Gson();
+
+							Type collectionType = new TypeToken<Collection<Topic>>() {
+							}.getType();
+							Collection<Topic> list = gson.fromJson(content,
+									collectionType);
+
+							data.clear();
+
+							Map<String, Object> map;
+							for (Topic topic : list) {
+								map = new HashMap<String, Object>();
+								map.put("image", ScreenUtil.choiceAvatarSize(
+										density, topic.getMember()));
+								map.put("title", topic.getTitle());
+								map.put("node", topic.getNode().getName());
+								map.put("username", topic.getMember()
+										.getUsername());
+								map.put("replies", "" + topic.getReplies());
+								map.put("date", DateUtil.timeAgo(topic
+										.getLast_touched()));
+
+								map.put("topic", topic);
+								data.add(map);
+							}
+
+							simpleAdapter.notifyDataSetChanged();
+
+							SharedPreferencesUtils.putTopicsLastUpdateDateTime(
+									getActivity(), DateUtil.formatDate(System
+											.currentTimeMillis() / 1000));
+							mList.getLoadingLayoutProxy().setLastUpdatedLabel(
+									getUpdateLabel());
+						} catch (JsonSyntaxException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Topic topic = (Topic) data.get(position-1).get("topic");
-		
-		Intent intent = new Intent(getActivity(), TopicFragment.class);
-		intent.putExtra("topic", topic);
-		startActivity(intent);
+		try {
+			if(data.size()>0){
+				Topic topic = (Topic) data.get(position - 1).get("topic");
+
+				Intent intent = new Intent(getActivity(), TopicFragment.class);
+				intent.putExtra("topic", topic);
+				startActivity(intent);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

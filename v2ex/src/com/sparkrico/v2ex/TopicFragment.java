@@ -13,6 +13,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -30,7 +32,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Reply;
@@ -55,39 +56,41 @@ public class TopicFragment extends FragmentActivity implements
 
 	ListView listView;
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-	
+
 	Button buttonPrev, buttonNext;
 
 	ProgressBar loading;
 
-	// SimpleAdapter simpleAdapter;
-
 	TopicAdapter topicAdapter;
 
 	float density;
-	
+
 	long topic_id;
-	
-	AsyncHttpClient asyncHttpClient;
-	
+
 	boolean leftRight = false;
+	
+	Handler mHandler = new Handler(){
+		
+		public void dispatchMessage(android.os.Message msg) {
+			Toast.makeText(getApplicationContext(), String.valueOf(msg.obj), Toast.LENGTH_SHORT).show();
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
-		
+
 		setupViews();
 		setupListView();
-		
-		asyncHttpClient = new AsyncHttpClient();
-		
+
 		density = ScreenUtil.getScreenDensity(this);
 		mTopic = (Topic) getIntent().getSerializableExtra("topic");
-		if(mTopic == null){
+		if (mTopic == null) {
 			topic_id = getIntent().getLongExtra("id", 0);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), null);
-		}else{
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
+					""), null);
+		} else {
 			topic_id = mTopic.getId();
 			initTop(mTopic);
 			loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
@@ -105,15 +108,17 @@ public class TopicFragment extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
-	
+
 	DialogFragment newFragment;
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK){
-			if (leftRight){
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			//
+			if (leftRight) {
 				newFragment = NoticeAlertDialogFragment.newInstance(
-		                android.R.string.dialog_alert_title, R.string.dialog_content);
+						android.R.string.dialog_alert_title,
+						R.string.dialog_content);
 				newFragment.setCancelable(false);
 				newFragment.show(getSupportFragmentManager(), "notice_dialog");
 				return false;
@@ -121,7 +126,6 @@ public class TopicFragment extends FragmentActivity implements
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
 
 	private void setupViews() {
 		View v = getLayoutInflater().inflate(R.layout.topic_top, null);
@@ -139,25 +143,27 @@ public class TopicFragment extends FragmentActivity implements
 		listView.addHeaderView(v, "", false);
 
 		loading = (ProgressBar) findViewById(R.id.loading);
-		
+
 		//
 		buttonPrev = (Button) findViewById(R.id.prev);
 		buttonPrev.setOnClickListener(this);
 		buttonNext = (Button) findViewById(R.id.next);
 		buttonNext.setOnClickListener(this);
-		
+
 		findViewById(R.id.open_url).setOnClickListener(this);
 	}
 
 	/**
 	 * init topic info
+	 * 
 	 * @param topic
 	 */
 	private void initTop(Topic topic) {
 		ivFace.setImageUrl(ScreenUtil.choiceAvatarSize(density,
 				topic.getMember()));
-		tvLast.setText(DateUtil.timeAgo(topic.getCreated()) + " | " + topic.getId() 
-				+"\n"+ DateUtil.timeAgo(topic.getLast_touched()) );
+		tvLast.setText(DateUtil.timeAgo(topic.getCreated()) + " | "
+				+ topic.getId() + "\n"
+				+ DateUtil.timeAgo(topic.getLast_touched()));
 		tvNode.setText(topic.getNode().getTitle());
 		tvUser.setText(topic.getMember().getUsername());
 		tvTitle.setText(topic.getTitle());
@@ -169,149 +175,140 @@ public class TopicFragment extends FragmentActivity implements
 		listView.setAdapter(topicAdapter);
 	}
 
-	// private void setupListView(){
-	// simpleAdapter = new SimpleAdapter(this, data,
-	// R.layout.reply_item,
-	// new String[] { "content", "username", "image", "date"},
-	// new int[] { R.id.content, R.id.user, R.id.image, R.id.last });
-	// simpleAdapter.setViewBinder(new ViewBinder() {
-	//
-	// @Override
-	// public boolean setViewValue(View view, Object data,
-	// String textRepresentation) {
-	// if(view instanceof TextView){
-	// ((TextView)view).setMovementMethod(LinkMovementMethod.getInstance());
-	// ((TextView)view).setText(Html.fromHtml((String)data, null, null));
-	// return true;
-	// } else if (view instanceof SmartImageView){
-	// ((SmartImageView)view).setImageUrl((String)data);
-	// view.setTag(1);
-	// view.setOnClickListener(TopicFragment.this);
-	// return true;
-	// }
-	// return false;
-	// }
-	// });
-	// listView.setAdapter(simpleAdapter);
-	// }
-	
 	private void loadTopic(String url, final ProgressDialog pd) {
-		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(int statusCode, String content) {
-				super.onSuccess(statusCode, content);
-				Gson gson = new Gson();
-				
-				Type collectionType = new TypeToken<Collection<Topic>>() {
-				}.getType();
+		((App) getApplication()).getAsyncHttpClient().get(url,
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, String content) {
+						super.onSuccess(statusCode, content);
 
-				try {
-					Collection<Topic> list = gson.fromJson(content,
-							collectionType);
-					if(list.isEmpty())
-						Toast.makeText(getApplicationContext(), "没有topic_id为 "+topic_id+" 的主题", Toast.LENGTH_SHORT).show();
-					else{
-						for (Topic topic: list) {
-							mTopic = topic;
-							initTop(topic);
-							data.clear();
-							topicAdapter.notifyDataSetChanged();
-							loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
-							break;
+						try {
+							Gson gson = new Gson();
+
+							Type collectionType = new TypeToken<Collection<Topic>>() {
+							}.getType();
+							
+							Collection<Topic> list = gson.fromJson(content,
+									collectionType);
+							if (list.isEmpty())
+								mHandler.sendMessage(Message.obtain(mHandler, 0, "没有topic_id为 " + topic_id + " 的主题"));
+							else {
+								for (Topic topic : list) {
+									mTopic = topic;
+									initTop(topic);
+									data.clear();
+									topicAdapter.notifyDataSetChanged();
+									loadReplies(String.format(
+											ApiUtil.replies_show,
+											"" + topic_id, ""));
+									break;
+								}
+							}
+						} catch (JsonSyntaxException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-			}
 
-			@Override
-			public void onFinish() {
-				super.onFinish();
-				if (pd.isShowing() && pd != null) {
-                    pd.dismiss();
-                }
-			}
-		});
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						if (pd.isShowing() && pd != null) {
+							pd.dismiss();
+						}
+					}
+				});
 	}
-	
+
 	private void loadReplies(String url) {
-		asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(int statusCode, String content) {
-				super.onSuccess(statusCode, content);
+		((App) getApplication()).getAsyncHttpClient().get(url,
+				new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, String content) {
+						super.onSuccess(statusCode, content);
 
-				Gson gson = new Gson();
+						try {
+							Gson gson = new Gson();
 
-				Type collectionType = new TypeToken<Collection<Reply>>() {
-				}.getType();
+							Type collectionType = new TypeToken<Collection<Reply>>() {
+							}.getType();
 
-				try {
-					Collection<Reply> list = gson.fromJson(content,
-							collectionType);
+							Collection<Reply> list = gson.fromJson(content,
+									collectionType);
 
-					data.clear();
+							data.clear();
 
-					Map<String, Object> map;
-					for (Reply reply : list) {
-						map = new HashMap<String, Object>();
-						map.put("image",
-								ScreenUtil.choiceAvatarSize(density,
-										reply.getMember()));
-						map.put("content", HtmlUtil.formatAtLink(reply
-								.getContent_rendered()));
-						map.put("username", reply.getMember().getUsername());
-						map.put("thanks", "" + reply.getThanks());
-						map.put("date",
-								DateUtil.timeAgo(reply.getLast_modified()));
+							Map<String, Object> map;
+							for (Reply reply : list) {
+								map = new HashMap<String, Object>();
+								map.put("image", ScreenUtil.choiceAvatarSize(
+										density, reply.getMember()));
+								map.put("content", HtmlUtil.formatAtLink(reply
+										.getContent_rendered()));
+								map.put("username", reply.getMember()
+										.getUsername());
+								map.put("thanks", "" + reply.getThanks());
+								map.put("date", DateUtil.timeAgo(reply
+										.getLast_modified()));
 
-						data.add(map);
+								data.add(map);
+							}
+
+							topicAdapter.notifyDataSetChanged();
+						} catch (JsonSyntaxException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 
-					topicAdapter.notifyDataSetChanged();
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-			}
+					@Override
+					public void onStart() {
+						super.onStart();
+						loading.setVisibility(View.VISIBLE);
+					}
 
-			@Override
-			public void onStart() {
-				super.onStart();
-				loading.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onFinish() {
-				super.onFinish();
-				loading.setVisibility(View.GONE);
-			}
-		});
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						loading.setVisibility(View.GONE);
+					}
+				});
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.image:
-			Intent intent = new Intent(getApplicationContext(),
-					MemberFragment.class);
-			intent.putExtra("username", mTopic.getMember().getUsername());
-			startActivity(intent);
+			try {
+				Intent intent = new Intent(getApplicationContext(),
+						MemberFragment.class);
+				intent.putExtra("username", mTopic.getMember().getUsername());
+				startActivity(intent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			break;
 		case R.id.prev:
 			leftRight = true;
-			asyncHttpClient.cancelRequests(getApplicationContext(), true);
+			((App) getApplication()).getAsyncHttpClient().cancelRequests(
+					getApplicationContext(), true);
 			topic_id--;
-			final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",
-	                true);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd);
+			ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",
+					true);
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
+					""), pd);
 			break;
 		case R.id.next:
 			leftRight = true;
-			asyncHttpClient.cancelRequests(getApplicationContext(), true);
+			((App) getApplication()).getAsyncHttpClient().cancelRequests(
+					getApplicationContext(), true);
 			topic_id++;
-			final ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
-	                true);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "","",""), pd1);
+			ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
+					true);
+			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
+					""), pd1);
 			break;
 		case R.id.open_url:
 			HtmlUtil.openUrl(this, mTopic.getUrl());
@@ -320,9 +317,9 @@ public class TopicFragment extends FragmentActivity implements
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	public class TopicAdapter extends BaseAdapter {
 
 		List<Map<String, Object>> mData;
@@ -415,61 +412,66 @@ public class TopicFragment extends FragmentActivity implements
 			public TextView tvContent;
 		}
 	}
-	
-	//点击了确定
-    public void doPositiveClick() {
-    	leftRight = false;
-    	finish();
-    }
 
-    //点击了取消
-    public void doNegativeClick() {
-    }
-	
+	// 点击了确定
+	public void doPositiveClick() {
+		leftRight = false;
+		finish();
+	}
+
+	// 点击了取消
+	public void doNegativeClick() {
+	}
+
 	public static class NoticeAlertDialogFragment extends DialogFragment {
 
-    	/**
-    	 * 
-    	 * @param title 标题
-    	 * @param message 内容
-    	 * @param notice_version 版本
-    	 * @return
-    	 */
-        public static NoticeAlertDialogFragment newInstance(int title, int message) {
-        	NoticeAlertDialogFragment frag = new NoticeAlertDialogFragment();
-            Bundle args = new Bundle();
-            args.putInt("title", title);
-            args.putInt("message", message);
-            frag.setArguments(args);
-            return frag;
-        }
-        
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            int title = getArguments().getInt("title");
-            int message = getArguments().getInt("message");
+		/**
+		 * 
+		 * @param title
+		 *            标题
+		 * @param message
+		 *            内容
+		 * @param notice_version
+		 *            版本
+		 * @return
+		 */
+		public static NoticeAlertDialogFragment newInstance(int title,
+				int message) {
+			NoticeAlertDialogFragment frag = new NoticeAlertDialogFragment();
+			Bundle args = new Bundle();
+			args.putInt("title", title);
+			args.putInt("message", message);
+			frag.setArguments(args);
+			return frag;
+		}
 
-            return new AlertDialog.Builder(getActivity())
-                    .setIcon(R.drawable.ic_launcher)
-                    .setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                ((TopicFragment)getActivity()).doPositiveClick();
-                            }
-                        }
-                    )
-                    .setNegativeButton(android.R.string.cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                ((TopicFragment)getActivity()).doNegativeClick();
-                            }
-                        }
-                    )
-                    .create();
-        }
-        
-    }
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			int title = getArguments().getInt("title");
+			int message = getArguments().getInt("message");
+
+			return new AlertDialog.Builder(getActivity())
+					.setIcon(R.drawable.ic_launcher)
+					.setTitle(title)
+					.setMessage(message)
+					.setPositiveButton(android.R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									((TopicFragment) getActivity())
+											.doPositiveClick();
+								}
+							})
+					.setNegativeButton(android.R.string.cancel,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									((TopicFragment) getActivity())
+											.doNegativeClick();
+								}
+							}).create();
+		}
+
+	}
 
 }

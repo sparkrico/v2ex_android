@@ -66,20 +66,6 @@
 	            android:layout_width="wrap_content"
 	        	android:layout_height="wrap_content"/>
 	        
-	        <EditText android:id="@+id/search"
-	            android:layout_toLeftOf="@+id/toggle"
-	            android:minWidth="120dip"
-	            android:visibility="gone"
-	            android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content"/>
-	        
-	        <ToggleButton android:id="@+id/show_refresh"
-	            android:textOn="@string/show_refresh"
-	    		android:textOff="@string/show_refresh"
-	            android:layout_toLeftOf="@+id/toggle"
-	            android:visibility="gone"
-	            android:layout_width="wrap_content"
-	       	 	android:layout_height="wrap_content"/>
 	        <ToggleButton android:id="@+id/toggle"
 	            android:textOn="HOT"
 	    		android:textOff="ABC"
@@ -87,12 +73,6 @@
 	            android:layout_width="wrap_content"
 	       	 	android:layout_height="wrap_content"/>
 	    </RelativeLayout>
-	    
-	    <Button android:id="@+id/refresh"
-	        android:text="@string/refresh"
-	        android:visibility="gone"
-	        android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
 	    
      </LinearLayout>
 </RelativeLayout>
