@@ -223,8 +223,10 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		try {
-			if(data.size()>0){
-				Topic topic = (Topic) data.get(position - 1).get("topic");
+			if(parent.getCount()>0){
+				Map<String, Object> map = (Map<String, Object>) parent.getAdapter().getItem(position);
+				
+				Topic topic = (Topic) map.get("topic");
 
 				Intent intent = new Intent(getActivity(), TopicFragment.class);
 				intent.putExtra("topic", topic);

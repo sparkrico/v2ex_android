@@ -16,6 +16,9 @@
         Version %s<br><br>
     ]]>
     </string>
+    
+    <string name="action_bar_search">搜索</string>
+    
     <string name="refresh">刷新节点</string>
     <string name="show_refresh">节点缓存</string>
 	<string name="dialog_content">确定要返回吗？</string>

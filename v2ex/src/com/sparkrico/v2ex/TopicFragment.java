@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -20,6 +21,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,6 +42,7 @@ import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.HtmlUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
+import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class TopicFragment extends FragmentActivity implements
@@ -80,6 +83,11 @@ public class TopicFragment extends FragmentActivity implements
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
+		
+		if (VersionUtils.OverHONEYCOMB()) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
 		setupViews();
 		setupListView();
@@ -108,6 +116,25 @@ public class TopicFragment extends FragmentActivity implements
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (leftRight) {
+				newFragment = NoticeAlertDialogFragment.newInstance(
+						android.R.string.dialog_alert_title,
+						R.string.dialog_content);
+				newFragment.setCancelable(false);
+				newFragment.show(getSupportFragmentManager(), "notice_dialog");
+			}else
+				finish();
+			return true;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	DialogFragment newFragment;
 
@@ -126,7 +153,7 @@ public class TopicFragment extends FragmentActivity implements
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
+	
 	private void setupViews() {
 		View v = getLayoutInflater().inflate(R.layout.topic_top, null);
 

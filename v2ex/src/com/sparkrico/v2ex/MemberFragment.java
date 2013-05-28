@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,6 +34,7 @@ import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.HtmlUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
+import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class MemberFragment extends FragmentActivity implements
@@ -59,6 +62,11 @@ public class MemberFragment extends FragmentActivity implements
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.topic);
+		
+		if (VersionUtils.OverHONEYCOMB()) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
 		density = ScreenUtil.getScreenDensity(this);
 
@@ -97,6 +105,18 @@ public class MemberFragment extends FragmentActivity implements
 		super.onStop();
 		((App) getApplication()).getAsyncHttpClient().cancelRequests(
 				getApplicationContext(), true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void setupViews() {
@@ -233,8 +253,10 @@ public class MemberFragment extends FragmentActivity implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		try {
-			if (data.size() > 0) {
-				Topic topic = (Topic) data.get(position - 1).get("topic");
+			if(parent.getCount()>0){
+				Map<String, Object> map = (Map<String, Object>) parent.getAdapter().getItem(position);
+				
+				Topic topic = (Topic) map.get("topic");
 				//
 				Intent intent = new Intent(this, TopicFragment.class);
 				intent.putExtra("topic", topic);

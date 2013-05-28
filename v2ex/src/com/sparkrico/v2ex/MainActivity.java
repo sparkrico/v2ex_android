@@ -1,5 +1,6 @@
 package com.sparkrico.v2ex;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,8 @@ import android.view.View;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.sparkrico.v2ex.util.HelpUtil;
+import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.ReportPolicy;
 import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends SlidingFragmentActivity {
@@ -22,10 +23,15 @@ public class MainActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.responsive_content_frame);
-		
+
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
-		
+
+		if (VersionUtils.OverHONEYCOMB()) {
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
 			setBehindContentView(R.layout.menu_frame);
@@ -62,13 +68,13 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		MobclickAgent.onResume(this);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -81,13 +87,15 @@ public class MainActivity extends SlidingFragmentActivity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			getSlidingMenu().showMenu(true);
+			return true;
 		case R.id.menu_about:
 			HelpUtil.showAbout(this);
-//			startActivity(new Intent(this, LoginActivity.class));
 			break;
 
 		default:

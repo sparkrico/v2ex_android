@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.FileUtil;
 import com.sparkrico.v2ex.util.HelpUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
+import com.sparkrico.v2ex.util.VersionUtils;
 
 public class NodeMenuFragment extends PullToRefreshListFragment implements
 		OnClickListener, OnItemClickListener {
@@ -92,6 +94,24 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		toggleButton.setOnClickListener(this);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
 		tvAppVersion = (TextView) v.findViewById(R.id.app_version);
+		
+		if(VersionUtils.OverHONEYCOMB()){
+			SearchView searchView = (SearchView) v.findViewById(R.id.search_view);
+			searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+				
+				@Override
+				public boolean onQueryTextSubmit(String query) {
+					return false;
+				}
+				
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					newText = newText.isEmpty()? "":newText;
+					simpleAdapter.getFilter().filter(newText);
+					return false;
+				}
+			});
+		}
 
 		setupPullToRefreshListView(v);
 
@@ -101,7 +121,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
 		toggleButton.setChecked(type == OrderType.HOT.ordinal());
 
 		tvAppVersion.setText(HelpUtil.getVersionName(getActivity()));
@@ -157,10 +177,11 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (data.size() <= 0)
+		if (parent.getAdapter().getCount() <= 0)
 			return;
 		try {
-			Map<String, String> map = data.get(position - 1);
+			Map<String, String> map = (Map<String, String>) parent.getAdapter().getItem(position);
+			
 			Fragment newContent = new TopicsFragment(map.get("name"),
 					map.get("title"));
 			if (newContent != null)
@@ -317,15 +338,14 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.toggle:
-			if (data.size() <= 0)
-				return;
 			try {
 				type = ((ToggleButton) v).isChecked() ? OrderType.HOT.ordinal()
 						: OrderType.ABC.ordinal();
 				// get type
 				SharedPreferencesUtils.setNodeListType(getActivity(), type);
 
-				data.remove(0);
+				if(data.size()>0)
+					data.remove(0);
 				OrderNode();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -336,4 +356,5 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 			break;
 		}
 	}
+
 }

@@ -17,6 +17,8 @@
     ]]>
     </string>
     
+    <string name="action_bar_search">Search</string>
+    
     <string name="refresh">refresh nodes</string>
     <string name="show_refresh">nodes cache</string>
     <string name="dialog_content">back?</string>
