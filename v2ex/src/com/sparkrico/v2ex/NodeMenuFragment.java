@@ -94,23 +94,25 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		toggleButton.setOnClickListener(this);
 		progressBar = (ProgressBar) v.findViewById(android.R.id.progress);
 		tvAppVersion = (TextView) v.findViewById(R.id.app_version);
-		
-		if(VersionUtils.OverHONEYCOMB()){
-			SearchView searchView = (SearchView) v.findViewById(R.id.search_view);
-			searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-				
-				@Override
-				public boolean onQueryTextSubmit(String query) {
-					return false;
-				}
-				
-				@Override
-				public boolean onQueryTextChange(String newText) {
-					newText = newText.isEmpty()? "":newText;
-					simpleAdapter.getFilter().filter(newText);
-					return false;
-				}
-			});
+
+		if (VersionUtils.OverHONEYCOMB()) {
+			SearchView searchView = (SearchView) v
+					.findViewById(R.id.search_view);
+			searchView
+					.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+						@Override
+						public boolean onQueryTextSubmit(String query) {
+							return false;
+						}
+
+						@Override
+						public boolean onQueryTextChange(String newText) {
+							newText = newText.isEmpty() ? "" : newText;
+							simpleAdapter.getFilter().filter(newText);
+							return false;
+						}
+					});
 		}
 
 		setupPullToRefreshListView(v);
@@ -121,13 +123,13 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		toggleButton.setChecked(type == OrderType.HOT.ordinal());
 
 		tvAppVersion.setText(HelpUtil.getVersionName(getActivity()));
 
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
-				android.R.layout.simple_list_item_1, new String[] { "title" },
+				R.layout.node_list_item, new String[] { "title" },
 				new int[] { android.R.id.text1 });
 		mList.setAdapter(simpleAdapter);
 		mList.setOnItemClickListener(this);
@@ -177,11 +179,12 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (parent.getAdapter().getCount() <= 0)
-			return;
 		try {
-			Map<String, String> map = (Map<String, String>) parent.getAdapter().getItem(position);
-			
+			if (parent.getAdapter().getCount() <= 0)
+				return;
+			Map<String, String> map = (Map<String, String>) parent.getAdapter()
+					.getItem(position);
+
 			Fragment newContent = new TopicsFragment(map.get("name"),
 					map.get("title"));
 			if (newContent != null)
@@ -344,7 +347,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 				// get type
 				SharedPreferencesUtils.setNodeListType(getActivity(), type);
 
-				if(data.size()>0)
+				if (data.size() > 0)
 					data.remove(0);
 				OrderNode();
 			} catch (Exception e) {

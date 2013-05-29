@@ -49,10 +49,10 @@ public final class R {
 	}
 	public static final class layout {
 		public static final int list = 0x7f030002;
-		public static final int shadow = 0x7f03000a;
-		public static final int slidingmenumain = 0x7f03000b;
-		public static final int slidingmenumainlist = 0x7f03000c;
-		public static final int slidingmenurow = 0x7f03000d;
+		public static final int shadow = 0x7f03000b;
+		public static final int slidingmenumain = 0x7f03000c;
+		public static final int slidingmenumainlist = 0x7f03000d;
+		public static final int slidingmenurow = 0x7f03000e;
 	}
 	public static final class styleable {
 		public static final int[] SlidingMenu = { 0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c, 0x7f01001d, 0x7f01001e, 0x7f01001f, 0x7f010020 };

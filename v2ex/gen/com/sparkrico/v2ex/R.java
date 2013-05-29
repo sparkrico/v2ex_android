@@ -267,25 +267,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int topic_replies_divider=0x7f080002;
     }
     public static final class dimen {
-        /**  topic item 
-         */
-        public static final int first_size=0x7f06000c;
+        public static final int first_size=0x7f060010;
         public static final int header_footer_left_right_padding=0x7f060003;
         public static final int header_footer_top_bottom_padding=0x7f060004;
         public static final int indicator_corner_radius=0x7f060001;
         public static final int indicator_internal_padding=0x7f060002;
         public static final int indicator_right_padding=0x7f060000;
+        public static final int listPreferredItemHeightSmall=0x7f06000e;
+        public static final int listPreferredItemPaddingEnd=0x7f06000d;
+        public static final int listPreferredItemPaddingStart=0x7f06000c;
         public static final int list_padding=0x7f06000a;
+        public static final int list_text_size=0x7f06000f;
         public static final int menu_header_line=0x7f060007;
         public static final int menu_header_padding_top=0x7f060006;
         public static final int menu_icon_side=0x7f060008;
         public static final int menu_item_padding=0x7f060005;
-        public static final int node_select_size=0x7f06000e;
-        public static final int progress_height=0x7f06000f;
-        public static final int second_size=0x7f06000d;
+        public static final int node_select_size=0x7f060012;
+        public static final int progress_height=0x7f060013;
+        public static final int second_size=0x7f060011;
         public static final int shadow_width=0x7f06000b;
         public static final int slidingmenu_offset=0x7f060009;
-        public static final int text_size_medium=0x7f060010;
+        public static final int text_size_medium=0x7f060014;
     }
     public static final class drawable {
         public static final int avatar_normal=0x7f020000;
@@ -397,20 +399,21 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int member_top=0x7f030003;
         public static final int menu_frame=0x7f030004;
         public static final int node_list=0x7f030005;
-        public static final int pull_to_refresh_header_horizontal=0x7f030006;
-        public static final int pull_to_refresh_header_vertical=0x7f030007;
-        public static final int reply_item=0x7f030008;
-        public static final int responsive_content_frame=0x7f030009;
-        public static final int shadow=0x7f03000a;
-        public static final int slidingmenumain=0x7f03000b;
-        public static final int slidingmenumainlist=0x7f03000c;
-        public static final int slidingmenurow=0x7f03000d;
-        public static final int topic=0x7f03000e;
-        public static final int topic_list_item=0x7f03000f;
-        public static final int topic_top=0x7f030010;
-        public static final int umeng_common_download_notification=0x7f030011;
-        public static final int umeng_update_dialog=0x7f030012;
-        public static final int webview=0x7f030013;
+        public static final int node_list_item=0x7f030006;
+        public static final int pull_to_refresh_header_horizontal=0x7f030007;
+        public static final int pull_to_refresh_header_vertical=0x7f030008;
+        public static final int reply_item=0x7f030009;
+        public static final int responsive_content_frame=0x7f03000a;
+        public static final int shadow=0x7f03000b;
+        public static final int slidingmenumain=0x7f03000c;
+        public static final int slidingmenumainlist=0x7f03000d;
+        public static final int slidingmenurow=0x7f03000e;
+        public static final int topic=0x7f03000f;
+        public static final int topic_list_item=0x7f030010;
+        public static final int topic_top=0x7f030011;
+        public static final int umeng_common_download_notification=0x7f030012;
+        public static final int umeng_update_dialog=0x7f030013;
+        public static final int webview=0x7f030014;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;

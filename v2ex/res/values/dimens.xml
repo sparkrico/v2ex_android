@@ -11,7 +11,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
 -->
 
 <resources>
@@ -22,14 +22,14 @@
 
     <integer name="num_cols">1</integer>
 
-    
-    <!-- topic item -->
+    <dimen name="listPreferredItemPaddingStart">8dip</dimen>
+    <dimen name="listPreferredItemPaddingEnd">8dip</dimen>
+    <dimen name="listPreferredItemHeightSmall">48dip</dimen>
+    <dimen name="list_text_size">18sp</dimen>
     <dimen name="first_size">18sp</dimen>
     <dimen name="second_size">12sp</dimen>
-    
     <dimen name="node_select_size">36sp</dimen>
-    
     <dimen name="progress_height">2dip</dimen>
-    
     <dimen name="text_size_medium">14sp</dimen>
+
 </resources>
