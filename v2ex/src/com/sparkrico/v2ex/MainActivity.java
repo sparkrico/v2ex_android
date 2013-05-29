@@ -27,13 +27,13 @@ public class MainActivity extends SlidingFragmentActivity {
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
 
-		if (VersionUtils.OverHONEYCOMB()) {
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
+			if (VersionUtils.OverHONEYCOMB()) {
+				ActionBar actionBar = getActionBar();
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
+			
 			setBehindContentView(R.layout.menu_frame);
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu()
