@@ -4,6 +4,7 @@
     <string name="app_name">V2EX</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About</string>
+    <string name="menu_nav">Nav</string>
     <string name="title_about">About</string>
     <string name="latest">Lastest</string>
     <string name="prev">&#060;</string>
@@ -16,14 +17,338 @@
         Version %s<br>
     ]]>
     </string>
-    
+    <string name="node_nav">Node Nav</string>
     <string name="action_bar_search">Search</string>
-    
     <string name="refresh">refresh nodes</string>
     <string name="show_refresh">nodes cache</string>
     <string name="dialog_content">back?</string>
-    
     <string name="updated_at">updated at:</string>
     <string name="cached_at">cached at:</string>
+
+    <string-array name="node_nav_title">
+        <item>-分享与探索</item>
+        <item>问与答</item>
+        <item>分享发现</item>
+        <item>自言自语</item>
+        <item>分享创造</item>
+        <item>分享邀请码</item>
+        <item>随想</item>
+        <item>Blog</item>
+        <item>奇思妙想</item>
+        <item>设计</item>
+        <item>Paper</item>
+        <item>-</item>
+        <item>-V2EX</item>
+        <item>V2EX</item>
+        <item>Project Babel</item>
+        <item>Google App Engine</item>
+        <item>DNS</item>
+        <item>反馈</item>
+        <item>Project Picky</item>
+        <item>使用指南</item>
+        <item>OLIVIDA</item>
+        <item>-iOS</item>
+        <item>iDev</item>
+        <item>iAd</item>
+        <item>iMarketing</item>
+        <item>iCode</item>
+        <item>-</item>
+        <item>-Geek</item>
+        <item>程序员</item>
+        <item>Python</item>
+        <item>Android</item>
+        <item>Linux</item>
+        <item>Bitcoin</item>
+        <item>云计算</item>
+        <item>服务器</item>
+        <item>PHP</item>
+        <item>设计师</item>
+        <item>硬件</item>
+        <item>Linode</item>
+        <item>Kindle</item>
+        <item>Tornado</item>
+        <item>Ruby on Rails</item>
+        <item>MySQL</item>
+        <item>字体排印</item>
+        <item>宽带症候群</item>
+        <item>外包</item>
+        <item>Markdown</item>
+        <item>编程</item>
+        <item>Java</item>
+        <item>MongoDB</item>
+        <item>Redis</item>
+        <item>Ruby</item>
+        <item>商业模式</item>
+        <item>汽车</item>
+        <item>Photoshop</item>
+        <item>LEGO</item>
+        <item>数学</item>
+        <item>SONY</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-游戏</item>
+        <item>游戏</item>
+        <item>iGame</item>
+        <item>Battlefield 3</item>
+        <item>StarCraft 2</item>
+        <item>PlayStation 3</item>
+        <item>Steam</item>
+        <item>英雄联盟</item>
+        <item>World of Warcraft</item>
+        <item>EVE</item>
+        <item>Xbox 360</item>
+        <item>Wii</item>
+        <item>Gran Turismo</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-Apple</item>
+        <item>Mac OS X</item>
+        <item>iPhone</item>
+        <item>MacBook Pro</item>
+        <item>iPad</item>
+        <item>MacBook Air</item>
+        <item>配件</item>
+        <item>iMac</item>
+        <item>iPod</item>
+        <item>Mac mini</item>
+        <item>MacBook</item>
+        <item>MobileMe</item>
+        <item>iWork</item>
+        <item>Mac Pro</item>
+        <item>iLife</item>
+        <item>GarageBand</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-生活</item>
+        <item>二手交易</item>
+        <item>酷工作</item>
+        <item>天黑以后</item>
+        <item>音乐</item>
+        <item>电影</item>
+        <item>阅读</item>
+        <item>摄影</item>
+        <item>物物交换</item>
+        <item>剧集</item>
+        <item>美酒与美食</item>
+        <item>旅行</item>
+        <item>乐活</item>
+        <item>投资</item>
+        <item>Baby</item>
+        <item>信用卡</item>
+        <item>宠物</item>
+        <item>绿茵场</item>
+        <item>团购分享</item>
+        <item>植物</item>
+        <item>骑行</item>
+        <item>咖啡</item>
+        <item>日记</item>
+        <item>蘑菇</item>
+        <item>唐茶</item>
+        <item>非诚勿扰</item>
+        <item>行程控</item>
+        <item>-Internet</item>
+        <item>Google</item>
+        <item>Twitter</item>
+        <item>Facebook</item>
+        <item>Path</item>
+        <item>Wikipedia</item>
+        <item>reddit</item>
+        <item>foursquare</item>
+        <item>-</item>
+        <item>-城市</item>
+        <item>北京</item>
+        <item>上海</item>
+        <item>深圳</item>
+        <item>杭州</item>
+        <item>广州</item>
+        <item>成都</item>
+        <item>昆明</item>
+        <item>武汉</item>
+        <item>New York</item>
+        <item>天津</item>
+        <item>Los Angeles</item>
+        <item>San Francisco</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-品牌</item>
+        <item>UNIQLO</item>
+        <item>Lamy</item>
+        <item>宜家</item>
+        <item>无印良品</item>
+        <item>Gap</item>
+        <item>Moleskine</item>
+        <item>G-Star</item>
+        <item>Nike</item>
+        <item>Adidas</item>
+    </string-array>
+    <string-array name="node_nav_name">
+        <item>-</item>
+        <item>qna</item>
+        <item>share</item>
+        <item>autistic</item>
+        <item>create</item>
+        <item>in</item>
+        <item>random</item>
+        <item>blog</item>
+        <item>ideas</item>
+        <item>design</item>
+        <item>paper</item>
+        <item>-</item>
+        <item>-</item>
+        <item>v2ex</item>
+        <item>babel</item>
+        <item>gae</item>
+        <item>dns</item>
+        <item>feedback</item>
+        <item>picky</item>
+        <item>guide</item>
+        <item>olivida</item>
+        <item>-</item>
+        <item>idev</item>
+        <item>iad</item>
+        <item>imarketing</item>
+        <item>icode</item>
+        <item>-</item>
+        <item>-</item>
+        <item>programmer</item>
+        <item>python</item>
+        <item>android</item>
+        <item>linux</item>
+        <item>bitcoin</item>
+        <item>cloud</item>
+        <item>server</item>
+        <item>php</item>
+        <item>designer</item>
+        <item>hardware</item>
+        <item>linode</item>
+        <item>kindle</item>
+        <item>tornado</item>
+        <item>ror</item>
+        <item>mysql</item>
+        <item>typography</item>
+        <item>bb</item>
+        <item>outsourcing</item>
+        <item>markdown</item>
+        <item>programming</item>
+        <item>java</item>
+        <item>mongodb</item>
+        <item>redis</item>
+        <item>ruby</item>
+        <item>business</item>
+        <item>car</item>
+        <item>photoshop</item>
+        <item>lego</item>
+        <item>math</item>
+        <item>sony</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>games</item>
+        <item>igame</item>
+        <item>bf3</item>
+        <item>sc2</item>
+        <item>ps3</item>
+        <item>steam</item>
+        <item>lol</item>
+        <item>wow</item>
+        <item>eve</item>
+        <item>xbox360</item>
+        <item>wii</item>
+        <item>gt</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>macosx</item>
+        <item>iphone</item>
+        <item>mbp</item>
+        <item>ipad</item>
+        <item>mba</item>
+        <item>accessory</item>
+        <item>imac</item>
+        <item>ipod</item>
+        <item>macmini</item>
+        <item>macbook</item>
+        <item>mobileme</item>
+        <item>iwork</item>
+        <item>macpro</item>
+        <item>ilife</item>
+        <item>garageband</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>all4all</item>
+        <item>jobs</item>
+        <item>afterdark</item>
+        <item>music</item>
+        <item>movie</item>
+        <item>reading</item>
+        <item>photograph</item>
+        <item>exchange</item>
+        <item>tv</item>
+        <item>taste</item>
+        <item>travel</item>
+        <item>lohas</item>
+        <item>invest</item>
+        <item>baby</item>
+        <item>creditcard</item>
+        <item>pet</item>
+        <item>soccer</item>
+        <item>tuan</item>
+        <item>plant</item>
+        <item>bike</item>
+        <item>coffee</item>
+        <item>diary</item>
+        <item>mushroom</item>
+        <item>tangcha</item>
+        <item>love</item>
+        <item>mileage</item>
+        <item>-</item>
+        <item>google</item>
+        <item>twitter</item>
+        <item>facebook</item>
+        <item>path</item>
+        <item>wikipedia</item>
+        <item>reddit</item>
+        <item>4sq</item>
+        <item>-</item>
+        <item>-</item>
+        <item>beijing</item>
+        <item>shanghai</item>
+        <item>shenzhen</item>
+        <item>hangzhou</item>
+        <item>guangzhou</item>
+        <item>chengdu</item>
+        <item>kunming</item>
+        <item>wuhan</item>
+        <item>nyc</item>
+        <item>tianjin</item>
+        <item>la</item>
+        <item>sanfrancisco</item>
+        <item>-</item>
+        <item>-</item>
+        <item>-</item>
+        <item>uniqlo</item>
+        <item>lamy</item>
+        <item>ikea</item>
+        <item>muji</item>
+        <item>gap</item>
+        <item>moleskine</item>
+        <item>gstar</item>
+        <item>nike</item>
+        <item>adidas</item>
+    </string-array>
+    
+    <string-array name="node_nav_cat">
+        <item>分享与探索</item>
+        <item>V2EX</item>
+        <item>iOS</item>
+        <item>Geek</item>
+        <item>游戏</item>
+        <item>Apple</item>
+        <item>生活</item>
+        <item>Internet</item>
+        <item>城市</item>
+        <item>品牌</item>
+    </string-array>
 
 </resources>

@@ -16,5 +16,15 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="dialog_style" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/enter</item>
+        <item name="@android:windowExitAnimation">@anim/exit</item>
+    </style>
+
+    <style name="city_dialog" parent="android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

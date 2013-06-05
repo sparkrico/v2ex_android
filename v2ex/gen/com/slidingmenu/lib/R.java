@@ -33,8 +33,8 @@ public final class R {
 		public static final int menu_item_padding = 0x7f060005;
 	}
 	public static final class drawable {
-		public static final int defaultshadow = 0x7f020003;
-		public static final int defaultshadowright = 0x7f020004;
+		public static final int defaultshadow = 0x7f020004;
+		public static final int defaultshadowright = 0x7f020005;
 	}
 	public static final class id {
 		public static final int fullscreen = 0x7f05000f;
@@ -42,17 +42,17 @@ public final class R {
 		public static final int margin = 0x7f05000e;
 		public static final int right = 0x7f05000d;
 		public static final int selected_view = 0x7f050010;
-		public static final int slidingmenulayout = 0x7f050029;
-		public static final int slidingmenumain = 0x7f050028;
-		public static final int slidingmenurowicon = 0x7f05002a;
-		public static final int slidingmenurowtitle = 0x7f05002b;
+		public static final int slidingmenulayout = 0x7f05002b;
+		public static final int slidingmenumain = 0x7f05002a;
+		public static final int slidingmenurowicon = 0x7f05002c;
+		public static final int slidingmenurowtitle = 0x7f05002d;
 	}
 	public static final class layout {
-		public static final int list = 0x7f030002;
-		public static final int shadow = 0x7f03000b;
-		public static final int slidingmenumain = 0x7f03000c;
-		public static final int slidingmenumainlist = 0x7f03000d;
-		public static final int slidingmenurow = 0x7f03000e;
+		public static final int list = 0x7f030003;
+		public static final int shadow = 0x7f03000d;
+		public static final int slidingmenumain = 0x7f03000e;
+		public static final int slidingmenumainlist = 0x7f03000f;
+		public static final int slidingmenurow = 0x7f030010;
 	}
 	public static final class styleable {
 		public static final int[] SlidingMenu = { 0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c, 0x7f01001d, 0x7f01001e, 0x7f01001f, 0x7f010020 };

@@ -4,6 +4,7 @@
     <string name="app_name">V2EX</string>
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
+    <string name="menu_nav">导航</string>
     <string name="title_about">关于</string>
     <string name="latest">最新</string>
     <string name="prev">&#060;</string>
@@ -16,6 +17,8 @@
         Version %s<br><br>
     ]]>
     </string>
+    
+    <string name="node_nav">节点导航</string>
     
     <string name="action_bar_search">搜索</string>
     
