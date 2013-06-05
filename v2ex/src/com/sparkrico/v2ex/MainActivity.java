@@ -138,6 +138,10 @@ public class MainActivity extends SlidingFragmentActivity {
 	NodeAdapter nodeAdapter;
 
 	private void showNav() {
+		if(dialog != null){
+			dialog.show();
+			return;
+		}
 		dialog = new Dialog(this, R.style.city_dialog);
 		dialog.setContentView(R.layout.activity_nav);
 		dialog.setCanceledOnTouchOutside(true);
@@ -150,6 +154,10 @@ public class MainActivity extends SlidingFragmentActivity {
 						dialog.dismiss();
 					}
 				});
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			dialog.findViewById(R.id.dashline).setLayerType(
+					View.LAYER_TYPE_SOFTWARE, null);
+		}
 
 		gridView = (GridView) dialog.findViewById(R.id.gridview);
 		nodeAdapter = new NodeAdapter(this);
@@ -237,6 +245,11 @@ public class MainActivity extends SlidingFragmentActivity {
 				if (type == 1) {
 					convertView = mLayoutInflater.inflate(
 							R.layout.node_nav_category, null, false);
+					
+					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+						convertView.findViewById(R.id.dashline).setLayerType(
+								View.LAYER_TYPE_SOFTWARE, null);
+					}
 				} else
 					convertView = mLayoutInflater.inflate(
 							android.R.layout.simple_list_item_1, null, false);

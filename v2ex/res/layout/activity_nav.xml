@@ -16,29 +16,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="10dip" >
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/node_nav"
                 android:textSize="18sp" />
+
+            <ImageView
+	            android:id="@+id/dashline"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="6dip"
+	            android:layout_marginTop="6dip"
+	            android:src="@drawable/dash_line" />
         </LinearLayout>
 
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="400dip"
+            android:layout_marginBottom="10dip"
             android:columnWidth="90dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp"
-            android:layout_marginBottom="10dip" />
+            android:verticalSpacing="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dip"
-            android:background="@drawable/pull_btn" />
+            android:background="@drawable/square_blue_light" />
     </LinearLayout>
 
 </LinearLayout>
