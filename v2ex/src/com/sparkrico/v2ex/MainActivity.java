@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.slidingmenu.lib.SlidingMenu;
@@ -158,8 +159,10 @@ public class MainActivity extends SlidingFragmentActivity {
 			dialog.findViewById(R.id.dashline).setLayerType(
 					View.LAYER_TYPE_SOFTWARE, null);
 		}
-
+		
 		gridView = (GridView) dialog.findViewById(R.id.gridview);
+		gridView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 
+				getWindowManager().getDefaultDisplay().getHeight() - 200));
 		nodeAdapter = new NodeAdapter(this);
 		gridView.setAdapter(nodeAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
