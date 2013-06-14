@@ -7,10 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.slidingmenu.lib.SlidingMenu;
@@ -158,8 +162,24 @@ public class MainActivity extends SlidingFragmentActivity {
 			dialog.findViewById(R.id.dashline).setLayerType(
 					View.LAYER_TYPE_SOFTWARE, null);
 		}
-
+		
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		
+		Display display = getWindowManager().getDefaultDisplay();
+		display.getMetrics(displayMetrics);
+		//计算GridView高度(pixel)
+		int space_h = (int) (100 * displayMetrics.density);
+		int rotation = display.getRotation();
+		if(rotation==Surface.ROTATION_0 ||
+				rotation==Surface.ROTATION_180)
+			space_h = (int) (100 * displayMetrics.density);
+		//TODO 自定义numColumn
+		
+		int custom_h = display.getHeight() - space_h;
+		
 		gridView = (GridView) dialog.findViewById(R.id.gridview);
+		gridView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 
+				custom_h));
 		nodeAdapter = new NodeAdapter(this);
 		gridView.setAdapter(nodeAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
