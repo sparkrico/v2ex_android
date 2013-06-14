@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,9 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 					Toast.LENGTH_SHORT).show();
 		};
 	};
+	
+	public TopicsFragment() {
+	}
 
 	public TopicsFragment(String node, String title) {
 		Bundle bundle = new Bundle();
@@ -109,8 +113,18 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 				loadTopics();
 			}
 		});
+		
+		if(savedInstanceState != null){
+			Log.d("", savedInstanceState.toString());
+		}
 
 		loadTopics();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBundle("arguments", getArguments());
 	}
 
 	@Override

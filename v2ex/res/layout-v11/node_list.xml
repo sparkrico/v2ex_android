@@ -19,7 +19,7 @@
         android:visibility="gone" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@android:id/list"
+        android:id="@+id/pulltorefresh_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"

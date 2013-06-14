@@ -16,7 +16,7 @@ public class PullToRefreshListFragment extends Fragment {
 	TextView mStandardEmptyView;
 	
 	public void setupPullToRefreshListView(View v){
-		mList = (PullToRefreshListView) v.findViewById(android.R.id.list);
+		mList = (PullToRefreshListView) v.findViewById(R.id.pulltorefresh_list);
 		mStandardEmptyView = (TextView) v
 				.findViewById(INTERNAL_EMPTY_ID);
 		if (mStandardEmptyView == null) {

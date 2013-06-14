@@ -145,7 +145,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		dialog = new Dialog(this, R.style.city_dialog);
 		dialog.setContentView(R.layout.activity_nav);
 		dialog.setCanceledOnTouchOutside(true);
-
+		
 		dialog.findViewById(R.id.close).setOnClickListener(
 				new View.OnClickListener() {
 
@@ -270,7 +270,7 @@ public class MainActivity extends SlidingFragmentActivity {
 						.setBackgroundResource(R.drawable.list_activated_holo);
 			} else {
 				holderView.tv.setTextColor(Color.BLACK);
-				holderView.tv.setBackground(null);
+				holderView.tv.setBackgroundDrawable(null);
 			}
 			return convertView;
 		}
