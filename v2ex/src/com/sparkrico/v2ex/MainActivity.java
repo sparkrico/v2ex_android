@@ -3,6 +3,7 @@ package com.sparkrico.v2ex;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -135,6 +136,12 @@ public class MainActivity extends SlidingFragmentActivity {
 			}
 		}, 50);
 	}
+	
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		//屏幕转向
+		dialog = null;
+	};
 
 	Dialog dialog;
 
@@ -149,7 +156,15 @@ public class MainActivity extends SlidingFragmentActivity {
 		dialog = new Dialog(this, R.style.city_dialog);
 		dialog.setContentView(R.layout.activity_nav);
 		dialog.setCanceledOnTouchOutside(true);
-
+		
+		dialog.findViewById(R.id.nav_title_layout).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
 		dialog.findViewById(R.id.close).setOnClickListener(
 				new View.OnClickListener() {
 
@@ -167,19 +182,25 @@ public class MainActivity extends SlidingFragmentActivity {
 		
 		Display display = getWindowManager().getDefaultDisplay();
 		display.getMetrics(displayMetrics);
+		
+		boolean land = false;
 		//计算GridView高度(pixel)
-		int space_h = (int) (100 * displayMetrics.density);
+		int space = (int) (200 * displayMetrics.density);
 		int rotation = display.getRotation();
 		if(rotation==Surface.ROTATION_0 ||
 				rotation==Surface.ROTATION_180)
-			space_h = (int) (100 * displayMetrics.density);
+			space = (int) (200 * displayMetrics.density);
+		else{
+			land = true;
+		}
 		//TODO 自定义numColumn
 		
-		int custom_h = display.getHeight() - space_h;
+		int custom_h = display.getHeight() - space;
+		int custom_w = display.getWidth() - space;
 		
 		gridView = (GridView) dialog.findViewById(R.id.gridview);
-		gridView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 
-				custom_h));
+		gridView.setLayoutParams(new LayoutParams(land?custom_w:LayoutParams.MATCH_PARENT, 
+				land?LayoutParams.MATCH_PARENT:custom_h));
 		nodeAdapter = new NodeAdapter(this);
 		gridView.setAdapter(nodeAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -205,7 +226,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		lp.width = WindowManager.LayoutParams.MATCH_PARENT;
 		dialogWindow.setAttributes(lp);
 
-		dialogWindow.setWindowAnimations(R.style.dialog_style);
+		dialogWindow.setWindowAnimations(land?R.style.dialog_land_style:R.style.dialog_style);
 
 		dialog.show();
 
@@ -290,7 +311,7 @@ public class MainActivity extends SlidingFragmentActivity {
 						.setBackgroundResource(R.drawable.list_activated_holo);
 			} else {
 				holderView.tv.setTextColor(Color.BLACK);
-				holderView.tv.setBackground(null);
+				holderView.tv.setBackgroundDrawable(null);
 			}
 			return convertView;
 		}

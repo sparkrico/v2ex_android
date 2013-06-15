@@ -21,6 +21,11 @@
         <item name="@android:windowEnterAnimation">@anim/enter</item>
         <item name="@android:windowExitAnimation">@anim/exit</item>
     </style>
+    
+    <style name="dialog_land_style" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/enter_land</item>
+        <item name="@android:windowExitAnimation">@anim/exit_land</item>
+    </style>
 
     <style name="city_dialog" parent="android:style/Theme.Holo.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
