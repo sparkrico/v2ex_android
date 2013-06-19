@@ -40,14 +40,14 @@
             android:exported="true"
             android:process=":DownloadingService" >
         </service>
-<!-- 
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="50ee0c2b5270156beb000045" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="V2EX" /> -->
+            android:value="PLAY" />
     </application>
 
 </manifest>
