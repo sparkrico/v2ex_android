@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -113,6 +114,17 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 							return false;
 						}
 					});
+			searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+				
+				@Override
+				public boolean onClose() {
+					simpleAdapter = new SimpleAdapter(getActivity(), data,
+							R.layout.node_list_item, new String[] { "title" },
+							new int[] { android.R.id.text1 });
+					mList.setAdapter(simpleAdapter);
+					return false;
+				}
+			});
 		}
 
 		setupPullToRefreshListView(v);
