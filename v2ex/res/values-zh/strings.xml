@@ -28,4 +28,6 @@
 
 	<string name="updated_at">更新:</string>
 	<string name="cached_at">缓存:</string>
+	
+	<string name="node_query_hint">节点搜索</string>
 </resources>

@@ -24,6 +24,8 @@
     <string name="dialog_content">back?</string>
     <string name="updated_at">updated at:</string>
     <string name="cached_at">cached at:</string>
+    
+    <string name="node_query_hint">Node hunt</string>
 
     <string-array name="node_nav_title">
         <item>-分享与探索</item>
