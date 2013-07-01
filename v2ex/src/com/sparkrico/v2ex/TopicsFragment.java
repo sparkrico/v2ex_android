@@ -51,8 +51,9 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 	Handler mHandler = new Handler() {
 
 		public void dispatchMessage(android.os.Message msg) {
-			Toast.makeText(getActivity(), String.valueOf(msg.obj),
-					Toast.LENGTH_SHORT).show();
+			if(getActivity() != null)
+				Toast.makeText(getActivity(), String.valueOf(msg.obj),
+						Toast.LENGTH_SHORT).show();
 		};
 	};
 	
