@@ -61,7 +61,7 @@ public class FileUtil {
 			fos.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
