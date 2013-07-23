@@ -38,6 +38,14 @@
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/list_padding"
         android:paddingRight="@dimen/list_padding" />
+    
+    <com.sparkrico.v2ex.view.AlphabetViewForListView
+        android:id="@+id/alphabet"
+        android:layout_below="@+id/title_bar"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_width="40dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:id="@+id/current"

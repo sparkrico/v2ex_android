@@ -3,14 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ProgressBar
-        android:id="@android:id/progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pulltorefresh_list"
         android:layout_width="match_parent"
@@ -20,6 +12,13 @@
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/list_padding"
         android:paddingRight="@dimen/list_padding" />
+    
+    <com.sparkrico.v2ex.view.AlphabetViewForListView
+        android:id="@+id/alphabet"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_width="40dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:id="@+id/current"
@@ -79,5 +78,13 @@
                 android:textOn="HOT" />
         </RelativeLayout>
     </LinearLayout>
+    
+    <ProgressBar
+        android:id="@android:id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

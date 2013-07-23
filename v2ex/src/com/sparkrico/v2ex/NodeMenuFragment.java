@@ -17,8 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -26,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,13 +45,19 @@ import com.sparkrico.v2ex.util.HelpUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
 import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
+import com.sparkrico.v2ex.view.AlphabetViewForListView;
+import com.sparkrico.v2ex.view.AlphabetViewForListView.AlphabetChangeListener;
+import com.sparkrico.v2ex.view.CustomSimpleAdapter;
+import com.sparkrico.v2ex.view.Section;
 
 public class NodeMenuFragment extends PullToRefreshListFragment implements
 		OnClickListener, OnItemClickListener, ThemeNotify {
 
 	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
-	SimpleAdapter simpleAdapter;
+	List<Section> sections;
+	
+	CustomSimpleAdapter customAdapter;
 
 	TextView tvCurrent;
 	LinearLayout bottomeLayout;
@@ -72,6 +75,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	
 	SearchView searchView = null;
 	
+	AlphabetViewForListView alphabetViewForListView;
+	
 	int[] color = new int[2];
 
 	Handler mHandler = new Handler() {
@@ -87,6 +92,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		super.onCreate(savedInstanceState);
 		type = SharedPreferencesUtils.getNodeListType(getActivity());
 		color = ThemeUtil.getThemeInfo(getActivity());
+		sections = new ArrayList<Section>();
 	}
 
 	@Override
@@ -117,7 +123,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 						@Override
 						public boolean onQueryTextChange(String newText) {
 							newText = newText.isEmpty() ? "" : newText;
-							simpleAdapter.getFilter().filter(newText);
+							customAdapter.getFilter().filter(newText);
 							return false;
 						}
 					});
@@ -125,13 +131,32 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 				
 				@Override
 				public boolean onClose() {
-					simpleAdapter = new SimpleAdapter(getActivity(), data,
-							R.layout.node_list_item, new String[] { "title" },
+					customAdapter = new CustomSimpleAdapter(getActivity(), data,
+							sections, R.layout.node_list_item, new String[] { "title" },
 							new int[] { android.R.id.text1 });
-					mList.setAdapter(simpleAdapter);
+					mList.setAdapter(customAdapter);
 					return false;
 				}
 			});
+		}
+		
+		alphabetViewForListView = (AlphabetViewForListView) v.findViewById(R.id.alphabet);
+		alphabetViewForListView.setAlphabetListener(new AlphabetChangeListener() {
+			
+			@Override
+			public void OnAlphabetChange(Section section) {
+				mList.getRefreshableView().setSelection(section.getPosition());
+				tvCurrent.setText(section.getTitle());
+			}
+			
+			@Override
+			public void isOn(boolean isOn) {
+				tvCurrent.setVisibility(isOn?View.VISIBLE:View.GONE);
+			}
+		});
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			alphabetViewForListView.setLayerType(
+					View.LAYER_TYPE_SOFTWARE, null);
 		}
 
 		setupPullToRefreshListView(v);
@@ -147,10 +172,10 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 		tvAppVersion.setText(HelpUtil.getVersionName(getActivity()));
 
-		simpleAdapter = new SimpleAdapter(getActivity(), data,
-				R.layout.node_list_item, new String[] { "title" },
+		customAdapter = new CustomSimpleAdapter(getActivity(), data,
+				sections, R.layout.node_list_item, new String[] { "title" },
 				new int[] { android.R.id.text1 });
-		simpleAdapter.setViewBinder(new ViewBinder() {
+		customAdapter.setViewBinder(new ViewBinder() {
 			
 			@Override
 			public boolean setViewValue(View view, Object data,
@@ -164,41 +189,41 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 				return false;
 			}
 		});
-		mList.setAdapter(simpleAdapter);
+		mList.setAdapter(customAdapter);
 		mList.setOnItemClickListener(this);
-		mList.setOnScrollListener(new ListView.OnScrollListener() {
-
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				if (type == OrderType.ABC.ordinal()) {
-					switch (scrollState) {
-					case OnScrollListener.SCROLL_STATE_IDLE:
-						tvCurrent.setVisibility(View.GONE);
-						break;
-					case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-					case OnScrollListener.SCROLL_STATE_FLING:
-						tvCurrent.setVisibility(View.VISIBLE);
-						break;
-
-					default:
-						break;
-					}
-				}
-			}
-
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				if (data.size() > 0) {
-					String current = data.get(firstVisibleItem).get("name");
-					if (!TextUtils.isEmpty(current))
-						tvCurrent.setText(String.valueOf(current.toUpperCase()
-								.charAt(0)));
-					else
-						tvCurrent.setText("");
-				}
-			}
-		});
+//		mList.setOnScrollListener(new ListView.OnScrollListener() {
+//
+//			@Override
+//			public void onScrollStateChanged(AbsListView view, int scrollState) {
+//				if (type == OrderType.ABC.ordinal()) {
+//					switch (scrollState) {
+//					case OnScrollListener.SCROLL_STATE_IDLE:
+//						tvCurrent.setVisibility(View.GONE);
+//						break;
+//					case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//					case OnScrollListener.SCROLL_STATE_FLING:
+//						tvCurrent.setVisibility(View.VISIBLE);
+//						break;
+//
+//					default:
+//						break;
+//					}
+//				}
+//			}
+//
+//			@Override
+//			public void onScroll(AbsListView view, int firstVisibleItem,
+//					int visibleItemCount, int totalItemCount) {
+//				if (data.size() > 0) {
+//					String current = data.get(firstVisibleItem).get("name");
+//					if (!TextUtils.isEmpty(current))
+//						tvCurrent.setText(String.valueOf(current.toUpperCase()
+//								.charAt(0)));
+//					else
+//						tvCurrent.setText("");
+//				}
+//			}
+//		});
 		mList.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -315,6 +340,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 					data.add(map);
 				}
 			}
+			
+			alphabetViewForListView.setList(sections);
 
 			OrderNode();
 		} catch (JsonSyntaxException e) {
@@ -343,9 +370,12 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	private void OrderNode() {
 		// abc or hot order
 		if (type == OrderType.ABC.ordinal()) {
+			alphabetViewForListView.setVisibility(View.VISIBLE);
 			ComparableNodeName comparableNodeName = new ComparableNodeName();
 			Collections.sort(data, comparableNodeName);
+			addA(data);
 		} else {
+			alphabetViewForListView.setVisibility(View.GONE);
 			ComparableNodeTopicCount comparableNodeTopicCount = new ComparableNodeTopicCount();
 			Collections.sort(data, comparableNodeTopicCount);
 		}
@@ -357,7 +387,38 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		map.put("topics", "0");
 		data.add(0, map);
 
-		simpleAdapter.notifyDataSetChanged();
+		customAdapter.notifyDataSetChanged();
+	}
+	
+	private void addA(List<Map<String, String>>  data){
+		sections.clear();
+		
+		Section section = null;
+		int i = 1;
+		String current = "";
+		String new_one = "";
+		//add #
+		section = new Section();
+		section.setTitle("#");
+		section.setPosition(0);
+		sections.add(section);
+
+		for (Map<String, String> map : data) {
+			
+			new_one = String.valueOf(map.get("name").charAt(0));
+			
+			//add section
+			if (!current.equals(new_one)){
+				current = new_one;
+				
+				section = new Section();
+				section.setTitle(new_one.toUpperCase());
+				section.setPosition(i);
+				sections.add(section);
+			}
+			
+			i++;
+		}
 	}
 
 	/**
@@ -398,6 +459,6 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		color = ThemeUtil.getThemeInfo(getActivity());
 		mList.setBackgroundColor(color[1]);
 		searchView.setBackgroundColor(color[1]);
-		simpleAdapter.notifyDataSetChanged();
+		customAdapter.notifyDataSetChanged();
 	}
 }
