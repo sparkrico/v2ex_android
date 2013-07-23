@@ -34,6 +34,7 @@ import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.HtmlUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
+import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -48,6 +49,8 @@ public class MemberFragment extends FragmentActivity implements
 	TextView tvCreated;
 	TextView tvTitle;
 	TextView tvBio;
+	
+	View viewLayout;
 
 	ListView listView;
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
@@ -57,6 +60,8 @@ public class MemberFragment extends FragmentActivity implements
 	SimpleAdapter simpleAdapter;
 
 	float density;
+	
+	int[] color = new int[2];
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -67,6 +72,8 @@ public class MemberFragment extends FragmentActivity implements
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+		
+		color = ThemeUtil.getThemeInfo(this);
 
 		density = ScreenUtil.getScreenDensity(this);
 
@@ -128,10 +135,17 @@ public class MemberFragment extends FragmentActivity implements
 		tvCreated = (TextView) v.findViewById(R.id.created);
 		tvTitle = (TextView) v.findViewById(R.id.title);
 		tvBio = (TextView) v.findViewById(R.id.bio);
+		
+		viewLayout = (View) v.findViewById(R.id.layout);
 
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.addHeaderView(v, "", false);
 		listView.setOnItemClickListener(this);
+		
+		tvBio.setBackgroundColor(color[1]);
+		viewLayout.setBackgroundColor(color[1]);
+		
+		listView.setBackgroundColor(color[1]);
 
 		loading = (ProgressBar) findViewById(R.id.loading);
 
@@ -139,6 +153,14 @@ public class MemberFragment extends FragmentActivity implements
 	}
 
 	private void initTop(Member member) {
+		//
+		tvCreated.setTextColor(color[0]);
+		tvId.setTextColor(color[0]);
+		tvUser.setTextColor(color[0]);
+		tvTitle.setTextColor(color[0]);
+		tvBio.setTextColor(color[0]);
+		
+		//
 		ivFace.setImageUrl(ScreenUtil.choiceAvatarSize(density, member));
 		tvCreated.setText(DateUtil.formatDate(member.getCreated()));
 		tvId.setText(member.getId() + "");
@@ -159,7 +181,12 @@ public class MemberFragment extends FragmentActivity implements
 			@Override
 			public boolean setViewValue(View view, Object data,
 					String textRepresentation) {
-				if (view instanceof SmartImageView) {
+				if(view instanceof TextView){
+					if(!"0".equals(view.getTag()))
+							((TextView)view).setTextColor(color[0]);
+					((TextView)view).setText(textRepresentation);
+					return true;
+				}else if (view instanceof SmartImageView) {
 					((SmartImageView) view).setImageUrl((String) data);
 					return true;
 				}
@@ -266,4 +293,5 @@ public class MemberFragment extends FragmentActivity implements
 			e.printStackTrace();
 		}
 	}
+	
 }

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.sparkrico.v2ex.util.HelpUtil;
+import com.sparkrico.v2ex.util.SharedPreferencesUtils;
+import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
@@ -86,7 +89,19 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 	}
-
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			if(getSlidingMenu().isMenuShowing())
+				getSlidingMenu().showContent(true);
+			else
+				moveTaskToBack(true);
+	        return true;
+	    }
+		return super.onKeyDown(keyCode, event);
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -105,12 +120,27 @@ public class MainActivity extends SlidingFragmentActivity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		int type = SharedPreferencesUtils.getThemeType(this);
+		menu.findItem(R.id.menu_theme).setTitle(type == 0? R.string.menu_theme_night:R.string.menu_theme);
+		return true;
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			getSlidingMenu().showMenu(true);
+			return true;
+		case R.id.menu_theme:
+			int type = SharedPreferencesUtils.getThemeType(this);
+			SharedPreferencesUtils.setThemeType(this, type==1?0:1);
+			ThemeNotify fragment = (ThemeNotify) getSupportFragmentManager().findFragmentById(R.id.content_frame);
+			fragment.Notify();
+			fragment = (ThemeNotify) getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+			fragment.Notify();
 			return true;
 		case R.id.menu_about:
 			HelpUtil.showAbout(this);
@@ -147,16 +177,25 @@ public class MainActivity extends SlidingFragmentActivity {
 
 	GridView gridView;
 	NodeAdapter nodeAdapter;
+	
+	int[] color = new int[2];
 
 	private void showNav() {
+		color = ThemeUtil.getThemeInfo(this);
 		if(dialog != null){
+			((TextView)dialog.findViewById(R.id.title)).setTextColor(color[0]);
+			dialog.findViewById(R.id.nav_title_layout).setBackgroundColor(color[1]);
+			
 			dialog.show();
 			return;
 		}
+		
+		
 		dialog = new Dialog(this, R.style.city_dialog);
 		dialog.setContentView(R.layout.activity_nav);
 		dialog.setCanceledOnTouchOutside(true);
 		
+		dialog.findViewById(R.id.nav_title_layout).setBackgroundColor(color[1]);
 		dialog.findViewById(R.id.nav_title_layout).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -177,6 +216,7 @@ public class MainActivity extends SlidingFragmentActivity {
 			dialog.findViewById(R.id.dashline).setLayerType(
 					View.LAYER_TYPE_SOFTWARE, null);
 		}
+		((TextView)dialog.findViewById(R.id.title)).setTextColor(color[0]);
 		
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		
@@ -310,8 +350,8 @@ public class MainActivity extends SlidingFragmentActivity {
 				holderView.tv
 						.setBackgroundResource(R.drawable.list_activated_holo);
 			} else {
-				holderView.tv.setTextColor(Color.BLACK);
-				holderView.tv.setBackgroundDrawable(null);
+				holderView.tv.setTextColor(color[0]);
+				holderView.tv.setBackgroundColor(color[1]);
 			}
 			return convertView;
 		}

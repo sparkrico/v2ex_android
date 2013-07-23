@@ -42,6 +42,7 @@ import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.HtmlUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
+import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -72,6 +73,8 @@ public class TopicFragment extends FragmentActivity implements
 
 	boolean leftRight = false;
 	
+	int[] color = new int[2];
+	
 	Handler mHandler = new Handler(){
 		
 		public void dispatchMessage(android.os.Message msg) {
@@ -88,6 +91,8 @@ public class TopicFragment extends FragmentActivity implements
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+		
+		color = ThemeUtil.getThemeInfo(this);
 
 		setupViews();
 		setupListView();
@@ -165,9 +170,15 @@ public class TopicFragment extends FragmentActivity implements
 		tvLast = (TextView) v.findViewById(R.id.last);
 		tvTitle = (TextView) v.findViewById(R.id.title);
 		tvContent = (TextView) v.findViewById(R.id.content);
+		//
+		tvContent.setBackgroundColor(color[1]);
+		
+		v.findViewById(R.id.layout).setBackgroundColor(color[1]);
 
 		listView = (ListView) findViewById(android.R.id.list);
 		listView.addHeaderView(v, "", false);
+		//
+		listView.setBackgroundColor(color[1]);
 
 		loading = (ProgressBar) findViewById(R.id.loading);
 
@@ -178,6 +189,8 @@ public class TopicFragment extends FragmentActivity implements
 		buttonNext.setOnClickListener(this);
 
 		findViewById(R.id.open_url).setOnClickListener(this);
+		
+		findViewById(R.id.control).setBackgroundColor(color[1]);
 	}
 
 	/**
@@ -186,6 +199,13 @@ public class TopicFragment extends FragmentActivity implements
 	 * @param topic
 	 */
 	private void initTop(Topic topic) {
+		//
+		tvLast.setTextColor(color[0]);
+		tvNode.setTextColor(color[0]);
+		tvUser.setTextColor(color[0]);
+		tvTitle.setTextColor(color[0]);
+		tvContent.setTextColor(color[0]);
+		//
 		ivFace.setImageUrl(ScreenUtil.choiceAvatarSize(density,
 				topic.getMember()));
 		tvLast.setText(DateUtil.timeAgo(topic.getCreated()) + " | "
@@ -388,6 +408,10 @@ public class TopicFragment extends FragmentActivity implements
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			//
+			holder.tvContent.setTextColor(color[0]);
+			holder.tvLast.setTextColor(color[0]);
+			holder.tvUser.setTextColor(color[0]);
 			bindView(position, holder);
 			return convertView;
 		}
@@ -500,5 +524,5 @@ public class TopicFragment extends FragmentActivity implements
 		}
 
 	}
-
+	
 }

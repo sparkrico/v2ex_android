@@ -4,4 +4,9 @@
     <color name="replies">#ffAAB0C6</color>
     
     <color name="topic_replies_divider">#ffE2E2e9</color>
+    
+    <color name="text_color">#000</color>
+    <color name="text_color_night">#999</color>
+    <color name="text_color_bg">#FFF</color>
+    <color name="text_color_bg_night">#333</color>
 </resources>

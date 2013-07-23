@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -45,10 +46,11 @@ import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.FileUtil;
 import com.sparkrico.v2ex.util.HelpUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
+import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
 
 public class NodeMenuFragment extends PullToRefreshListFragment implements
-		OnClickListener, OnItemClickListener {
+		OnClickListener, OnItemClickListener, ThemeNotify {
 
 	List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
@@ -67,6 +69,10 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	ProgressBar progressBar;
 	EditText etSearch;
 	TextView tvAppVersion;
+	
+	SearchView searchView = null;
+	
+	int[] color = new int[2];
 
 	Handler mHandler = new Handler() {
 
@@ -80,6 +86,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		type = SharedPreferencesUtils.getNodeListType(getActivity());
+		color = ThemeUtil.getThemeInfo(getActivity());
 	}
 
 	@Override
@@ -96,7 +103,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		tvAppVersion = (TextView) v.findViewById(R.id.app_version);
 
 		if (VersionUtils.OverHONEYCOMB()) {
-			SearchView searchView = (SearchView) v
+			v.findViewById(R.id.title_bar).setBackgroundColor(color[1]);
+			searchView = (SearchView) v
 					.findViewById(R.id.search_view);
 			searchView
 					.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -127,7 +135,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		}
 
 		setupPullToRefreshListView(v);
-
+		mList.setBackgroundColor(color[1]);
 		return v;
 	}
 
@@ -142,6 +150,20 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		simpleAdapter = new SimpleAdapter(getActivity(), data,
 				R.layout.node_list_item, new String[] { "title" },
 				new int[] { android.R.id.text1 });
+		simpleAdapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Object data,
+					String textRepresentation) {
+				if( view instanceof TextView){
+					if(!"0".equals(view.getTag()))
+							((TextView)view).setTextColor(color[0]);
+					((TextView)view).setText(textRepresentation);
+					return true;
+				}
+				return false;
+			}
+		});
 		mList.setAdapter(simpleAdapter);
 		mList.setOnItemClickListener(this);
 		mList.setOnScrollListener(new ListView.OnScrollListener() {
@@ -370,5 +392,12 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 			break;
 		}
 	}
-
+	
+	@Override
+	public void Notify() {
+		color = ThemeUtil.getThemeInfo(getActivity());
+		mList.setBackgroundColor(color[1]);
+		searchView.setBackgroundColor(color[1]);
+		simpleAdapter.notifyDataSetChanged();
+	}
 }

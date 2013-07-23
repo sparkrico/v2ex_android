@@ -48,6 +48,7 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="PLAY" /> -->
+		<meta-data android:name="com.google.android.backup.api_key" android:value="AEdPqrEAAAAIWPyCmgK-rbbloSEPzZWzm0sfLpkgUcF2xWKCsQ" />
     </application>
 
 </manifest>

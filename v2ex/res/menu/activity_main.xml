@@ -8,6 +8,12 @@
         android:title="@string/menu_nav"/>
     
     <item
+        android:id="@+id/menu_theme"
+        android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="@string/menu_theme"/>
+    
+    <item
         android:id="@+id/menu_about"
         android:orderInCategory="110"
         android:showAsAction="never"

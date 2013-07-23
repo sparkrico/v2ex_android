@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,9 +37,10 @@ import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.ScreenUtil;
 import com.sparkrico.v2ex.util.SharedPreferencesUtils;
+import com.sparkrico.v2ex.util.ThemeUtil;
 
 public class TopicsFragment extends PullToRefreshListFragment implements
-		OnItemClickListener {
+		OnItemClickListener, ThemeNotify {
 
 	List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
@@ -67,10 +69,13 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 
 		setArguments(bundle);
 	}
+	
+	int[] color = new int[2];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		color = ThemeUtil.getThemeInfo(getActivity());
 	}
 
 	@Override
@@ -81,6 +86,7 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 
 		setupPullToRefreshListView(v);
 		mList.setMode(PullToRefreshBase.Mode.DISABLED);
+		mList.setBackgroundColor(color[1]);
 		return v;
 	}
 
@@ -99,7 +105,16 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 			@Override
 			public boolean setViewValue(View view, Object data,
 					String textRepresentation) {
-				if (view instanceof SmartImageView) {
+				if( view instanceof TextView){
+					if(!"0".equals(view.getTag())){
+							((TextView)view).setTextColor(color[0]);
+							((TextView)view).setText(textRepresentation);
+					}else{
+						((TextView)view).setText(textRepresentation);
+						view.setBackground(getActivity().getResources().getDrawable(color[2]));
+					}
+					return true;
+				}else if (view instanceof SmartImageView) {
 					((SmartImageView) view).setImageUrl((String) data);
 					return true;
 				}
@@ -251,4 +266,11 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void Notify() {
+		color = ThemeUtil.getThemeInfo(getActivity());
+		mList.setBackgroundColor(color[1]);
+		simpleAdapter.notifyDataSetChanged();
+	};
 }

@@ -4,11 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <RelativeLayout android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dip"
-        android:src="@drawable/avatar_normal">
+        android:padding="4dip">
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/image"

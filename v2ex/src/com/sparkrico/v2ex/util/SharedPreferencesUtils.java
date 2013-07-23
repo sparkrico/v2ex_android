@@ -19,6 +19,8 @@ public class SharedPreferencesUtils {
 	private static final String NODE_CACHE_DATETIME = "node_cache_datetime";
 	private static final String TOPICS_LAST_UPDATE_DATETIME = "topics_last_update_datetime";
 
+	private static final String THEME_TYPE = "theme_type";
+
 	private static final String NODE_LIST_TYPE_KEY = "node_list_type";
 
 	public static SharedPreferences getSharedPreferences(Context context) {
@@ -59,6 +61,18 @@ public class SharedPreferencesUtils {
 		SharedPreferences sharedPreferences = getSharedPreferences(context);
 		Editor editor = sharedPreferences.edit();
 		editor.putInt(NODE_LIST_TYPE_KEY, type);
+		editor.commit();
+	}
+
+	public static int getThemeType(Context context) {
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		return sharedPreferences.getInt(THEME_TYPE, 0);
+	}
+
+	public static void setThemeType(Context context, int type) {
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		Editor editor = sharedPreferences.edit();
+		editor.putInt(THEME_TYPE, type);
 		editor.commit();
 	}
 }
