@@ -80,7 +80,7 @@ public class AlphabetViewForListView extends View {
 			if (!TextUtils.isEmpty(v)) {
 				canvas.drawText(v,
 						w / 2 - mPaint.measureText(v) / 2,
-						item_height * i + item_height / 2, mPaint);
+						item_height * (i+1), mPaint);
 			}
 		}
 	}

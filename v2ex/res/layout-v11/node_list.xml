@@ -34,7 +34,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@+id/title_bar"
-        android:choiceMode="singleChoice"
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/list_padding"
         android:paddingRight="@dimen/list_padding" />

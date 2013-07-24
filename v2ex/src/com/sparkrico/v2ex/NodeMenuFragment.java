@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -145,7 +146,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 			
 			@Override
 			public void OnAlphabetChange(Section section) {
-				mList.getRefreshableView().setSelection(section.getPosition());
+				//+1 = pulltorefresh item
+				mList.getRefreshableView().setSelection(section.getPosition()+1);
 				tvCurrent.setText(section.getTitle());
 			}
 			
@@ -370,11 +372,13 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	private void OrderNode() {
 		// abc or hot order
 		if (type == OrderType.ABC.ordinal()) {
+			mList.getRefreshableView().setFastScrollEnabled(false);
 			alphabetViewForListView.setVisibility(View.VISIBLE);
 			ComparableNodeName comparableNodeName = new ComparableNodeName();
 			Collections.sort(data, comparableNodeName);
 			addA(data);
 		} else {
+			mList.getRefreshableView().setFastScrollEnabled(true);
 			alphabetViewForListView.setVisibility(View.GONE);
 			ComparableNodeTopicCount comparableNodeTopicCount = new ComparableNodeTopicCount();
 			Collections.sort(data, comparableNodeTopicCount);
