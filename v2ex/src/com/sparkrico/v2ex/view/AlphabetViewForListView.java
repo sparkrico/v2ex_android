@@ -56,8 +56,7 @@ public class AlphabetViewForListView extends View {
 
 	private void init() {
 		setBackgroundColor(Color.BLACK);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
-	    {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
 	        final AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
 	        animation.setDuration(0);
 	        animation.setFillAfter(true);

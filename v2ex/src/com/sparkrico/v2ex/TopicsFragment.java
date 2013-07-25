@@ -63,7 +63,11 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 	}
 
 	public TopicsFragment(String node, String title) {
-		Bundle bundle = new Bundle();
+		Bundle bundle;
+		if(getArguments() == null)
+			bundle = new Bundle();
+		else
+			bundle = getArguments();
 		bundle.putString("node", node);
 		bundle.putString("title", title);
 
@@ -111,7 +115,7 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 							((TextView)view).setText(textRepresentation);
 					}else{
 						((TextView)view).setText(textRepresentation);
-						view.setBackgroundColor(color[2]);
+//						view.setBackgroundColor(color[2]);
 					}
 					return true;
 				}else if (view instanceof SmartImageView) {
