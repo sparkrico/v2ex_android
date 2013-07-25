@@ -111,7 +111,7 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 							((TextView)view).setText(textRepresentation);
 					}else{
 						((TextView)view).setText(textRepresentation);
-						view.setBackground(getActivity().getResources().getDrawable(color[2]));
+						view.setBackgroundColor(color[2]);
 					}
 					return true;
 				}else if (view instanceof SmartImageView) {

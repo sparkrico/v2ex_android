@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +48,6 @@ import com.sparkrico.v2ex.util.ThemeUtil;
 import com.sparkrico.v2ex.util.VersionUtils;
 import com.sparkrico.v2ex.view.AlphabetViewForListView;
 import com.sparkrico.v2ex.view.AlphabetViewForListView.AlphabetChangeListener;
-import com.sparkrico.v2ex.view.CustomSimpleAdapter;
 import com.sparkrico.v2ex.view.Section;
 
 public class NodeMenuFragment extends PullToRefreshListFragment implements
@@ -58,7 +57,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 	List<Section> sections;
 	
-	CustomSimpleAdapter customAdapter;
+	SimpleAdapter customAdapter;
 
 	TextView tvCurrent;
 	LinearLayout bottomeLayout;
@@ -68,6 +67,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	public enum OrderType {
 		ABC, HOT
 	}
+	
+	boolean hasQueryed = false;
 
 	ToggleButton toggleButton;
 	ProgressBar progressBar;
@@ -123,6 +124,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 						@Override
 						public boolean onQueryTextChange(String newText) {
+							hasQueryed = true;
 							newText = newText.isEmpty() ? "" : newText;
 							customAdapter.getFilter().filter(newText);
 							return false;
@@ -132,8 +134,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 				
 				@Override
 				public boolean onClose() {
-					customAdapter = new CustomSimpleAdapter(getActivity(), data,
-							sections, R.layout.node_list_item, new String[] { "title" },
+					customAdapter = new SimpleAdapter(getActivity(), data,
+							R.layout.node_list_item, new String[] { "title" },
 							new int[] { android.R.id.text1 });
 					mList.setAdapter(customAdapter);
 					return false;
@@ -174,24 +176,7 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 		tvAppVersion.setText(HelpUtil.getVersionName(getActivity()));
 
-		customAdapter = new CustomSimpleAdapter(getActivity(), data,
-				sections, R.layout.node_list_item, new String[] { "title" },
-				new int[] { android.R.id.text1 });
-		customAdapter.setViewBinder(new ViewBinder() {
-			
-			@Override
-			public boolean setViewValue(View view, Object data,
-					String textRepresentation) {
-				if( view instanceof TextView){
-					if(!"0".equals(view.getTag()))
-							((TextView)view).setTextColor(color[0]);
-					((TextView)view).setText(textRepresentation);
-					return true;
-				}
-				return false;
-			}
-		});
-		mList.setAdapter(customAdapter);
+		setupAdapter();
 		mList.setOnItemClickListener(this);
 //		mList.setOnScrollListener(new ListView.OnScrollListener() {
 //
@@ -252,6 +237,27 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void setupAdapter(){
+		customAdapter = new SimpleAdapter(getActivity(), data,
+				R.layout.node_list_item, new String[] { "title" },
+				new int[] { android.R.id.text1 });
+		customAdapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Object data,
+					String textRepresentation) {
+				if( view instanceof TextView){
+					if(!"0".equals(view.getTag()))
+							((TextView)view).setTextColor(color[0]);
+					((TextView)view).setText(textRepresentation);
+					return true;
+				}
+				return false;
+			}
+		});
+		mList.setAdapter(customAdapter);
 	}
 
 	private void loadAllNodes() {
@@ -447,6 +453,9 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 				if (data.size() > 0)
 					data.remove(0);
+				if(hasQueryed){
+					setupAdapter();
+				}
 				OrderNode();
 			} catch (Exception e) {
 				e.printStackTrace();

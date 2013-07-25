@@ -7,10 +7,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 public class AlphabetViewForListView extends View {
 
@@ -19,9 +21,10 @@ public class AlphabetViewForListView extends View {
 	private Paint mPaint;
 
 	AlphabetChangeListener alphabetListener = null;
+	
+	final float alpha = 0.5f;
 
 	int item_height = 0;
-
 	int current = 0;
 	
 	public interface AlphabetChangeListener {
@@ -53,7 +56,14 @@ public class AlphabetViewForListView extends View {
 
 	private void init() {
 		setBackgroundColor(Color.BLACK);
-		setAlpha(0.5f);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+	    {
+	        final AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
+	        animation.setDuration(0);
+	        animation.setFillAfter(true);
+	        startAnimation(animation);
+	    }else
+	    	setAlpha(alpha);
 		setFocusable(true);
 		setClickable(true);
 
