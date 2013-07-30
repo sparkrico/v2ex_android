@@ -99,8 +99,10 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
 		
+		boolean GooglePlayInstalled = GooglePlayInstalled();
 		//welcome to Andorid 4.3
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+				GooglePlayInstalled &&
 				!SharedPreferencesUtils.getBoolean(this, SharedPreferencesUtils.HAS_SHOW_APPOPS_KEY)){
 			SharedPreferencesUtils.putBoolean(this, SharedPreferencesUtils.HAS_SHOW_APPOPS_KEY, true);
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
