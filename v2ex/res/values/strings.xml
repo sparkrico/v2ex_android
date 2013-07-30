@@ -6,6 +6,8 @@
     <string name="menu_about">About</string>
     <string name="menu_nav">Nav</string>
     <string name="menu_theme">Classic</string>
+    <string name="menu_play">on Google Play</string>
+    <string name="menu_appops">App Ops</string>
     <string name="menu_theme_night">Night</string>
     <string name="title_about">About</string>
     <string name="latest">Lastest</string>

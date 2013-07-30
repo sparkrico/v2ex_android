@@ -6,6 +6,8 @@
     <string name="menu_about">关于</string>
     <string name="menu_nav">导航</string>
     <string name="menu_theme">经典</string>
+    <string name="menu_play">谷歌市场</string>
+    <string name="menu_appops">App Ops</string>
     <string name="menu_theme_night">夜晚</string>
     <string name="title_about">关于</string>
     <string name="latest">最新</string>

@@ -1,10 +1,17 @@
 package com.sparkrico.v2ex;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -125,14 +132,46 @@ public class MainActivity extends SlidingFragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		int type = SharedPreferencesUtils.getThemeType(this);
 		menu.findItem(R.id.menu_theme).setTitle(type == 0? R.string.menu_theme_night:R.string.menu_theme);
+		
+		try{
+			boolean GooglePlayInstalled = GooglePlayInstalled();
+			menu.findItem(R.id.menu_goole_play).setVisible(GooglePlayInstalled);
+			menu.findItem(R.id.menu_appops).setVisible(GooglePlayInstalled&&
+					Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return true;
+	}
+	
+	private boolean GooglePlayInstalled(){
+		PackageManager packageManager = getPackageManager();
+		
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		intent.setPackage("com.android.vending");
+		
+		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, 
+				PackageManager.MATCH_DEFAULT_ONLY);
+		return list != null && list.size()>0;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			getSlidingMenu().showMenu(true);
+			return true;
+		case R.id.menu_goole_play:
+			intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse("market://details?id=com.sparkrico.v2ex"));
+			startActivity(intent);
+			return true;
+		case R.id.menu_appops:
+			intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse("market://details?id=com.sparkrico.appops"));
+			startActivity(intent);
 			return true;
 		case R.id.menu_theme:
 			int type = SharedPreferencesUtils.getThemeType(this);

@@ -14,6 +14,20 @@
         android:title="@string/menu_theme"/>
     
     <item
+        android:id="@+id/menu_goole_play"
+        android:orderInCategory="102"
+        android:showAsAction="never"
+        android:visible="false"
+        android:title="@string/menu_play"/>
+    
+    <item
+        android:id="@+id/menu_appops"
+        android:orderInCategory="103"
+        android:showAsAction="never"
+        android:visible="false"
+        android:title="@string/menu_appops"/>
+    
+    <item
         android:id="@+id/menu_about"
         android:orderInCategory="110"
         android:showAsAction="never"
