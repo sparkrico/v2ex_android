@@ -22,9 +22,23 @@ public class SharedPreferencesUtils {
 	private static final String THEME_TYPE = "theme_type";
 
 	private static final String NODE_LIST_TYPE_KEY = "node_list_type";
+	
+	public static final String HAS_SHOW_APPOPS_KEY = "has_show_appops";
 
 	public static SharedPreferences getSharedPreferences(Context context) {
 		return context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+	}
+	
+	public static void putBoolean(Context context, String key , boolean bool) {
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		Editor editor = sharedPreferences.edit();
+		editor.putBoolean(key, bool);
+		editor.commit();
+	}
+
+	public static boolean getBoolean(Context context, String key) {
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		return sharedPreferences.getBoolean(key, false);
 	}
 
 	public static void putNodeCacheDateTime(Context context, String str) {

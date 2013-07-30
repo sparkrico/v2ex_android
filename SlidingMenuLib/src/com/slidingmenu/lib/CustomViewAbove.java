@@ -664,7 +664,7 @@ public class CustomViewAbove extends ViewGroup {
 			} else {
 				mIsUnableToDrag = true;
 			}
-			break;
+			return mQuickReturn;
 		case MotionEventCompat.ACTION_POINTER_UP:
 			onSecondaryPointerUp(ev);
 			break;
@@ -710,7 +710,7 @@ public class CustomViewAbove extends ViewGroup {
 			// Remember where the motion event started
 			mLastMotionX = mInitialMotionX = ev.getX();
 			mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-			break;
+			return mQuickReturn;
 		case MotionEvent.ACTION_MOVE:
 			if (!mIsBeingDragged) {				
 				if (mActivePointerId == INVALID_POINTER)

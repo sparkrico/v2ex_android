@@ -3,8 +3,10 @@ package com.sparkrico.v2ex;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -66,6 +68,7 @@ public class MainActivity extends SlidingFragmentActivity {
 			getSlidingMenu().setSlidingEnabled(true);
 			getSlidingMenu()
 					.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+			getSlidingMenu().setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
 			// show home as up so we can toggle
 			// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} else {
@@ -95,6 +98,24 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
+		
+		//welcome to Andorid 4.3
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+				!SharedPreferencesUtils.getBoolean(this, SharedPreferencesUtils.HAS_SHOW_APPOPS_KEY)){
+			SharedPreferencesUtils.putBoolean(this, SharedPreferencesUtils.HAS_SHOW_APPOPS_KEY, true);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(android.R.string.dialog_alert_title)
+			.setMessage(R.string.appops_attention)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			}).create();
+			
+			builder.show();
+		}
 	}
 	
 	@Override

@@ -97,12 +97,12 @@ public class CustomViewBehind extends ViewGroup {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent e) {
-		return !mChildrenEnabled;
+		return mViewAbove.onInterceptTouchEvent(e);//!mChildrenEnabled;
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
-		return !mChildrenEnabled;
+		return mViewAbove.onTouchEvent(e);//!mChildrenEnabled;
 	}
 
 	@Override
