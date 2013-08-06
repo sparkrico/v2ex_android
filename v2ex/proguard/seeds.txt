@@ -87,6 +87,7 @@ android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
 android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
 android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
+android.support.v4.view.ViewPager: int getClientWidth()
 android.support.v4.view.ViewPager: void setCurrentItem(int)
 android.support.v4.view.ViewPager: int getCurrentItem()
 android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
@@ -100,6 +101,22 @@ android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
 android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout: void setScrimColor(int)
+android.support.v4.widget.DrawerLayout: void setDrawerListener(android.support.v4.widget.DrawerLayout$DrawerListener)
+android.support.v4.widget.DrawerLayout: void setDrawerLockMode(int)
+android.support.v4.widget.DrawerLayout$SavedState
+android.support.v4.widget.DrawerLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.SlidingPaneLayout: void setParallaxDistance(int)
+android.support.v4.widget.SlidingPaneLayout: int getParallaxDistance()
+android.support.v4.widget.SlidingPaneLayout: void setSliderFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getSliderFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setCoveredFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getCoveredFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setPanelSlideListener(android.support.v4.widget.SlidingPaneLayout$PanelSlideListener)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawable(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResource(int)
+android.support.v4.widget.SlidingPaneLayout$SavedState
+android.support.v4.widget.SlidingPaneLayout$SavedState: android.os.Parcelable$Creator CREATOR
 com.google.gson.DefaultDateTypeAdapter
 com.google.gson.DefaultDateTypeAdapter: java.text.DateFormat enUsFormat
 com.google.gson.DefaultDateTypeAdapter: java.text.DateFormat localFormat
@@ -3024,6 +3041,10 @@ com.sparkrico.v2ex.R$attr: int viewAbove
 com.sparkrico.v2ex.R$attr: int viewBehind
 com.sparkrico.v2ex.R$color: int holo_blue_bright
 com.sparkrico.v2ex.R$color: int replies
+com.sparkrico.v2ex.R$color: int text_color
+com.sparkrico.v2ex.R$color: int text_color_bg
+com.sparkrico.v2ex.R$color: int text_color_bg_night
+com.sparkrico.v2ex.R$color: int text_color_night
 com.sparkrico.v2ex.R$color: int topic_replies_divider
 com.sparkrico.v2ex.R$dimen: int first_size
 com.sparkrico.v2ex.R$dimen: int header_footer_left_right_padding
@@ -3078,6 +3099,7 @@ com.sparkrico.v2ex.R$drawable: int umeng_update_dialog_bg
 com.sparkrico.v2ex.R$drawable: int umeng_update_ok_selector
 com.sparkrico.v2ex.R$drawable: int umeng_update_title_bg
 com.sparkrico.v2ex.R$drawable: int umeng_update_wifi_disable
+com.sparkrico.v2ex.R$id: int alphabet
 com.sparkrico.v2ex.R$id: int app_version
 com.sparkrico.v2ex.R$id: int bio
 com.sparkrico.v2ex.R$id: int both
@@ -3098,14 +3120,18 @@ com.sparkrico.v2ex.R$id: int gridview
 com.sparkrico.v2ex.R$id: int id
 com.sparkrico.v2ex.R$id: int image
 com.sparkrico.v2ex.R$id: int last
+com.sparkrico.v2ex.R$id: int layout
 com.sparkrico.v2ex.R$id: int left
 com.sparkrico.v2ex.R$id: int loading
 com.sparkrico.v2ex.R$id: int logo
 com.sparkrico.v2ex.R$id: int manualOnly
 com.sparkrico.v2ex.R$id: int margin
 com.sparkrico.v2ex.R$id: int menu_about
+com.sparkrico.v2ex.R$id: int menu_appops
 com.sparkrico.v2ex.R$id: int menu_frame
+com.sparkrico.v2ex.R$id: int menu_goole_play
 com.sparkrico.v2ex.R$id: int menu_nav
+com.sparkrico.v2ex.R$id: int menu_theme
 com.sparkrico.v2ex.R$id: int nav_title_layout
 com.sparkrico.v2ex.R$id: int next
 com.sparkrico.v2ex.R$id: int node
@@ -3191,14 +3217,20 @@ com.sparkrico.v2ex.R$string: int about_body
 com.sparkrico.v2ex.R$string: int about_licenses
 com.sparkrico.v2ex.R$string: int action_bar_search
 com.sparkrico.v2ex.R$string: int app_name
+com.sparkrico.v2ex.R$string: int appops_attention
 com.sparkrico.v2ex.R$string: int cached_at
 com.sparkrico.v2ex.R$string: int dialog_content
 com.sparkrico.v2ex.R$string: int latest
 com.sparkrico.v2ex.R$string: int menu_about
+com.sparkrico.v2ex.R$string: int menu_appops
 com.sparkrico.v2ex.R$string: int menu_nav
+com.sparkrico.v2ex.R$string: int menu_play
 com.sparkrico.v2ex.R$string: int menu_settings
+com.sparkrico.v2ex.R$string: int menu_theme
+com.sparkrico.v2ex.R$string: int menu_theme_night
 com.sparkrico.v2ex.R$string: int next
 com.sparkrico.v2ex.R$string: int node_nav
+com.sparkrico.v2ex.R$string: int node_query_hint
 com.sparkrico.v2ex.R$string: int open_url
 com.sparkrico.v2ex.R$string: int prev
 com.sparkrico.v2ex.R$string: int pull_to_refresh_from_bottom_pull_label
@@ -3416,6 +3448,14 @@ com.sparkrico.v2ex.model.Topic: void setLast_modified(long)
 com.sparkrico.v2ex.model.Topic: long getLast_touched()
 com.sparkrico.v2ex.model.Topic: void setLast_touched(long)
 com.sparkrico.v2ex.util.URLSpanV2ex
+com.sparkrico.v2ex.view.AlphabetViewForListView
+com.sparkrico.v2ex.view.AlphabetViewForListView: AlphabetViewForListView(android.content.Context)
+com.sparkrico.v2ex.view.AlphabetViewForListView: AlphabetViewForListView(android.content.Context,android.util.AttributeSet)
+com.sparkrico.v2ex.view.AlphabetViewForListView: AlphabetViewForListView(android.content.Context,android.util.AttributeSet,int)
+com.sparkrico.v2ex.view.AlphabetViewForListView: com.sparkrico.v2ex.view.AlphabetViewForListView$AlphabetChangeListener getAlphabetListener()
+com.sparkrico.v2ex.view.AlphabetViewForListView: void setAlphabetListener(com.sparkrico.v2ex.view.AlphabetViewForListView$AlphabetChangeListener)
+com.sparkrico.v2ex.view.AlphabetViewForListView: java.util.List getList()
+com.sparkrico.v2ex.view.AlphabetViewForListView: void setList(java.util.List)
 com.umeng.analytics.Gender
 com.umeng.analytics.Gender: com.umeng.analytics.Gender Male
 com.umeng.analytics.Gender: com.umeng.analytics.Gender Female

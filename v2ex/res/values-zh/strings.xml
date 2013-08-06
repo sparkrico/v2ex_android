@@ -35,5 +35,7 @@
 	
 	<string name="node_query_hint">节点搜索</string>
 	
+	<string name="clear_recent">清除记录</string>
+	
 	<string name="appops_attention"><![CDATA[1.open Menu\n2.select App Ops\nwill show you Android 4.3 \'s hidden feature \"App Ops\" ]]></string>
 </resources>

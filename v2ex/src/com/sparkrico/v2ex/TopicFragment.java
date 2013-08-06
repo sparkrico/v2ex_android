@@ -38,6 +38,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 import com.sparkrico.v2ex.model.Reply;
 import com.sparkrico.v2ex.model.Topic;
+import com.sparkrico.v2ex.provider.RecentController;
 import com.sparkrico.v2ex.util.ApiUtil;
 import com.sparkrico.v2ex.util.DateUtil;
 import com.sparkrico.v2ex.util.HtmlUtil;
@@ -64,6 +65,7 @@ public class TopicFragment extends FragmentActivity implements
 	Button buttonPrev, buttonNext;
 
 	ProgressBar loading;
+	ProgressDialog pd;
 
 	TopicAdapter topicAdapter;
 
@@ -74,6 +76,8 @@ public class TopicFragment extends FragmentActivity implements
 	boolean leftRight = false;
 	
 	int[] color = new int[2];
+	
+	RecentController recentController = new RecentController();
 	
 	Handler mHandler = new Handler(){
 		
@@ -101,8 +105,10 @@ public class TopicFragment extends FragmentActivity implements
 		mTopic = (Topic) getIntent().getSerializableExtra("topic");
 		if (mTopic == null) {
 			topic_id = getIntent().getLongExtra("id", 0);
+			pd = ProgressDialog.show(this, "", "Loading...",
+					true);
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
-					""), null);
+					""), pd);
 		} else {
 			topic_id = mTopic.getId();
 			initTop(mTopic);
@@ -200,6 +206,8 @@ public class TopicFragment extends FragmentActivity implements
 	 */
 	private void initTop(Topic topic) {
 		//
+		RecentController.insertRecent(this, topic, density);
+		//
 		tvLast.setTextColor(color[0]);
 		tvNode.setTextColor(color[0]);
 		tvUser.setTextColor(color[0]);
@@ -261,7 +269,7 @@ public class TopicFragment extends FragmentActivity implements
 					@Override
 					public void onFinish() {
 						super.onFinish();
-						if (pd.isShowing() && pd != null) {
+						if (pd != null && pd.isShowing()) {
 							pd.dismiss();
 						}
 					}
@@ -342,7 +350,7 @@ public class TopicFragment extends FragmentActivity implements
 			((App) getApplication()).getAsyncHttpClient().cancelRequests(
 					getApplicationContext(), true);
 			topic_id--;
-			ProgressDialog pd = ProgressDialog.show(this, "", "Loading...",
+			pd = ProgressDialog.show(this, "", "Loading...",
 					true);
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
 					""), pd);
@@ -352,10 +360,10 @@ public class TopicFragment extends FragmentActivity implements
 			((App) getApplication()).getAsyncHttpClient().cancelRequests(
 					getApplicationContext(), true);
 			topic_id++;
-			ProgressDialog pd1 = ProgressDialog.show(this, "", "Loading...",
+			pd = ProgressDialog.show(this, "", "Loading...",
 					true);
 			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
-					""), pd1);
+					""), pd);
 			break;
 		case R.id.open_url:
 			HtmlUtil.openUrl(this, mTopic.getUrl());

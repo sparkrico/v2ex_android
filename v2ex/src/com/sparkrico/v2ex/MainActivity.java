@@ -71,6 +71,8 @@ public class MainActivity extends SlidingFragmentActivity {
 			getSlidingMenu().setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
 			// show home as up so we can toggle
 			// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			
+			getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		} else {
 			// add a dummy view
 			View v = new View(this);
@@ -90,9 +92,13 @@ public class MainActivity extends SlidingFragmentActivity {
 		// set the Behind View Fragment
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.menu_frame, new NodeMenuFragment()).commit();
+		//
+		getSupportFragmentManager().beginTransaction()
+		.replace(R.id.menu_frame_two, new RecentListFragment()).commit();
 
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
+		sm.setMode(SlidingMenu.LEFT_RIGHT);
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setShadowDrawable(R.drawable.shadow);
