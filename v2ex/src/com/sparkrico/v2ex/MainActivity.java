@@ -209,6 +209,8 @@ public class MainActivity extends SlidingFragmentActivity {
 			fragment.Notify();
 			fragment = (ThemeNotify) getSupportFragmentManager().findFragmentById(R.id.menu_frame);
 			fragment.Notify();
+			fragment = (ThemeNotify) getSupportFragmentManager().findFragmentById(R.id.menu_frame_two);
+			fragment.Notify();
 			return true;
 		case R.id.menu_about:
 			HelpUtil.showAbout(this);
