@@ -32,6 +32,7 @@
     <string name="node_query_hint">Node hunt</string>
     
     <string name="clear_recent">clear recent</string>
+    <string name="no_recent_list">No recent</string>
     
     <string name="appops_attention"><![CDATA[1.open Menu\n2.select App Ops\nwill show you Android 4.3 \'s hidden feature \"App Ops\"]]></string>
 

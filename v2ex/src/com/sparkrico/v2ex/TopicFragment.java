@@ -11,6 +11,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,7 +83,10 @@ public class TopicFragment extends FragmentActivity implements
 	Handler mHandler = new Handler(){
 		
 		public void dispatchMessage(android.os.Message msg) {
-			Toast.makeText(getApplicationContext(), String.valueOf(msg.obj), Toast.LENGTH_SHORT).show();
+			Context context = getApplicationContext();
+			if(context != null && msg.obj != null)
+				Toast.makeText(context, 
+						String.valueOf(msg.obj), Toast.LENGTH_SHORT).show();
 		};
 	};
 

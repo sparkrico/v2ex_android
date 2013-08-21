@@ -8,10 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +64,8 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	TextView tvCurrent;
 	LinearLayout bottomeLayout;
 
+	FragmentActivity activity;
+	
 	int type;
 
 	public enum OrderType {
@@ -84,8 +88,10 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	Handler mHandler = new Handler() {
 
 		public void dispatchMessage(android.os.Message msg) {
-			Toast.makeText(getActivity(), String.valueOf(msg.obj),
-					Toast.LENGTH_SHORT).show();
+			activity = getActivity();
+			if(activity != null && msg.obj != null)
+				Toast.makeText(activity, String.valueOf(msg.obj),
+						Toast.LENGTH_SHORT).show();
 		};
 	};
 
@@ -261,12 +267,15 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	}
 
 	private void loadAllNodes() {
+		activity = getActivity();
+		if(activity == null)
+			return;
 		// load from cache
-		String content = FileUtil.getNodeCache(getActivity());
+		String content = FileUtil.getNodeCache(activity);
 		//
 		if (!TextUtils.isEmpty(content)) {
 			// load from cache
-			mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel());
+			mList.getLoadingLayoutProxy().setLastUpdatedLabel(getUpdateLabel(activity));
 			handleResult(content);
 		} else {
 			// load from url
@@ -275,7 +284,10 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	}
 
 	private void loadAllNotesFromUrl() {
-		((App) getActivity().getApplication()).getAsyncHttpClient().get(
+		activity = getActivity();
+		if(activity == null)
+			return;
+		((App) activity.getApplication()).getAsyncHttpClient().get(
 				ApiUtil.nodes_all, new AsyncHttpResponseHandler() {
 
 					@Override
@@ -299,15 +311,18 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 									"ªÒ»° ß∞‹£¨«Î÷ÿ ‘£°"));
 							return;
 						}
-						// save to cache
-						FileUtil.putNodeCache(getActivity(), content);
-						SharedPreferencesUtils.putNodeCacheDateTime(
-								getActivity(), DateUtil.formatDate(System
-										.currentTimeMillis() / 1000));
-						mList.getLoadingLayoutProxy().setLastUpdatedLabel(
-								getUpdateLabel());
-						//
-						handleResult(content);
+						activity = getActivity();
+						if(activity != null){
+							// save to cache
+							FileUtil.putNodeCache(activity, content);
+							SharedPreferencesUtils.putNodeCacheDateTime(
+									activity, DateUtil.formatDate(System
+											.currentTimeMillis() / 1000));
+							mList.getLoadingLayoutProxy().setLastUpdatedLabel(
+									getUpdateLabel(activity));
+							//
+							handleResult(content);
+						}
 					}
 
 					@Override
@@ -363,11 +378,12 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 
 	// the meat of switching the above fragment
 	private void switchFragment(Fragment fragment) {
-		if (getActivity() == null)
+		activity = getActivity();
+		if (activity == null)
 			return;
 
-		if (getActivity() instanceof MainActivity) {
-			MainActivity ra = (MainActivity) getActivity();
+		if (activity instanceof MainActivity) {
+			MainActivity ra = (MainActivity) activity;
 			ra.switchContent(fragment);
 		}
 	}
@@ -436,9 +452,9 @@ public class NodeMenuFragment extends PullToRefreshListFragment implements
 	 * 
 	 * @return
 	 */
-	private String getUpdateLabel() {
+	private String getUpdateLabel(Context context) {
 		return getString(R.string.cached_at)
-				+ SharedPreferencesUtils.getNodeCacheDateTime(getActivity());
+				+ SharedPreferencesUtils.getNodeCacheDateTime(context);
 	}
 
 	@Override

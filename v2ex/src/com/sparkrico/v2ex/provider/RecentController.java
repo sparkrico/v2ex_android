@@ -24,7 +24,7 @@ public class RecentController {
 			values.put(Recents.COLUMN_NAME_USER,
 					topic.getMember().getUsername());
 			values.put(Recents.COLUMN_NAME_NODE,
-					topic.getNode().getTitle());
+					topic.getNode().getName());
 			
 			values.put(Recents.COLUMN_NAME_TOPIC_CREATED,
 					topic.getCreated());

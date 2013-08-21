@@ -32,6 +32,7 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 	View viewGroup;
 	
 	ListView listView;
+	TextView tvEmpty;
 	
 	SimpleCursorAdapter mAdapter;
 	
@@ -50,6 +51,9 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 			Bundle savedInstanceState) {
 		viewGroup = inflater.inflate(R.layout.recent_list, container, false);
 		listView = (ListView) viewGroup.findViewById(R.id.list);
+		tvEmpty = (TextView) viewGroup.findViewById(R.id.empty);
+		listView.setEmptyView(tvEmpty);
+        
 		viewGroup.findViewById(R.id.clear_recent).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -64,12 +68,9 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// Give some text to display if there is no data.  In a real
-        // application this would come from a resource.
-//        setEmptyText(getString(android.R.string.no));
-//        listView.setEmptyView(emptyView)
         
 		listView.setBackgroundColor(color[1]);
+		tvEmpty.setTextColor(color[0]);
 		viewGroup.setBackgroundColor(color[1]);
 
         // Create an empty adapter we will use to display the loaded data.
@@ -225,6 +226,7 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 	public void Notify() {
 		color = ThemeUtil.getThemeInfo(getActivity());
 		listView.setBackgroundColor(color[1]);
+		tvEmpty.setTextColor(color[0]);
 		viewGroup.setBackgroundColor(color[1]);
 		mAdapter.notifyDataSetChanged();
 	}
