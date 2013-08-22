@@ -20,6 +20,7 @@ import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -73,6 +74,7 @@ public class TopicFragment extends FragmentActivity implements
 	float density;
 
 	long topic_id;
+	String from;
 
 	boolean leftRight = false;
 	
@@ -107,6 +109,7 @@ public class TopicFragment extends FragmentActivity implements
 
 		density = ScreenUtil.getScreenDensity(this);
 		mTopic = (Topic) getIntent().getSerializableExtra("topic");
+		from = getIntent().getStringExtra("from");
 		if (mTopic == null) {
 			topic_id = getIntent().getLongExtra("id", 0);
 			pd = ProgressDialog.show(this, "", "Loading...",
@@ -209,8 +212,10 @@ public class TopicFragment extends FragmentActivity implements
 	 * @param topic
 	 */
 	private void initTop(Topic topic) {
-		//
-		RecentController.insertRecent(this, topic, density);
+		//非来自recent，添加历史访问记录
+		if(TextUtils.isEmpty(from)||
+				!from.equals("recent"))
+			RecentController.insertRecent(this, topic, density);
 		//
 		tvLast.setTextColor(color[0]);
 		tvNode.setTextColor(color[0]);

@@ -170,6 +170,7 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 				Intent intent = new Intent(getActivity(), TopicFragment.class);
 				intent.putExtra("topic", topic);
 				intent.putExtra("id", cursor.getLong(cursor.getColumnIndex(Recent.Recents.COLUMN_NAME_TOPIC_ID)));
+				intent.putExtra("from", "recent");
 				
 				startActivity(intent);
 			}
