@@ -92,7 +92,7 @@ public class MemberFragment extends FragmentActivity implements
 		setupListView();
 
 		loadMember(String.format(ApiUtil.members_show, username));
-		loadTopics(String.format(ApiUtil.topics_show, "", username, "", ""));
+		loadTopics(String.format(ApiUtil.topic_member_show, username));
 	}
 
 	@Override

@@ -19,13 +19,23 @@
     <RelativeLayout android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
         android:layout_alignParentBottom="true" >
+        
+        <TextView android:id="@+id/title"
+            android:text="@string/recent_list_title"
+            android:textSize="@dimen/first_size"
+            android:layout_marginRight="10dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/clear_recent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="@string/clear_recent" />
     </RelativeLayout>
 

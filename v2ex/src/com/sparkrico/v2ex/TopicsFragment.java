@@ -159,7 +159,7 @@ public class TopicsFragment extends PullToRefreshListFragment implements
 		if (TextUtils.isEmpty(node))
 			loadAllTopics(ApiUtil.topics_latest);
 		else
-			loadAllTopics(String.format(ApiUtil.topics_show, "", "", "", node));
+			loadAllTopics(String.format(ApiUtil.topics_show, node));
 
 		String title = getArguments().getString("title");
 		if (TextUtils.isEmpty(node))

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -33,6 +34,7 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 	
 	ListView listView;
 	TextView tvEmpty;
+	Button clearButton;
 	
 	SimpleCursorAdapter mAdapter;
 	
@@ -53,13 +55,16 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 		listView = (ListView) viewGroup.findViewById(R.id.list);
 		tvEmpty = (TextView) viewGroup.findViewById(R.id.empty);
 		listView.setEmptyView(tvEmpty);
-        
-		viewGroup.findViewById(R.id.clear_recent).setOnClickListener(new View.OnClickListener() {
+		
+		clearButton = (Button)viewGroup.findViewById(R.id.clear_recent);
+		clearButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				RecentController.clearRecent(getActivity());
-				mAdapter.notifyDataSetChanged();
+				if(mAdapter.getCount()>0){
+					RecentController.clearRecent(getActivity());
+					mAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		return viewGroup;
@@ -203,6 +208,7 @@ public class RecentListFragment extends Fragment implements LoaderManager.Loader
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		clearButton.setEnabled(data.getCount()>0);
 		// Swap the new cursor in.  (The framework will take care of closing the
         // old cursor once we return.)
         mAdapter.swapCursor(data);

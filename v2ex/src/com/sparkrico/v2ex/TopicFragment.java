@@ -114,12 +114,11 @@ public class TopicFragment extends FragmentActivity implements
 			topic_id = getIntent().getLongExtra("id", 0);
 			pd = ProgressDialog.show(this, "", "Loading...",
 					true);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
-					""), pd);
+			loadTopic(String.format(ApiUtil.topic_show, "" + topic_id), pd);
 		} else {
 			topic_id = mTopic.getId();
 			initTop(mTopic);
-			loadReplies(String.format(ApiUtil.replies_show, "" + topic_id, ""));
+			loadReplies(String.format(ApiUtil.replies_show, "" + topic_id));
 		}
 	}
 
@@ -264,7 +263,7 @@ public class TopicFragment extends FragmentActivity implements
 									topicAdapter.notifyDataSetChanged();
 									loadReplies(String.format(
 											ApiUtil.replies_show,
-											"" + topic_id, ""));
+											"" + topic_id));
 									break;
 								}
 							}
@@ -361,8 +360,7 @@ public class TopicFragment extends FragmentActivity implements
 			topic_id--;
 			pd = ProgressDialog.show(this, "", "Loading...",
 					true);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
-					""), pd);
+			loadTopic(String.format(ApiUtil.topic_show, "" + topic_id), pd);
 			break;
 		case R.id.next:
 			leftRight = true;
@@ -371,8 +369,7 @@ public class TopicFragment extends FragmentActivity implements
 			topic_id++;
 			pd = ProgressDialog.show(this, "", "Loading...",
 					true);
-			loadTopic(String.format(ApiUtil.topics_show, "" + topic_id, "", "",
-					""), pd);
+			loadTopic(String.format(ApiUtil.topic_show, "" + topic_id), pd);
 			break;
 		case R.id.open_url:
 			HtmlUtil.openUrl(this, mTopic.getUrl());
