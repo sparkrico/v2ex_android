@@ -613,200 +613,208 @@ public class CustomViewAbove extends ViewGroup {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-
-		if (!mEnabled)
-			return false;
-
-		final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
-
-		if (action == MotionEvent.ACTION_DOWN && DEBUG)
-			Log.v(TAG, "Received ACTION_DOWN");
-
-		if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP
-				|| (action != MotionEvent.ACTION_DOWN && mIsUnableToDrag)) {
-			endDrag();
-			return false;
-		}
-
-		switch (action) {
-		case MotionEvent.ACTION_MOVE:
-			final int activePointerId = mActivePointerId;
-			if (activePointerId == INVALID_POINTER)
-				break;
-			final int pointerIndex = this.getPointerIndex(ev, activePointerId);
-			final float x = MotionEventCompat.getX(ev, pointerIndex);
-			final float dx = x - mLastMotionX;
-			final float xDiff = Math.abs(dx);
-			final float y = MotionEventCompat.getY(ev, pointerIndex);
-			final float yDiff = Math.abs(y - mLastMotionY);
-//			if (DEBUG) Log.v(TAG, "onInterceptTouch moved to:(" + x + ", " + y + "), diff:(" + xDiff + ", " + yDiff + "), mLastMotionX:" + mLastMotionX);
-			if (xDiff > mTouchSlop && xDiff > yDiff && thisSlideAllowed(dx)) {
-				if (DEBUG) Log.v(TAG, "Starting drag! from onInterceptTouch");
-				startDrag();
-				mLastMotionX = x;
-				setScrollingCacheEnabled(true);
-			} else if (yDiff > mTouchSlop) {
-				mIsUnableToDrag = true;
+		try{
+			if (!mEnabled)
+				return false;
+	
+			final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+	
+			if (action == MotionEvent.ACTION_DOWN && DEBUG)
+				Log.v(TAG, "Received ACTION_DOWN");
+	
+			if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP
+					|| (action != MotionEvent.ACTION_DOWN && mIsUnableToDrag)) {
+				endDrag();
+				return false;
 			}
-			break;
-
-		case MotionEvent.ACTION_DOWN:
-			mActivePointerId = ev.getAction() & ((Build.VERSION.SDK_INT >= 8) ? MotionEvent.ACTION_POINTER_INDEX_MASK : 
-				MotionEvent.ACTION_POINTER_INDEX_MASK);
-			mLastMotionX = mInitialMotionX = MotionEventCompat.getX(ev, mActivePointerId);
-			mLastMotionY = MotionEventCompat.getY(ev, mActivePointerId);
-			if (thisTouchAllowed(ev)) {
-				mIsBeingDragged = false;
-				mIsUnableToDrag = false;
-				if (isMenuOpen() && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
-					mQuickReturn = true;
-				}
-			} else {
-				mIsUnableToDrag = true;
-			}
-			return mQuickReturn;
-		case MotionEventCompat.ACTION_POINTER_UP:
-			onSecondaryPointerUp(ev);
-			break;
-		}
-
-		if (!mIsBeingDragged) {
-			if (mVelocityTracker == null) {
-				mVelocityTracker = VelocityTracker.obtain();
-			}
-			mVelocityTracker.addMovement(ev);
-		}
-		return mIsBeingDragged || mQuickReturn;
-	}
-
-
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
-
-		if (!mEnabled)
-			return false;
-
-		//		if (!mIsBeingDragged && !thisTouchAllowed(ev))
-		//			return false;
-
-		if (!mIsBeingDragged && !mQuickReturn)
-			return false;
-
-		final int action = ev.getAction();
-
-		if (mVelocityTracker == null) {
-			mVelocityTracker = VelocityTracker.obtain();
-		}
-		mVelocityTracker.addMovement(ev);
-
-		switch (action & MotionEventCompat.ACTION_MASK) {
-		case MotionEvent.ACTION_DOWN:
-			/*
-			 * If being flinged and user touches, stop the fling. isFinished
-			 * will be false if being flinged.
-			 */
-			completeScroll();
-
-			// Remember where the motion event started
-			mLastMotionX = mInitialMotionX = ev.getX();
-			mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-			return mQuickReturn;
-		case MotionEvent.ACTION_MOVE:
-			if (!mIsBeingDragged) {				
-				if (mActivePointerId == INVALID_POINTER)
+	
+			switch (action) {
+			case MotionEvent.ACTION_MOVE:
+				final int activePointerId = mActivePointerId;
+				if (activePointerId == INVALID_POINTER)
 					break;
-				final int pointerIndex = getPointerIndex(ev, mActivePointerId);
+				final int pointerIndex = this.getPointerIndex(ev, activePointerId);
 				final float x = MotionEventCompat.getX(ev, pointerIndex);
 				final float dx = x - mLastMotionX;
 				final float xDiff = Math.abs(dx);
 				final float y = MotionEventCompat.getY(ev, pointerIndex);
 				final float yDiff = Math.abs(y - mLastMotionY);
-//				if (DEBUG) Log.v(TAG, "onTouch moved to:(" + x + ", " + y + "), diff:(" + xDiff + ", " + yDiff + ")\nmIsBeingDragged:" + mIsBeingDragged + ", mLastMotionX:" + mLastMotionX);
-				if ((xDiff > mTouchSlop || mQuickReturn) && xDiff > yDiff && thisSlideAllowed(dx)) {
-					if (DEBUG) Log.v(TAG, "Starting drag! from onTouch");
+	//			if (DEBUG) Log.v(TAG, "onInterceptTouch moved to:(" + x + ", " + y + "), diff:(" + xDiff + ", " + yDiff + "), mLastMotionX:" + mLastMotionX);
+				if (xDiff > mTouchSlop && xDiff > yDiff && thisSlideAllowed(dx)) {
+					if (DEBUG) Log.v(TAG, "Starting drag! from onInterceptTouch");
 					startDrag();
 					mLastMotionX = x;
 					setScrollingCacheEnabled(true);
-				} else {
-					if (DEBUG) Log.v(TAG, "onTouch returning false");
-					return false;
+				} else if (yDiff > mTouchSlop) {
+					mIsUnableToDrag = true;
 				}
-			}
-			if (mIsBeingDragged) {
-				// Scroll to follow the motion event
-				final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
-				if (mActivePointerId == INVALID_POINTER) {
-					break;
-				}
-				final float x = MotionEventCompat.getX(ev, activePointerIndex);
-				final float deltaX = mLastMotionX - x;
-				mLastMotionX = x;
-				float oldScrollX = getScrollX();
-				float scrollX = oldScrollX + deltaX;
-				final float leftBound = getLeftBound();
-				final float rightBound = getRightBound();
-				if (scrollX < leftBound) {
-					scrollX = leftBound;
-				} else if (scrollX > rightBound) {
-					scrollX = rightBound;
-				}
-				// Don't lose the rounded component
-				mLastMotionX += scrollX - (int) scrollX;
-				scrollTo((int) scrollX, getScrollY());
-				pageScrolled((int) scrollX);
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-			if (mIsBeingDragged) {
-				final VelocityTracker velocityTracker = mVelocityTracker;
-				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-				int initialVelocity = (int) VelocityTrackerCompat.getXVelocity(
-						velocityTracker, mActivePointerId);
-				final int scrollX = getScrollX();
-				//				final int widthWithMargin = getWidth();
-				//				final float pageOffset = (float) (scrollX % widthWithMargin) / widthWithMargin;
-				// TODO test this. should get better flinging behavior
-				final float pageOffset = (float) (scrollX - getDestScrollX(mCurItem)) / getBehindWidth();
-				final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
-				if (mActivePointerId != INVALID_POINTER) {
-					final float x = MotionEventCompat.getX(ev, activePointerIndex);
-					final int totalDelta = (int) (x - mInitialMotionX);
-					int nextPage = determineTargetPage(pageOffset, initialVelocity, totalDelta);
-					setCurrentItemInternal(nextPage, true, true, initialVelocity);
-				} else {	
-					setCurrentItemInternal(mCurItem, true, true, initialVelocity);
-				}
-				mActivePointerId = INVALID_POINTER;
-				endDrag();
-			} else if (mQuickReturn && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
-				// close the menu
-				setCurrentItem(1);
-				endDrag();
-			}
-			break;
-		case MotionEvent.ACTION_CANCEL:
-			if (mIsBeingDragged) {
-				setCurrentItemInternal(mCurItem, true, true);
-				mActivePointerId = INVALID_POINTER;
-				endDrag();
-			}
-			break;
-		case MotionEventCompat.ACTION_POINTER_DOWN: {
-			final int index = MotionEventCompat.getActionIndex(ev);
-			final float x = MotionEventCompat.getX(ev, index);
-			mLastMotionX = x;
-			mActivePointerId = MotionEventCompat.getPointerId(ev, index);
-			break;
-		}
-		case MotionEventCompat.ACTION_POINTER_UP:
-			onSecondaryPointerUp(ev);
-			int pointerIndex = this.getPointerIndex(ev, mActivePointerId);
-			if (mActivePointerId == INVALID_POINTER)
 				break;
-			mLastMotionX = MotionEventCompat.getX(ev, pointerIndex);
-			break;
+	
+			case MotionEvent.ACTION_DOWN:
+				mActivePointerId = ev.getAction() & ((Build.VERSION.SDK_INT >= 8) ? MotionEvent.ACTION_POINTER_INDEX_MASK : 
+					MotionEvent.ACTION_POINTER_INDEX_MASK);
+				mLastMotionX = mInitialMotionX = MotionEventCompat.getX(ev, mActivePointerId);
+				mLastMotionY = MotionEventCompat.getY(ev, mActivePointerId);
+				if (thisTouchAllowed(ev)) {
+					mIsBeingDragged = false;
+					mIsUnableToDrag = false;
+					if (isMenuOpen() && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
+						mQuickReturn = true;
+					}
+				} else {
+					mIsUnableToDrag = true;
+				}
+				return mQuickReturn;
+			case MotionEventCompat.ACTION_POINTER_UP:
+				onSecondaryPointerUp(ev);
+				break;
+			}
+	
+			if (!mIsBeingDragged) {
+				if (mVelocityTracker == null) {
+					mVelocityTracker = VelocityTracker.obtain();
+				}
+				mVelocityTracker.addMovement(ev);
+			}
+			return mIsBeingDragged || mQuickReturn;
+		}catch (IllegalArgumentException ex){
+			
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		try{
+			if (!mEnabled)
+				return false;
+	
+			//		if (!mIsBeingDragged && !thisTouchAllowed(ev))
+			//			return false;
+	
+			if (!mIsBeingDragged && !mQuickReturn)
+				return false;
+	
+			final int action = ev.getAction();
+	
+			if (mVelocityTracker == null) {
+				mVelocityTracker = VelocityTracker.obtain();
+			}
+			mVelocityTracker.addMovement(ev);
+	
+			switch (action & MotionEventCompat.ACTION_MASK) {
+			case MotionEvent.ACTION_DOWN:
+				/*
+				 * If being flinged and user touches, stop the fling. isFinished
+				 * will be false if being flinged.
+				 */
+				completeScroll();
+	
+				// Remember where the motion event started
+				mLastMotionX = mInitialMotionX = ev.getX();
+				mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+				return mQuickReturn;
+			case MotionEvent.ACTION_MOVE:
+				if (!mIsBeingDragged) {				
+					if (mActivePointerId == INVALID_POINTER)
+						break;
+					final int pointerIndex = getPointerIndex(ev, mActivePointerId);
+					final float x = MotionEventCompat.getX(ev, pointerIndex);
+					final float dx = x - mLastMotionX;
+					final float xDiff = Math.abs(dx);
+					final float y = MotionEventCompat.getY(ev, pointerIndex);
+					final float yDiff = Math.abs(y - mLastMotionY);
+	//				if (DEBUG) Log.v(TAG, "onTouch moved to:(" + x + ", " + y + "), diff:(" + xDiff + ", " + yDiff + ")\nmIsBeingDragged:" + mIsBeingDragged + ", mLastMotionX:" + mLastMotionX);
+					if ((xDiff > mTouchSlop || mQuickReturn) && xDiff > yDiff && thisSlideAllowed(dx)) {
+						if (DEBUG) Log.v(TAG, "Starting drag! from onTouch");
+						startDrag();
+						mLastMotionX = x;
+						setScrollingCacheEnabled(true);
+					} else {
+						if (DEBUG) Log.v(TAG, "onTouch returning false");
+						return false;
+					}
+				}
+				if (mIsBeingDragged) {
+					// Scroll to follow the motion event
+					final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
+					if (mActivePointerId == INVALID_POINTER) {
+						break;
+					}
+					final float x = MotionEventCompat.getX(ev, activePointerIndex);
+					final float deltaX = mLastMotionX - x;
+					mLastMotionX = x;
+					float oldScrollX = getScrollX();
+					float scrollX = oldScrollX + deltaX;
+					final float leftBound = getLeftBound();
+					final float rightBound = getRightBound();
+					if (scrollX < leftBound) {
+						scrollX = leftBound;
+					} else if (scrollX > rightBound) {
+						scrollX = rightBound;
+					}
+					// Don't lose the rounded component
+					mLastMotionX += scrollX - (int) scrollX;
+					scrollTo((int) scrollX, getScrollY());
+					pageScrolled((int) scrollX);
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+				if (mIsBeingDragged) {
+					final VelocityTracker velocityTracker = mVelocityTracker;
+					velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+					int initialVelocity = (int) VelocityTrackerCompat.getXVelocity(
+							velocityTracker, mActivePointerId);
+					final int scrollX = getScrollX();
+					//				final int widthWithMargin = getWidth();
+					//				final float pageOffset = (float) (scrollX % widthWithMargin) / widthWithMargin;
+					// TODO test this. should get better flinging behavior
+					final float pageOffset = (float) (scrollX - getDestScrollX(mCurItem)) / getBehindWidth();
+					final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
+					if (mActivePointerId != INVALID_POINTER) {
+						final float x = MotionEventCompat.getX(ev, activePointerIndex);
+						final int totalDelta = (int) (x - mInitialMotionX);
+						int nextPage = determineTargetPage(pageOffset, initialVelocity, totalDelta);
+						setCurrentItemInternal(nextPage, true, true, initialVelocity);
+					} else {	
+						setCurrentItemInternal(mCurItem, true, true, initialVelocity);
+					}
+					mActivePointerId = INVALID_POINTER;
+					endDrag();
+				} else if (mQuickReturn && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
+					// close the menu
+					setCurrentItem(1);
+					endDrag();
+				}
+				break;
+			case MotionEvent.ACTION_CANCEL:
+				if (mIsBeingDragged) {
+					setCurrentItemInternal(mCurItem, true, true);
+					mActivePointerId = INVALID_POINTER;
+					endDrag();
+				}
+				break;
+			case MotionEventCompat.ACTION_POINTER_DOWN: {
+				final int index = MotionEventCompat.getActionIndex(ev);
+				final float x = MotionEventCompat.getX(ev, index);
+				mLastMotionX = x;
+				mActivePointerId = MotionEventCompat.getPointerId(ev, index);
+				break;
+			}
+			case MotionEventCompat.ACTION_POINTER_UP:
+				onSecondaryPointerUp(ev);
+				int pointerIndex = this.getPointerIndex(ev, mActivePointerId);
+				if (mActivePointerId == INVALID_POINTER)
+					break;
+				mLastMotionX = MotionEventCompat.getX(ev, pointerIndex);
+				break;
+			}
+		}catch (IllegalArgumentException ex){
+			
 		}
 		return true;
+		
 	}
 
 	@Override
