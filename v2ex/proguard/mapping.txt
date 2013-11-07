@@ -156,6 +156,7 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     android.support.v4.app.FragmentManager getFragmentManager() -> j
     boolean isDetached() -> k
     void onHiddenChanged(boolean) -> c
+    android.support.v4.app.LoaderManager getLoaderManager() -> l
     void startActivity(android.content.Intent) -> a
     void onActivityResult(int,int,android.content.Intent) -> a
     android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
@@ -165,47 +166,47 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onViewCreated(android.view.View,android.os.Bundle) -> a
-    android.view.View getView() -> l
+    android.view.View getView() -> m
     void onActivityCreated(android.os.Bundle) -> d
     void onViewStateRestored(android.os.Bundle) -> h
     void onStart() -> c
-    void onResume() -> m
+    void onResume() -> n
     void onSaveInstanceState(android.os.Bundle) -> e
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    void onPause() -> n
+    void onPause() -> o
     void onStop() -> d
     void onLowMemory() -> onLowMemory
     void onDestroyView() -> e
-    void onDestroy() -> o
-    void initState() -> p
+    void onDestroy() -> p
+    void initState() -> q
     void onDetach() -> b
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     void onPrepareOptionsMenu(android.view.Menu) -> a
-    void onDestroyOptionsMenu() -> q
+    void onDestroyOptionsMenu() -> r
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void onOptionsMenuClosed(android.view.Menu) -> b
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-    void instantiateChildFragmentManager() -> r
+    void instantiateChildFragmentManager() -> s
     void performCreate(android.os.Bundle) -> i
     android.view.View performCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> b
     void performActivityCreated(android.os.Bundle) -> j
-    void performStart() -> s
-    void performResume() -> t
+    void performStart() -> t
+    void performResume() -> u
     void performConfigurationChanged(android.content.res.Configuration) -> a
-    void performLowMemory() -> u
+    void performLowMemory() -> v
     boolean performCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> b
     boolean performPrepareOptionsMenu(android.view.Menu) -> c
     boolean performOptionsItemSelected(android.view.MenuItem) -> c
     boolean performContextItemSelected(android.view.MenuItem) -> d
     void performOptionsMenuClosed(android.view.Menu) -> d
     void performSaveInstanceState(android.os.Bundle) -> k
-    void performPause() -> v
-    void performStop() -> w
-    void performReallyStop() -> x
-    void performDestroyView() -> y
-    void performDestroy() -> z
+    void performPause() -> w
+    void performStop() -> x
+    void performReallyStop() -> y
+    void performDestroyView() -> z
+    void performDestroy() -> A
 android.support.v4.app.Fragment$1 -> android.support.v4.app.f:
     android.support.v4.app.Fragment this$0 -> a
     android.view.View findViewById(int) -> a
@@ -487,6 +488,7 @@ android.support.v4.app.FragmentTransaction -> android.support.v4.app.z:
     int commit() -> a
     int commitAllowingStateLoss() -> b
 android.support.v4.app.LoaderManager -> android.support.v4.app.aa:
+    android.support.v4.content.Loader initLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks) -> a
     boolean hasRunningLoaders() -> a
 android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.ab:
     android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
@@ -500,7 +502,12 @@ android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.ac:
     android.support.v4.app.FragmentActivity mActivity -> e
     boolean mStarted -> f
     boolean mRetaining -> g
+    boolean mCreatingLoader -> h
     void updateActivity(android.support.v4.app.FragmentActivity) -> a
+    android.support.v4.app.LoaderManagerImpl$LoaderInfo createLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks) -> b
+    android.support.v4.app.LoaderManagerImpl$LoaderInfo createAndInstallLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks) -> c
+    void installLoader(android.support.v4.app.LoaderManagerImpl$LoaderInfo) -> a
+    android.support.v4.content.Loader initLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks) -> a
     void doStart() -> b
     void doStop() -> c
     void doRetain() -> d
@@ -533,7 +540,8 @@ android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.ad
     void reportStart() -> d
     void stop() -> e
     void destroy() -> f
-    void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
+    void onLoadComplete(android.support.v4.content.Loader,java.lang.Object) -> a
+    void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> b
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
 android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.ae:
@@ -541,26 +549,137 @@ android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.ae:
     void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
     void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
 android.support.v4.app.SuperNotCalledException -> android.support.v4.app.af:
-android.support.v4.content.Loader -> android.support.v4.a.a:
-    int mId -> a
-    android.support.v4.content.Loader$OnLoadCompleteListener mListener -> b
-    boolean mStarted -> c
-    boolean mAbandoned -> d
-    boolean mReset -> e
-    boolean mContentChanged -> f
-    boolean mProcessingChange -> g
+android.support.v4.content.AsyncTaskLoader -> android.support.v4.a.a:
+    android.support.v4.content.AsyncTaskLoader$LoadTask mTask -> a
+    android.support.v4.content.AsyncTaskLoader$LoadTask mCancellingTask -> b
+    long mUpdateThrottle -> c
+    long mLastLoadCompleteTime -> d
+    android.os.Handler mHandler -> e
+    void onForceLoad() -> a
+    boolean cancelLoad() -> b
+    void onCanceled(java.lang.Object) -> a
+    void executePendingTask() -> c
+    void dispatchOnCancelled(android.support.v4.content.AsyncTaskLoader$LoadTask,java.lang.Object) -> a
+    void dispatchOnLoadComplete(android.support.v4.content.AsyncTaskLoader$LoadTask,java.lang.Object) -> b
+    java.lang.Object loadInBackground() -> d
+    java.lang.Object onLoadInBackground() -> e
+    void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
+android.support.v4.content.AsyncTaskLoader$LoadTask -> android.support.v4.a.b:
+    java.lang.Object result -> a
+    boolean waiting -> b
+    java.util.concurrent.CountDownLatch done -> e
+    android.support.v4.content.AsyncTaskLoader this$0 -> c
+    java.lang.Object doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(java.lang.Object) -> a
+    void onCancelled() -> a
+    void run() -> run
+    java.lang.Object doInBackground(java.lang.Object[]) -> a
+android.support.v4.content.CursorLoader -> android.support.v4.a.c:
+    android.support.v4.content.Loader$ForceLoadContentObserver mObserver -> f
+    android.net.Uri mUri -> g
+    java.lang.String[] mProjection -> h
+    java.lang.String mSelection -> i
+    java.lang.String[] mSelectionArgs -> j
+    java.lang.String mSortOrder -> k
+    android.database.Cursor mCursor -> l
+    android.database.Cursor loadInBackground() -> f
+    void deliverResult(android.database.Cursor) -> a
+    void onStartLoading() -> g
+    void onStopLoading() -> h
+    void onCanceled(android.database.Cursor) -> b
+    void onReset() -> i
+    void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
+    java.lang.Object loadInBackground() -> d
+    void onCanceled(java.lang.Object) -> a
+    void deliverResult(java.lang.Object) -> b
+android.support.v4.content.Loader -> android.support.v4.a.d:
+    int mId -> m
+    android.support.v4.content.Loader$OnLoadCompleteListener mListener -> n
+    android.content.Context mContext -> o
+    boolean mStarted -> p
+    boolean mAbandoned -> q
+    boolean mReset -> r
+    boolean mContentChanged -> s
+    boolean mProcessingChange -> t
+    void deliverResult(java.lang.Object) -> b
+    android.content.Context getContext() -> j
     void registerListener(int,android.support.v4.content.Loader$OnLoadCompleteListener) -> a
     void unregisterListener(android.support.v4.content.Loader$OnLoadCompleteListener) -> a
-    void startLoading() -> a
-    void onStartLoading() -> b
-    void stopLoading() -> c
-    void onStopLoading() -> d
-    void reset() -> e
-    void onReset() -> f
-    java.lang.String dataToString(java.lang.Object) -> a
+    boolean isStarted() -> k
+    boolean isAbandoned() -> l
+    boolean isReset() -> m
+    void startLoading() -> n
+    void onStartLoading() -> g
+    void forceLoad() -> o
+    void onForceLoad() -> a
+    void stopLoading() -> p
+    void onStopLoading() -> h
+    void reset() -> q
+    void onReset() -> i
+    boolean takeContentChanged() -> r
+    void commitContentChanged() -> s
+    void rollbackContentChanged() -> t
+    void onContentChanged() -> u
+    java.lang.String dataToString(java.lang.Object) -> c
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-android.support.v4.content.Loader$OnLoadCompleteListener -> android.support.v4.a.b:
+android.support.v4.content.Loader$ForceLoadContentObserver -> android.support.v4.a.e:
+    android.support.v4.content.Loader this$0 -> a
+    boolean deliverSelfNotifications() -> deliverSelfNotifications
+    void onChange(boolean) -> onChange
+android.support.v4.content.Loader$OnLoadCompleteListener -> android.support.v4.a.f:
+    void onLoadComplete(android.support.v4.content.Loader,java.lang.Object) -> a
+android.support.v4.content.ModernAsyncTask -> android.support.v4.a.g:
+    java.util.concurrent.ThreadFactory sThreadFactory -> a
+    java.util.concurrent.BlockingQueue sPoolWorkQueue -> b
+    java.util.concurrent.Executor THREAD_POOL_EXECUTOR -> d
+    android.support.v4.content.ModernAsyncTask$InternalHandler sHandler -> c
+    java.util.concurrent.Executor sDefaultExecutor -> e
+    android.support.v4.content.ModernAsyncTask$WorkerRunnable mWorker -> f
+    java.util.concurrent.FutureTask mFuture -> g
+    android.support.v4.content.ModernAsyncTask$Status mStatus -> h
+    java.util.concurrent.atomic.AtomicBoolean mTaskInvoked -> i
+    void postResultIfNotInvoked(java.lang.Object) -> c
+    java.lang.Object postResult(java.lang.Object) -> d
+    java.lang.Object doInBackground(java.lang.Object[]) -> a
+    void onPreExecute() -> b
+    void onPostExecute(java.lang.Object) -> a
+    void onProgressUpdate(java.lang.Object[]) -> b
+    void onCancelled(java.lang.Object) -> b
+    void onCancelled() -> a
+    boolean isCancelled() -> c
+    boolean cancel(boolean) -> a
+    android.support.v4.content.ModernAsyncTask executeOnExecutor(java.util.concurrent.Executor,java.lang.Object[]) -> a
+    void finish(java.lang.Object) -> e
+    java.util.concurrent.atomic.AtomicBoolean access$200(android.support.v4.content.ModernAsyncTask) -> a
+    java.lang.Object access$300(android.support.v4.content.ModernAsyncTask,java.lang.Object) -> a
+    void access$400(android.support.v4.content.ModernAsyncTask,java.lang.Object) -> b
+    void access$500(android.support.v4.content.ModernAsyncTask,java.lang.Object) -> c
+android.support.v4.content.ModernAsyncTask$1 -> android.support.v4.a.h:
+    java.util.concurrent.atomic.AtomicInteger mCount -> a
+    java.lang.Thread newThread(java.lang.Runnable) -> newThread
+android.support.v4.content.ModernAsyncTask$2 -> android.support.v4.a.i:
+    android.support.v4.content.ModernAsyncTask this$0 -> a
+    java.lang.Object call() -> call
+android.support.v4.content.ModernAsyncTask$3 -> android.support.v4.a.j:
+    android.support.v4.content.ModernAsyncTask this$0 -> a
+    void done() -> done
+android.support.v4.content.ModernAsyncTask$4 -> android.support.v4.a.k:
+    int[] $SwitchMap$android$support$v4$content$ModernAsyncTask$Status -> a
+android.support.v4.content.ModernAsyncTask$AsyncTaskResult -> android.support.v4.a.l:
+    android.support.v4.content.ModernAsyncTask mTask -> a
+    java.lang.Object[] mData -> b
+android.support.v4.content.ModernAsyncTask$InternalHandler -> android.support.v4.a.m:
+    void handleMessage(android.os.Message) -> handleMessage
+android.support.v4.content.ModernAsyncTask$Status -> android.support.v4.a.n:
+    android.support.v4.content.ModernAsyncTask$Status PENDING -> a
+    android.support.v4.content.ModernAsyncTask$Status RUNNING -> b
+    android.support.v4.content.ModernAsyncTask$Status FINISHED -> c
+    android.support.v4.content.ModernAsyncTask$Status[] $VALUES -> d
+    android.support.v4.content.ModernAsyncTask$Status[] values() -> values
+    android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String) -> valueOf
+android.support.v4.content.ModernAsyncTask$WorkerRunnable -> android.support.v4.a.o:
+    java.lang.Object[] mParams -> b
 android.support.v4.os.ParcelableCompat -> android.support.v4.b.a:
     android.os.Parcelable$Creator newCreator(android.support.v4.os.ParcelableCompatCreatorCallbacks) -> a
 android.support.v4.os.ParcelableCompat$CompatCreator -> android.support.v4.b.b:
@@ -592,13 +711,28 @@ android.support.v4.util.SparseArrayCompat -> android.support.v4.c.c:
     int[] mKeys -> c
     java.lang.Object[] mValues -> d
     int mSize -> e
+    java.lang.Object get(int) -> a
+    java.lang.Object get(int,java.lang.Object) -> a
+    void delete(int) -> b
+    void remove(int) -> c
     void gc() -> c
+    void put(int,java.lang.Object) -> b
     int size() -> a
-    int keyAt(int) -> a
-    java.lang.Object valueAt(int) -> b
+    int keyAt(int) -> d
+    java.lang.Object valueAt(int) -> e
     void clear() -> b
-    int idealByteArraySize(int) -> c
-    int idealIntArraySize(int) -> d
+    int binarySearch(int[],int,int,int) -> a
+    int idealByteArraySize(int) -> f
+    int idealIntArraySize(int) -> g
+android.support.v4.util.TimeUtils -> android.support.v4.c.d:
+    java.lang.Object sFormatSync -> a
+    char[] sFormatStr -> b
+    int accumField(int,int,boolean,int) -> a
+    int printField(char[],int,char,int,boolean,int) -> a
+    int formatDurationLocked(long,int) -> a
+    void formatDuration(long,java.io.PrintWriter,int) -> a
+    void formatDuration(long,java.io.PrintWriter) -> a
+    void formatDuration(long,long,java.io.PrintWriter) -> a
 android.support.v4.view.GravityCompat -> android.support.v4.view.a:
     android.support.v4.view.GravityCompat$GravityCompatImpl IMPL -> a
     int getAbsoluteGravity(int,int) -> a
@@ -969,6 +1103,52 @@ android.support.v4.view.ViewPager$SavedState$1 -> android.support.v4.view.ba:
 android.support.v4.view.ViewPager$ViewPositionComparator -> android.support.v4.view.bb:
     int compare(android.view.View,android.view.View) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
+android.support.v4.widget.CursorAdapter -> android.support.v4.widget.a:
+    boolean mDataValid -> a
+    boolean mAutoRequery -> b
+    android.database.Cursor mCursor -> c
+    android.content.Context mContext -> d
+    int mRowIDColumn -> e
+    android.support.v4.widget.CursorAdapter$ChangeObserver mChangeObserver -> f
+    android.database.DataSetObserver mDataSetObserver -> g
+    android.support.v4.widget.CursorFilter mCursorFilter -> h
+    android.widget.FilterQueryProvider mFilterQueryProvider -> i
+    void init(android.content.Context,android.database.Cursor,int) -> a
+    android.database.Cursor getCursor() -> a
+    int getCount() -> getCount
+    java.lang.Object getItem(int) -> getItem
+    long getItemId(int) -> getItemId
+    boolean hasStableIds() -> hasStableIds
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> b
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    void changeCursor(android.database.Cursor) -> a
+    android.database.Cursor swapCursor(android.database.Cursor) -> b
+    java.lang.CharSequence convertToString(android.database.Cursor) -> c
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> a
+    android.widget.Filter getFilter() -> getFilter
+    void onContentChanged() -> b
+android.support.v4.widget.CursorAdapter$1 -> android.support.v4.widget.b:
+android.support.v4.widget.CursorAdapter$ChangeObserver -> android.support.v4.widget.c:
+    android.support.v4.widget.CursorAdapter this$0 -> a
+    boolean deliverSelfNotifications() -> deliverSelfNotifications
+    void onChange(boolean) -> onChange
+android.support.v4.widget.CursorAdapter$MyDataSetObserver -> android.support.v4.widget.d:
+    android.support.v4.widget.CursorAdapter this$0 -> a
+    void onChanged() -> onChanged
+    void onInvalidated() -> onInvalidated
+android.support.v4.widget.CursorFilter -> android.support.v4.widget.e:
+    android.support.v4.widget.CursorFilter$CursorFilterClient mClient -> a
+    java.lang.CharSequence convertResultToString(java.lang.Object) -> convertResultToString
+    android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence) -> performFiltering
+    void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults) -> publishResults
+android.support.v4.widget.CursorFilter$CursorFilterClient -> android.support.v4.widget.f:
+    java.lang.CharSequence convertToString(android.database.Cursor) -> c
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> a
+    android.database.Cursor getCursor() -> a
+    void changeCursor(android.database.Cursor) -> a
 android.support.v4.widget.DrawerLayout -> android.support.v4.widget.DrawerLayout:
     int[] LAYOUT_ATTRS -> a
     int mMinDrawerMargin -> b
@@ -1037,12 +1217,12 @@ android.support.v4.widget.DrawerLayout -> android.support.v4.widget.DrawerLayout
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
     int[] access$100() -> c
-android.support.v4.widget.DrawerLayout$DrawerListener -> android.support.v4.widget.a:
+android.support.v4.widget.DrawerLayout$DrawerListener -> android.support.v4.widget.g:
     void onDrawerSlide(android.view.View,float) -> a
     void onDrawerOpened(android.view.View) -> a
     void onDrawerClosed(android.view.View) -> b
     void onDrawerStateChanged(int) -> a
-android.support.v4.widget.DrawerLayout$LayoutParams -> android.support.v4.widget.b:
+android.support.v4.widget.DrawerLayout$LayoutParams -> android.support.v4.widget.h:
     int gravity -> a
     float onScreen -> b
     boolean isPeeking -> c
@@ -1053,12 +1233,12 @@ android.support.v4.widget.DrawerLayout$SavedState -> android.support.v4.widget.D
     int lockModeRight -> c
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.widget.DrawerLayout$SavedState$1 -> android.support.v4.widget.c:
+android.support.v4.widget.DrawerLayout$SavedState$1 -> android.support.v4.widget.i:
     android.support.v4.widget.DrawerLayout$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v4.widget.DrawerLayout$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.widget.DrawerLayout$ViewDragCallback -> android.support.v4.widget.d:
+android.support.v4.widget.DrawerLayout$ViewDragCallback -> android.support.v4.widget.j:
     int mGravity -> b
     android.support.v4.widget.ViewDragHelper mDragger -> c
     java.lang.Runnable mPeekRunnable -> d
@@ -1076,7 +1256,7 @@ android.support.v4.widget.DrawerLayout$ViewDragCallback -> android.support.v4.wi
     int getViewHorizontalDragRange(android.view.View) -> a
     int clampViewPositionHorizontal(android.view.View,int,int) -> a
     int clampViewPositionVertical(android.view.View,int,int) -> b
-android.support.v4.widget.EdgeEffectCompat -> android.support.v4.widget.e:
+android.support.v4.widget.EdgeEffectCompat -> android.support.v4.widget.k:
     java.lang.Object mEdgeEffect -> a
     android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl IMPL -> b
     void setSize(int,int) -> a
@@ -1085,35 +1265,41 @@ android.support.v4.widget.EdgeEffectCompat -> android.support.v4.widget.e:
     boolean onPull(float) -> a
     boolean onRelease() -> c
     boolean draw(android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support.v4.widget.f:
+android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support.v4.widget.l:
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
     void finish(java.lang.Object) -> b
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.v4.widget.g:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.v4.widget.m:
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
     void finish(java.lang.Object) -> b
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.widget.h:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.widget.n:
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
     void finish(java.lang.Object) -> b
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompatIcs -> android.support.v4.widget.i:
+android.support.v4.widget.EdgeEffectCompatIcs -> android.support.v4.widget.o:
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
     void finish(java.lang.Object) -> b
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.ScrollerCompat -> android.support.v4.widget.j:
+android.support.v4.widget.ResourceCursorAdapter -> android.support.v4.widget.p:
+    int mLayout -> j
+    int mDropDownLayout -> k
+    android.view.LayoutInflater mInflater -> l
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> b
+android.support.v4.widget.ScrollerCompat -> android.support.v4.widget.q:
     java.lang.Object mScroller -> a
     android.support.v4.widget.ScrollerCompat$ScrollerCompatImpl IMPL -> b
     boolean isFinished() -> a
@@ -1124,7 +1310,7 @@ android.support.v4.widget.ScrollerCompat -> android.support.v4.widget.j:
     boolean computeScrollOffset() -> f
     void startScroll(int,int,int,int,int) -> a
     void abortAnimation() -> g
-android.support.v4.widget.ScrollerCompat$ScrollerCompatImpl -> android.support.v4.widget.k:
+android.support.v4.widget.ScrollerCompat$ScrollerCompatImpl -> android.support.v4.widget.r:
     boolean isFinished(java.lang.Object) -> a
     int getCurrX(java.lang.Object) -> b
     int getCurrY(java.lang.Object) -> c
@@ -1133,7 +1319,7 @@ android.support.v4.widget.ScrollerCompat$ScrollerCompatImpl -> android.support.v
     void abortAnimation(java.lang.Object) -> e
     int getFinalX(java.lang.Object) -> f
     int getFinalY(java.lang.Object) -> g
-android.support.v4.widget.ScrollerCompat$ScrollerCompatImplBase -> android.support.v4.widget.l:
+android.support.v4.widget.ScrollerCompat$ScrollerCompatImplBase -> android.support.v4.widget.s:
     boolean isFinished(java.lang.Object) -> a
     int getCurrX(java.lang.Object) -> b
     int getCurrY(java.lang.Object) -> c
@@ -1142,7 +1328,7 @@ android.support.v4.widget.ScrollerCompat$ScrollerCompatImplBase -> android.suppo
     void abortAnimation(java.lang.Object) -> e
     int getFinalX(java.lang.Object) -> f
     int getFinalY(java.lang.Object) -> g
-android.support.v4.widget.ScrollerCompat$ScrollerCompatImplGingerbread -> android.support.v4.widget.m:
+android.support.v4.widget.ScrollerCompat$ScrollerCompatImplGingerbread -> android.support.v4.widget.t:
     boolean isFinished(java.lang.Object) -> a
     int getCurrX(java.lang.Object) -> b
     int getCurrY(java.lang.Object) -> c
@@ -1151,8 +1337,8 @@ android.support.v4.widget.ScrollerCompat$ScrollerCompatImplGingerbread -> androi
     void abortAnimation(java.lang.Object) -> e
     int getFinalX(java.lang.Object) -> f
     int getFinalY(java.lang.Object) -> g
-android.support.v4.widget.ScrollerCompat$ScrollerCompatImplIcs -> android.support.v4.widget.n:
-android.support.v4.widget.ScrollerCompatGingerbread -> android.support.v4.widget.o:
+android.support.v4.widget.ScrollerCompat$ScrollerCompatImplIcs -> android.support.v4.widget.u:
+android.support.v4.widget.ScrollerCompatGingerbread -> android.support.v4.widget.v:
     boolean isFinished(java.lang.Object) -> a
     int getCurrX(java.lang.Object) -> b
     int getCurrY(java.lang.Object) -> c
@@ -1161,6 +1347,24 @@ android.support.v4.widget.ScrollerCompatGingerbread -> android.support.v4.widget
     void abortAnimation(java.lang.Object) -> e
     int getFinalX(java.lang.Object) -> f
     int getFinalY(java.lang.Object) -> g
+android.support.v4.widget.SimpleCursorAdapter -> android.support.v4.widget.w:
+    int[] mFrom -> j
+    int[] mTo -> k
+    int mStringConversionColumn -> m
+    android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter mCursorToStringConverter -> n
+    android.support.v4.widget.SimpleCursorAdapter$ViewBinder mViewBinder -> o
+    java.lang.String[] mOriginalFrom -> l
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    void setViewBinder(android.support.v4.widget.SimpleCursorAdapter$ViewBinder) -> a
+    void setViewImage(android.widget.ImageView,java.lang.String) -> a
+    void setViewText(android.widget.TextView,java.lang.String) -> a
+    java.lang.CharSequence convertToString(android.database.Cursor) -> c
+    void findColumns(java.lang.String[]) -> a
+    android.database.Cursor swapCursor(android.database.Cursor) -> b
+android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter -> android.support.v4.widget.x:
+    java.lang.CharSequence convertToString(android.database.Cursor) -> a
+android.support.v4.widget.SimpleCursorAdapter$ViewBinder -> android.support.v4.widget.y:
+    boolean setViewValue(android.view.View,android.database.Cursor,int) -> a
 android.support.v4.widget.SlidingPaneLayout -> android.support.v4.widget.SlidingPaneLayout:
     int mSliderFadeColor -> b
     int mCoveredFadeColor -> c
@@ -1224,38 +1428,38 @@ android.support.v4.widget.SlidingPaneLayout -> android.support.v4.widget.Sliding
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void access$900(android.support.v4.widget.SlidingPaneLayout,android.view.View) -> a
     java.util.ArrayList access$1000(android.support.v4.widget.SlidingPaneLayout) -> a
-android.support.v4.widget.SlidingPaneLayout$1 -> android.support.v4.widget.p:
-android.support.v4.widget.SlidingPaneLayout$DisableLayerRunnable -> android.support.v4.widget.q:
+android.support.v4.widget.SlidingPaneLayout$1 -> android.support.v4.widget.z:
+android.support.v4.widget.SlidingPaneLayout$DisableLayerRunnable -> android.support.v4.widget.aa:
     android.view.View mChildView -> a
     android.support.v4.widget.SlidingPaneLayout this$0 -> b
     void run() -> run
-android.support.v4.widget.SlidingPaneLayout$LayoutParams -> android.support.v4.widget.r:
+android.support.v4.widget.SlidingPaneLayout$LayoutParams -> android.support.v4.widget.ab:
     int[] ATTRS -> e
     float weight -> a
     boolean slideable -> b
     boolean dimWhenOffset -> c
     android.graphics.Paint dimPaint -> d
-android.support.v4.widget.SlidingPaneLayout$PanelSlideListener -> android.support.v4.widget.s:
+android.support.v4.widget.SlidingPaneLayout$PanelSlideListener -> android.support.v4.widget.ac:
 android.support.v4.widget.SlidingPaneLayout$SavedState -> android.support.v4.widget.SlidingPaneLayout$SavedState:
     boolean isOpen -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.widget.SlidingPaneLayout$SavedState$1 -> android.support.v4.widget.t:
+android.support.v4.widget.SlidingPaneLayout$SavedState$1 -> android.support.v4.widget.ad:
     android.support.v4.widget.SlidingPaneLayout$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v4.widget.SlidingPaneLayout$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImpl -> android.support.v4.widget.u:
+android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImpl -> android.support.v4.widget.ae:
     void invalidateChildRegion(android.support.v4.widget.SlidingPaneLayout,android.view.View) -> a
-android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplBase -> android.support.v4.widget.v:
+android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplBase -> android.support.v4.widget.af:
     void invalidateChildRegion(android.support.v4.widget.SlidingPaneLayout,android.view.View) -> a
-android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplJB -> android.support.v4.widget.w:
+android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplJB -> android.support.v4.widget.ag:
     java.lang.reflect.Method mGetDisplayList -> a
     java.lang.reflect.Field mRecreateDisplayList -> b
     void invalidateChildRegion(android.support.v4.widget.SlidingPaneLayout,android.view.View) -> a
-android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplJBMR1 -> android.support.v4.widget.x:
+android.support.v4.widget.SlidingPaneLayout$SlidingPanelLayoutImplJBMR1 -> android.support.v4.widget.ah:
     void invalidateChildRegion(android.support.v4.widget.SlidingPaneLayout,android.view.View) -> a
-android.support.v4.widget.ViewDragHelper -> android.support.v4.widget.y:
+android.support.v4.widget.ViewDragHelper -> android.support.v4.widget.ai:
     int mDragState -> a
     int mTouchSlop -> b
     int mActivePointerId -> c
@@ -1317,9 +1521,9 @@ android.support.v4.widget.ViewDragHelper -> android.support.v4.widget.y:
     boolean isViewUnder(android.view.View,int,int) -> b
     android.view.View findTopChildUnder(int,int) -> d
     int getEdgesTouched(int,int) -> e
-android.support.v4.widget.ViewDragHelper$1 -> android.support.v4.widget.z:
+android.support.v4.widget.ViewDragHelper$1 -> android.support.v4.widget.aj:
     float getInterpolation(float) -> getInterpolation
-android.support.v4.widget.ViewDragHelper$Callback -> android.support.v4.widget.aa:
+android.support.v4.widget.ViewDragHelper$Callback -> android.support.v4.widget.ak:
     void onViewDragStateChanged(int) -> a
     void onViewPositionChanged(android.view.View,int,int,int,int) -> a
     void onViewCaptured(android.view.View,int) -> b
@@ -3950,31 +4154,32 @@ com.sparkrico.v2ex.NodeMenuFragment -> com.sparkrico.v2ex.l:
     android.widget.SimpleAdapter customAdapter -> c
     android.widget.TextView tvCurrent -> d
     android.widget.LinearLayout bottomeLayout -> e
-    int type -> f
-    boolean hasQueryed -> g
-    android.widget.ToggleButton toggleButton -> h
-    android.widget.ProgressBar progressBar -> i
-    android.widget.TextView tvAppVersion -> Y
-    android.widget.SearchView searchView -> Z
-    com.sparkrico.v2ex.view.AlphabetViewForListView alphabetViewForListView -> aa
-    int[] color -> ab
-    android.os.Handler mHandler -> ac
+    android.support.v4.app.FragmentActivity activity -> f
+    int type -> g
+    boolean hasQueryed -> h
+    android.widget.ToggleButton toggleButton -> i
+    android.widget.ProgressBar progressBar -> Y
+    android.widget.TextView tvAppVersion -> Z
+    android.widget.SearchView searchView -> aa
+    com.sparkrico.v2ex.view.AlphabetViewForListView alphabetViewForListView -> ab
+    int[] color -> ac
+    android.os.Handler mHandler -> ad
     void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onActivityCreated(android.os.Bundle) -> d
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-    void setupAdapter() -> A
-    void loadAllNodes() -> B
-    void loadAllNotesFromUrl() -> C
+    void setupAdapter() -> B
+    void loadAllNodes() -> C
+    void loadAllNotesFromUrl() -> D
     void handleResult(java.lang.String) -> a
     void switchFragment(android.support.v4.app.Fragment) -> a
-    void OrderNode() -> D
+    void OrderNode() -> E
     void addA(java.util.List) -> a
-    java.lang.String getUpdateLabel() -> E
+    java.lang.String getUpdateLabel(android.content.Context) -> a
     void onClick(android.view.View) -> onClick
     void Notify() -> a
     void access$0(com.sparkrico.v2ex.NodeMenuFragment) -> a
-    java.lang.String access$1(com.sparkrico.v2ex.NodeMenuFragment) -> b
+    java.lang.String access$1(com.sparkrico.v2ex.NodeMenuFragment,android.content.Context) -> a
     void access$2(com.sparkrico.v2ex.NodeMenuFragment,java.lang.String) -> a
 com.sparkrico.v2ex.NodeMenuFragment$1 -> com.sparkrico.v2ex.m:
     com.sparkrico.v2ex.NodeMenuFragment this$0 -> a
@@ -4011,11 +4216,34 @@ com.sparkrico.v2ex.NodeMenuFragment$OrderType -> com.sparkrico.v2ex.u:
     com.sparkrico.v2ex.NodeMenuFragment$OrderType[] values() -> values
     com.sparkrico.v2ex.NodeMenuFragment$OrderType valueOf(java.lang.String) -> valueOf
 com.sparkrico.v2ex.PullToRefreshListFragment -> com.sparkrico.v2ex.v:
-    com.handmark.pulltorefresh.library.PullToRefreshListView mList -> ad
-    android.view.View mEmptyView -> ae
-    android.widget.TextView mStandardEmptyView -> af
+    com.handmark.pulltorefresh.library.PullToRefreshListView mList -> ae
+    android.view.View mEmptyView -> af
+    android.widget.TextView mStandardEmptyView -> ag
     void setupPullToRefreshListView(android.view.View) -> a
-com.sparkrico.v2ex.ThemeNotify -> com.sparkrico.v2ex.w:
+com.sparkrico.v2ex.RecentListFragment -> com.sparkrico.v2ex.w:
+    android.view.View viewGroup -> a
+    android.widget.ListView listView -> b
+    android.widget.TextView tvEmpty -> c
+    android.widget.Button clearButton -> d
+    android.support.v4.widget.SimpleCursorAdapter mAdapter -> e
+    java.lang.String mCurFilter -> f
+    int[] color -> g
+    void onCreate(android.os.Bundle) -> a
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    void onActivityCreated(android.os.Bundle) -> d
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    void onLoaderReset(android.support.v4.content.Loader) -> a
+    void Notify() -> a
+    void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
+com.sparkrico.v2ex.RecentListFragment$1 -> com.sparkrico.v2ex.x:
+    com.sparkrico.v2ex.RecentListFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.sparkrico.v2ex.RecentListFragment$2 -> com.sparkrico.v2ex.y:
+    com.sparkrico.v2ex.RecentListFragment this$0 -> a
+    boolean setViewValue(android.view.View,android.database.Cursor,int) -> a
+com.sparkrico.v2ex.ThemeNotify -> com.sparkrico.v2ex.z:
     void Notify() -> a
 com.sparkrico.v2ex.TopicFragment -> com.sparkrico.v2ex.TopicFragment:
     com.sparkrico.v2ex.model.Topic mTopic -> a
@@ -4030,13 +4258,16 @@ com.sparkrico.v2ex.TopicFragment -> com.sparkrico.v2ex.TopicFragment:
     android.widget.Button buttonPrev -> j
     android.widget.Button buttonNext -> k
     android.widget.ProgressBar loading -> l
-    com.sparkrico.v2ex.TopicFragment$TopicAdapter topicAdapter -> m
-    float density -> n
-    long topic_id -> o
-    boolean leftRight -> p
-    int[] color -> q
-    android.os.Handler mHandler -> r
-    android.support.v4.app.DialogFragment newFragment -> s
+    android.app.ProgressDialog pd -> m
+    com.sparkrico.v2ex.TopicFragment$TopicAdapter topicAdapter -> n
+    float density -> o
+    long topic_id -> p
+    java.lang.String from -> q
+    boolean leftRight -> r
+    int[] color -> s
+    com.sparkrico.v2ex.provider.RecentController recentController -> t
+    android.os.Handler mHandler -> u
+    android.support.v4.app.DialogFragment newFragment -> v
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onPause() -> onPause
@@ -4052,33 +4283,33 @@ com.sparkrico.v2ex.TopicFragment -> com.sparkrico.v2ex.TopicFragment:
     void doNegativeClick() -> b
     void access$0(com.sparkrico.v2ex.TopicFragment,com.sparkrico.v2ex.model.Topic) -> a
     void access$1(com.sparkrico.v2ex.TopicFragment,java.lang.String) -> a
-com.sparkrico.v2ex.TopicFragment$1 -> com.sparkrico.v2ex.x:
+com.sparkrico.v2ex.TopicFragment$1 -> com.sparkrico.v2ex.aa:
     com.sparkrico.v2ex.TopicFragment this$0 -> a
     void dispatchMessage(android.os.Message) -> dispatchMessage
-com.sparkrico.v2ex.TopicFragment$2 -> com.sparkrico.v2ex.y:
+com.sparkrico.v2ex.TopicFragment$2 -> com.sparkrico.v2ex.ab:
     com.sparkrico.v2ex.TopicFragment this$0 -> a
     android.app.ProgressDialog val$pd -> b
     void onSuccess(int,java.lang.String) -> onSuccess
     void onFinish() -> onFinish
-com.sparkrico.v2ex.TopicFragment$2$1 -> com.sparkrico.v2ex.z:
+com.sparkrico.v2ex.TopicFragment$2$1 -> com.sparkrico.v2ex.ac:
     com.sparkrico.v2ex.TopicFragment$2 this$1 -> a
-com.sparkrico.v2ex.TopicFragment$3 -> com.sparkrico.v2ex.aa:
+com.sparkrico.v2ex.TopicFragment$3 -> com.sparkrico.v2ex.ad:
     com.sparkrico.v2ex.TopicFragment this$0 -> a
     void onSuccess(int,java.lang.String) -> onSuccess
     void onStart() -> onStart
     void onFinish() -> onFinish
-com.sparkrico.v2ex.TopicFragment$3$1 -> com.sparkrico.v2ex.ab:
+com.sparkrico.v2ex.TopicFragment$3$1 -> com.sparkrico.v2ex.ae:
     com.sparkrico.v2ex.TopicFragment$3 this$1 -> a
-com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment -> com.sparkrico.v2ex.ac:
+com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment -> com.sparkrico.v2ex.af:
     com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment newInstance(int,int) -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> c
-com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment$1 -> com.sparkrico.v2ex.ad:
+com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment$1 -> com.sparkrico.v2ex.ag:
     com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment$2 -> com.sparkrico.v2ex.ae:
+com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment$2 -> com.sparkrico.v2ex.ah:
     com.sparkrico.v2ex.TopicFragment$NoticeAlertDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.sparkrico.v2ex.TopicFragment$TopicAdapter -> com.sparkrico.v2ex.af:
+com.sparkrico.v2ex.TopicFragment$TopicAdapter -> com.sparkrico.v2ex.ai:
     java.util.List mData -> a
     com.sparkrico.v2ex.TopicFragment this$0 -> b
     int getCount() -> getCount
@@ -4087,17 +4318,17 @@ com.sparkrico.v2ex.TopicFragment$TopicAdapter -> com.sparkrico.v2ex.af:
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void bindView(int,com.sparkrico.v2ex.TopicFragment$TopicAdapter$ViewHolder) -> a
     com.sparkrico.v2ex.TopicFragment access$0(com.sparkrico.v2ex.TopicFragment$TopicAdapter) -> a
-com.sparkrico.v2ex.TopicFragment$TopicAdapter$1 -> com.sparkrico.v2ex.ag:
+com.sparkrico.v2ex.TopicFragment$TopicAdapter$1 -> com.sparkrico.v2ex.aj:
     com.sparkrico.v2ex.TopicFragment$TopicAdapter this$1 -> a
     java.lang.String val$username -> b
     void onClick(android.view.View) -> onClick
-com.sparkrico.v2ex.TopicFragment$TopicAdapter$ViewHolder -> com.sparkrico.v2ex.ah:
+com.sparkrico.v2ex.TopicFragment$TopicAdapter$ViewHolder -> com.sparkrico.v2ex.ak:
     com.loopj.android.image.SmartImageView smartImageView -> a
     android.widget.TextView tvUser -> b
     android.widget.TextView tvLast -> c
     android.widget.TextView tvContent -> d
     com.sparkrico.v2ex.TopicFragment$TopicAdapter this$1 -> e
-com.sparkrico.v2ex.TopicsFragment -> com.sparkrico.v2ex.ai:
+com.sparkrico.v2ex.TopicsFragment -> com.sparkrico.v2ex.al:
     java.util.List data -> a
     android.widget.SimpleAdapter simpleAdapter -> b
     android.widget.ProgressBar progressBar -> c
@@ -4109,29 +4340,29 @@ com.sparkrico.v2ex.TopicsFragment -> com.sparkrico.v2ex.ai:
     void onActivityCreated(android.os.Bundle) -> d
     void onSaveInstanceState(android.os.Bundle) -> e
     void onStop() -> d
-    void loadTopics() -> A
-    java.lang.String getUpdateLabel() -> B
+    void loadTopics() -> B
+    java.lang.String getUpdateLabel() -> C
     void loadAllTopics(java.lang.String) -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
     void Notify() -> a
     void access$0(com.sparkrico.v2ex.TopicsFragment) -> a
     java.lang.String access$1(com.sparkrico.v2ex.TopicsFragment) -> b
-com.sparkrico.v2ex.TopicsFragment$1 -> com.sparkrico.v2ex.aj:
+com.sparkrico.v2ex.TopicsFragment$1 -> com.sparkrico.v2ex.am:
     com.sparkrico.v2ex.TopicsFragment this$0 -> a
     void dispatchMessage(android.os.Message) -> dispatchMessage
-com.sparkrico.v2ex.TopicsFragment$2 -> com.sparkrico.v2ex.ak:
+com.sparkrico.v2ex.TopicsFragment$2 -> com.sparkrico.v2ex.an:
     com.sparkrico.v2ex.TopicsFragment this$0 -> a
     boolean setViewValue(android.view.View,java.lang.Object,java.lang.String) -> setViewValue
-com.sparkrico.v2ex.TopicsFragment$3 -> com.sparkrico.v2ex.al:
+com.sparkrico.v2ex.TopicsFragment$3 -> com.sparkrico.v2ex.ao:
     com.sparkrico.v2ex.TopicsFragment this$0 -> a
     void onRefresh(com.handmark.pulltorefresh.library.PullToRefreshBase) -> onRefresh
-com.sparkrico.v2ex.TopicsFragment$4 -> com.sparkrico.v2ex.am:
+com.sparkrico.v2ex.TopicsFragment$4 -> com.sparkrico.v2ex.ap:
     com.sparkrico.v2ex.TopicsFragment this$0 -> a
     void onStart() -> onStart
     void onFinish() -> onFinish
     void onFailure(java.lang.Throwable,java.lang.String) -> onFailure
     void onSuccess(int,java.lang.String) -> onSuccess
-com.sparkrico.v2ex.TopicsFragment$4$1 -> com.sparkrico.v2ex.an:
+com.sparkrico.v2ex.TopicsFragment$4$1 -> com.sparkrico.v2ex.aq:
     com.sparkrico.v2ex.TopicsFragment$4 this$1 -> a
 com.sparkrico.v2ex.WebActivity -> com.sparkrico.v2ex.WebActivity:
     android.webkit.WebView webView -> a
@@ -4143,14 +4374,14 @@ com.sparkrico.v2ex.WebActivity -> com.sparkrico.v2ex.WebActivity:
     boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     void setupWebview() -> a
     void setupWebviewSettings() -> b
-com.sparkrico.v2ex.WebActivity$1 -> com.sparkrico.v2ex.ao:
+com.sparkrico.v2ex.WebActivity$1 -> com.sparkrico.v2ex.ar:
     com.sparkrico.v2ex.WebActivity this$0 -> a
     void onProgressChanged(android.webkit.WebView,int) -> onProgressChanged
-com.sparkrico.v2ex.WebActivity$2 -> com.sparkrico.v2ex.ap:
+com.sparkrico.v2ex.WebActivity$2 -> com.sparkrico.v2ex.as:
     com.sparkrico.v2ex.WebActivity this$0 -> a
     void onPageFinished(android.webkit.WebView,java.lang.String) -> onPageFinished
     void onReceivedError(android.webkit.WebView,int,java.lang.String,java.lang.String) -> onReceivedError
-com.sparkrico.v2ex.WebActivity$3 -> com.sparkrico.v2ex.aq:
+com.sparkrico.v2ex.WebActivity$3 -> com.sparkrico.v2ex.at:
     com.sparkrico.v2ex.WebActivity this$0 -> a
     void onDownloadStart(java.lang.String,java.lang.String,java.lang.String,java.lang.String,long) -> onDownloadStart
 com.sparkrico.v2ex.model.Member -> com.sparkrico.v2ex.model.Member:
@@ -4299,6 +4530,28 @@ com.sparkrico.v2ex.model.Topic -> com.sparkrico.v2ex.model.Topic:
     void setLast_modified(long) -> setLast_modified
     long getLast_touched() -> getLast_touched
     void setLast_touched(long) -> setLast_touched
+com.sparkrico.v2ex.provider.Recent -> com.sparkrico.v2ex.provider.a:
+com.sparkrico.v2ex.provider.Recent$Recents -> com.sparkrico.v2ex.provider.b:
+    android.net.Uri CONTENT_URI -> a
+    android.net.Uri CONTENT_FILTER_URI -> b
+    android.net.Uri CONTENT_ID_URI_BASE -> c
+    android.net.Uri CONTENT_ID_URI_PATTERN -> d
+com.sparkrico.v2ex.provider.RecentContentProvider -> com.sparkrico.v2ex.provider.RecentContentProvider:
+    java.util.HashMap sRecentProjectionMap -> a
+    android.content.UriMatcher sUriMatcher -> b
+    com.sparkrico.v2ex.provider.RecentContentProvider$DatabaseHelper mOpenHelper -> c
+    boolean onCreate() -> onCreate
+    android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String) -> query
+    java.lang.String getType(android.net.Uri) -> getType
+    android.net.Uri insert(android.net.Uri,android.content.ContentValues) -> insert
+    int delete(android.net.Uri,java.lang.String,java.lang.String[]) -> delete
+    int update(android.net.Uri,android.content.ContentValues,java.lang.String,java.lang.String[]) -> update
+com.sparkrico.v2ex.provider.RecentContentProvider$DatabaseHelper -> com.sparkrico.v2ex.provider.c:
+    void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
+    void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
+com.sparkrico.v2ex.provider.RecentController -> com.sparkrico.v2ex.provider.d:
+    void insertRecent(android.content.Context,com.sparkrico.v2ex.model.Topic,float) -> a
+    void clearRecent(android.content.Context) -> a
 com.sparkrico.v2ex.util.ComparableNodeName -> com.sparkrico.v2ex.util.a:
     int compare(java.util.Map,java.util.Map) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare

@@ -102,7 +102,6 @@ android.support.v4.app.Fragment:
     796:802:public void setMenuVisibility(boolean)
     818:823:public void setUserVisibleHint(boolean)
     830:830:public boolean getUserVisibleHint()
-    837:845:public android.support.v4.app.LoaderManager getLoaderManager()
     864:868:public void startActivityForResult(android.content.Intent,int)
     1306:1307:public void registerForContextMenu(android.view.View)
     1317:1318:public void unregisterForContextMenu(android.view.View)
@@ -199,7 +198,6 @@ android.support.v4.app.ListFragment
 android.support.v4.app.ListFragment$1
 android.support.v4.app.ListFragment$2
 android.support.v4.app.LoaderManager:
-    public abstract android.support.v4.content.Loader initLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
     public abstract android.support.v4.content.Loader restartLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
     public abstract void destroyLoader(int)
     public abstract android.support.v4.content.Loader getLoader(int)
@@ -208,17 +206,9 @@ android.support.v4.app.LoaderManager:
 android.support.v4.app.LoaderManagerImpl:
     static final java.lang.String TAG
     boolean mRetainingStarted
-    boolean mCreatingLoader
-    489:492:private android.support.v4.app.LoaderManagerImpl$LoaderInfo createLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
-    498:503:private android.support.v4.app.LoaderManagerImpl$LoaderInfo createAndInstallLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
-    508:515:void installLoader(android.support.v4.app.LoaderManagerImpl$LoaderInfo)
-    543:565:public android.support.v4.content.Loader initLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
     593:647:public android.support.v4.content.Loader restartLoader(int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
     658:678:public void destroyLoader(int)
     686:697:public android.support.v4.content.Loader getLoader(int)
-android.support.v4.app.LoaderManagerImpl$LoaderInfo:
-    228:232:public LoaderManagerImpl$LoaderInfo(android.support.v4.app.LoaderManagerImpl,int,android.os.Bundle,android.support.v4.app.LoaderManager$LoaderCallbacks)
-    362:415:public void onLoadComplete(android.support.v4.content.Loader,java.lang.Object)
 android.support.v4.app.NavUtils
 android.support.v4.app.NavUtils$NavUtilsImpl
 android.support.v4.app.NavUtils$NavUtilsImplBase
@@ -257,12 +247,28 @@ android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb
 android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplJellybean
 android.support.v4.app.TaskStackBuilderHoneycomb
 android.support.v4.app.TaskStackBuilderJellybean
-android.support.v4.content.AsyncTaskLoader
-android.support.v4.content.AsyncTaskLoader$LoadTask
+android.support.v4.content.AsyncTaskLoader:
+    static final java.lang.String TAG
+    static final boolean DEBUG
+    103:107:public void setUpdateThrottle(long)
+    256:264:public void waitForLoader()
+android.support.v4.content.AsyncTaskLoader$LoadTask:
+    40:40:static synthetic java.util.concurrent.CountDownLatch access$000(android.support.v4.content.AsyncTaskLoader$LoadTask)
 android.support.v4.content.ContextCompat
 android.support.v4.content.ContextCompatHoneycomb
 android.support.v4.content.ContextCompatJellybean
-android.support.v4.content.CursorLoader
+android.support.v4.content.CursorLoader:
+    87:89:public CursorLoader(android.content.Context)
+    155:155:public android.net.Uri getUri()
+    159:160:public void setUri(android.net.Uri)
+    163:163:public java.lang.String[] getProjection()
+    167:168:public void setProjection(java.lang.String[])
+    171:171:public java.lang.String getSelection()
+    175:176:public void setSelection(java.lang.String)
+    179:179:public java.lang.String[] getSelectionArgs()
+    183:184:public void setSelectionArgs(java.lang.String[])
+    187:187:public java.lang.String getSortOrder()
+    191:192:public void setSortOrder(java.lang.String)
 android.support.v4.content.FileProvider
 android.support.v4.content.FileProvider$PathStrategy
 android.support.v4.content.FileProvider$SimplePathStrategy
@@ -274,38 +280,28 @@ android.support.v4.content.IntentCompat$IntentCompatImplIcsMr1
 android.support.v4.content.IntentCompatHoneycomb
 android.support.v4.content.IntentCompatIcsMr1
 android.support.v4.content.Loader:
-    android.content.Context mContext
-    91:93:public Loader(android.content.Context)
-    103:106:public void deliverResult(java.lang.Object)
-    112:112:public android.content.Context getContext()
     119:119:public int getId()
-    158:158:public boolean isStarted()
-    167:167:public boolean isAbandoned()
-    176:176:public boolean isReset()
-    218:219:public void forceLoad()
-    226:226:protected void onForceLoad()
     262:264:public void abandon()
     276:276:protected void onAbandon()
-    314:317:public boolean takeContentChanged()
-    328:329:public void commitContentChanged()
-    339:342:public void rollbackContentChanged()
-    353:361:public void onContentChanged()
-android.support.v4.content.Loader$ForceLoadContentObserver
-android.support.v4.content.Loader$OnLoadCompleteListener:
-    public abstract void onLoadComplete(android.support.v4.content.Loader,java.lang.Object)
 android.support.v4.content.LocalBroadcastManager
 android.support.v4.content.LocalBroadcastManager$1
 android.support.v4.content.LocalBroadcastManager$BroadcastRecord
 android.support.v4.content.LocalBroadcastManager$ReceiverRecord
-android.support.v4.content.ModernAsyncTask
-android.support.v4.content.ModernAsyncTask$1
-android.support.v4.content.ModernAsyncTask$2
-android.support.v4.content.ModernAsyncTask$3
-android.support.v4.content.ModernAsyncTask$4
-android.support.v4.content.ModernAsyncTask$AsyncTaskResult
-android.support.v4.content.ModernAsyncTask$InternalHandler
-android.support.v4.content.ModernAsyncTask$Status
-android.support.v4.content.ModernAsyncTask$WorkerRunnable
+android.support.v4.content.ModernAsyncTask:
+    private static final java.lang.String LOG_TAG
+    private static final int CORE_POOL_SIZE
+    private static final int MAXIMUM_POOL_SIZE
+    private static final int KEEP_ALIVE
+    private static final int MESSAGE_POST_RESULT
+    private static final int MESSAGE_POST_PROGRESS
+    106:107:public static void init()
+    111:112:public static void setDefaultExecutor(java.util.concurrent.Executor)
+    169:169:public final android.support.v4.content.ModernAsyncTask$Status getStatus()
+    321:321:public final java.lang.Object get()
+    341:341:public final java.lang.Object get(long,java.util.concurrent.TimeUnit)
+    371:371:public final varargs android.support.v4.content.ModernAsyncTask execute(java.lang.Object[])
+    433:434:public static void execute(java.lang.Runnable)
+    451:455:protected final varargs void publishProgress(java.lang.Object[])
 android.support.v4.content.WakefulBroadcastReceiver
 android.support.v4.content.pm.ActivityInfoCompat
 android.support.v4.database.DatabaseUtilsCompat
@@ -379,19 +375,19 @@ android.support.v4.util.DebugUtils:
 android.support.v4.util.LongSparseArray
 android.support.v4.util.LruCache
 android.support.v4.util.SparseArrayCompat:
-    52:52:public java.lang.Object get(int)
-    60:65:public java.lang.Object get(int,java.lang.Object)
-    73:81:public void delete(int)
-    87:88:public void remove(int)
     94:98:public void removeAt(int)
     107:111:public void removeAtRange(int,int)
-    146:190:public void put(int,java.lang.Object)
     236:241:public void setValueAt(int,java.lang.Object)
     249:253:public int indexOfKey(int)
     265:273:public int indexOfValue(java.lang.Object)
     296:323:public void append(int,java.lang.Object)
-    326:342:private static int binarySearch(int[],int,int,int)
-android.support.v4.util.TimeUtils
+android.support.v4.util.TimeUtils:
+    public static final int HUNDRED_DAY_FIELD_LEN
+    private static final int SECONDS_PER_MINUTE
+    private static final int SECONDS_PER_HOUR
+    private static final int SECONDS_PER_DAY
+    27:27:public TimeUtils()
+    148:152:public static void formatDuration(long,java.lang.StringBuilder)
 android.support.v4.view.AccessibilityDelegateCompat
 android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateIcsImpl
 android.support.v4.view.AccessibilityDelegateCompat$AccessibilityDelegateIcsImpl$1
@@ -737,12 +733,14 @@ android.support.v4.view.accessibility.AccessibilityRecordCompat$AccessibilityRec
 android.support.v4.view.accessibility.AccessibilityRecordCompatIcs
 android.support.v4.view.accessibility.AccessibilityRecordCompatIcsMr1
 android.support.v4.view.accessibility.AccessibilityRecordCompatJellyBean
-android.support.v4.widget.CursorAdapter
-android.support.v4.widget.CursorAdapter$1
-android.support.v4.widget.CursorAdapter$ChangeObserver
-android.support.v4.widget.CursorAdapter$MyDataSetObserver
-android.support.v4.widget.CursorFilter
-android.support.v4.widget.CursorFilter$CursorFilterClient
+android.support.v4.widget.CursorAdapter:
+    public static final int FLAG_AUTO_REQUERY
+    public static final int FLAG_REGISTER_CONTENT_OBSERVER
+    121:123:public CursorAdapter(android.content.Context,android.database.Cursor)
+    137:139:public CursorAdapter(android.content.Context,android.database.Cursor,boolean)
+    160:161:protected void init(android.content.Context,android.database.Cursor,boolean)
+    420:420:public android.widget.FilterQueryProvider getFilterQueryProvider()
+    436:437:public void setFilterQueryProvider(android.widget.FilterQueryProvider)
 android.support.v4.widget.DrawerLayout:
     private static final java.lang.String TAG
     public static final int STATE_IDLE
@@ -801,7 +799,11 @@ android.support.v4.widget.EdgeEffectCompatIcs:
 android.support.v4.widget.ExploreByTouchHelper
 android.support.v4.widget.ExploreByTouchHelper$1
 android.support.v4.widget.ExploreByTouchHelper$ExploreByTouchNodeProvider
-android.support.v4.widget.ResourceCursorAdapter
+android.support.v4.widget.ResourceCursorAdapter:
+    54:57:public ResourceCursorAdapter(android.content.Context,int,android.database.Cursor)
+    76:79:public ResourceCursorAdapter(android.content.Context,int,android.database.Cursor,boolean)
+    120:121:public void setViewResource(int)
+    129:130:public void setDropDownViewResource(int)
 android.support.v4.widget.ScrollerCompat:
     251:251:public static android.support.v4.widget.ScrollerCompat create(android.content.Context)
     255:255:public static android.support.v4.widget.ScrollerCompat create(android.content.Context,android.view.animation.Interpolator)
@@ -868,9 +870,14 @@ android.support.v4.widget.SearchViewCompatHoneycomb$OnCloseListenerCompatBridge
 android.support.v4.widget.SearchViewCompatHoneycomb$OnQueryTextListenerCompatBridge
 android.support.v4.widget.SearchViewCompatIcs
 android.support.v4.widget.SearchViewCompatIcs$MySearchView
-android.support.v4.widget.SimpleCursorAdapter
-android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter
-android.support.v4.widget.SimpleCursorAdapter$ViewBinder
+android.support.v4.widget.SimpleCursorAdapter:
+    63:67:public SimpleCursorAdapter(android.content.Context,int,android.database.Cursor,java.lang.String[],int[])
+    162:162:public android.support.v4.widget.SimpleCursorAdapter$ViewBinder getViewBinder()
+    228:228:public int getStringConversionColumn()
+    246:247:public void setStringConversionColumn(int)
+    262:262:public android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter getCursorToStringConverter()
+    278:279:public void setCursorToStringConverter(android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter)
+    344:348:public void changeCursorAndColumns(android.database.Cursor,java.lang.String[],int[])
 android.support.v4.widget.SlidingPaneLayout:
     private static final java.lang.String TAG
     private static final int DEFAULT_OVERHANG_SIZE
@@ -954,6 +961,39 @@ com.sparkrico.v2ex.R$menu
 com.sparkrico.v2ex.R$string
 com.sparkrico.v2ex.R$style
 com.sparkrico.v2ex.R$styleable
+com.sparkrico.v2ex.provider.Recent:
+    public static final java.lang.String AUTHORITY
+    10:11:public Recent()
+com.sparkrico.v2ex.provider.Recent$Recents:
+    public static final java.lang.String TABLE_NAME
+    private static final java.lang.String SCHEME
+    private static final java.lang.String PATH_RECENTS
+    private static final java.lang.String PATH_RECENT_ID
+    public static final int RECENT_ID_PATH_POSITION
+    public static final int RECENT_FILER_PATH_POSITION
+    public static final java.lang.String CONTENT_TYPE
+    public static final java.lang.String CONTENT_ITEM_TYPE
+    public static final java.lang.String DEFAULT_SORT_ORDER
+    public static final java.lang.String COLUMN_NAME_TITLE
+    public static final java.lang.String COLUMN_NAME_TOPIC_ID
+    public static final java.lang.String COLUMN_NAME_FACE_URL
+    public static final java.lang.String COLUMN_NAME_NODE
+    public static final java.lang.String COLUMN_NAME_USER
+    public static final java.lang.String COLUMN_NAME_TOPIC_CREATED
+    public static final java.lang.String COLUMN_NAME_CONTENT_RENDERED
+    public static final java.lang.String COLUMN_NAME_CREATE_DATE
+    public static final java.lang.String COLUMN_NAME_MODIFICATION_DATE
+    15:16:private Recent$Recents()
+com.sparkrico.v2ex.provider.RecentContentProvider:
+    private static final java.lang.String TAG
+    private static final java.lang.String DATABASE_NAME
+    private static final int DATABASE_VERSION
+    private static final int RECENTS
+    private static final int RECENT_ID
+    private static final int RECENT_FILTER
+    430:430:com.sparkrico.v2ex.provider.RecentContentProvider$DatabaseHelper getOpenHelperForTest()
+com.sparkrico.v2ex.provider.RecentController:
+    42:44:public static void deleteRecent(android.content.Context,long)
 com.sparkrico.v2ex.util.AdapterUtil
 com.sparkrico.v2ex.util.ApiUtil
 com.sparkrico.v2ex.util.ComparableNodeName:

@@ -3103,7 +3103,9 @@ com.sparkrico.v2ex.R$id: int alphabet
 com.sparkrico.v2ex.R$id: int app_version
 com.sparkrico.v2ex.R$id: int bio
 com.sparkrico.v2ex.R$id: int both
+com.sparkrico.v2ex.R$id: int bottom
 com.sparkrico.v2ex.R$id: int bottom_bar
+com.sparkrico.v2ex.R$id: int clear_recent
 com.sparkrico.v2ex.R$id: int close
 com.sparkrico.v2ex.R$id: int content
 com.sparkrico.v2ex.R$id: int content_frame
@@ -3113,6 +3115,7 @@ com.sparkrico.v2ex.R$id: int current
 com.sparkrico.v2ex.R$id: int dashline
 com.sparkrico.v2ex.R$id: int disabled
 com.sparkrico.v2ex.R$id: int divider
+com.sparkrico.v2ex.R$id: int empty
 com.sparkrico.v2ex.R$id: int fl_inner
 com.sparkrico.v2ex.R$id: int flip
 com.sparkrico.v2ex.R$id: int fullscreen
@@ -3122,6 +3125,7 @@ com.sparkrico.v2ex.R$id: int image
 com.sparkrico.v2ex.R$id: int last
 com.sparkrico.v2ex.R$id: int layout
 com.sparkrico.v2ex.R$id: int left
+com.sparkrico.v2ex.R$id: int list
 com.sparkrico.v2ex.R$id: int loading
 com.sparkrico.v2ex.R$id: int logo
 com.sparkrico.v2ex.R$id: int manualOnly
@@ -3129,6 +3133,7 @@ com.sparkrico.v2ex.R$id: int margin
 com.sparkrico.v2ex.R$id: int menu_about
 com.sparkrico.v2ex.R$id: int menu_appops
 com.sparkrico.v2ex.R$id: int menu_frame
+com.sparkrico.v2ex.R$id: int menu_frame_two
 com.sparkrico.v2ex.R$id: int menu_goole_play
 com.sparkrico.v2ex.R$id: int menu_nav
 com.sparkrico.v2ex.R$id: int menu_theme
@@ -3183,11 +3188,14 @@ com.sparkrico.v2ex.R$layout: int dialog_about
 com.sparkrico.v2ex.R$layout: int list
 com.sparkrico.v2ex.R$layout: int member_top
 com.sparkrico.v2ex.R$layout: int menu_frame
+com.sparkrico.v2ex.R$layout: int menu_frame_two
 com.sparkrico.v2ex.R$layout: int node_list
 com.sparkrico.v2ex.R$layout: int node_list_item
 com.sparkrico.v2ex.R$layout: int node_nav_category
 com.sparkrico.v2ex.R$layout: int pull_to_refresh_header_horizontal
 com.sparkrico.v2ex.R$layout: int pull_to_refresh_header_vertical
+com.sparkrico.v2ex.R$layout: int recent_footer
+com.sparkrico.v2ex.R$layout: int recent_list
 com.sparkrico.v2ex.R$layout: int reply_item
 com.sparkrico.v2ex.R$layout: int responsive_content_frame
 com.sparkrico.v2ex.R$layout: int shadow
@@ -3219,6 +3227,7 @@ com.sparkrico.v2ex.R$string: int action_bar_search
 com.sparkrico.v2ex.R$string: int app_name
 com.sparkrico.v2ex.R$string: int appops_attention
 com.sparkrico.v2ex.R$string: int cached_at
+com.sparkrico.v2ex.R$string: int clear_recent
 com.sparkrico.v2ex.R$string: int dialog_content
 com.sparkrico.v2ex.R$string: int latest
 com.sparkrico.v2ex.R$string: int menu_about
@@ -3229,6 +3238,7 @@ com.sparkrico.v2ex.R$string: int menu_settings
 com.sparkrico.v2ex.R$string: int menu_theme
 com.sparkrico.v2ex.R$string: int menu_theme_night
 com.sparkrico.v2ex.R$string: int next
+com.sparkrico.v2ex.R$string: int no_recent_list
 com.sparkrico.v2ex.R$string: int node_nav
 com.sparkrico.v2ex.R$string: int node_query_hint
 com.sparkrico.v2ex.R$string: int open_url
@@ -3239,6 +3249,7 @@ com.sparkrico.v2ex.R$string: int pull_to_refresh_from_bottom_release_label
 com.sparkrico.v2ex.R$string: int pull_to_refresh_pull_label
 com.sparkrico.v2ex.R$string: int pull_to_refresh_refreshing_label
 com.sparkrico.v2ex.R$string: int pull_to_refresh_release_label
+com.sparkrico.v2ex.R$string: int recent_list_title
 com.sparkrico.v2ex.R$string: int refresh
 com.sparkrico.v2ex.R$string: int show_refresh
 com.sparkrico.v2ex.R$string: int title_about
@@ -3447,6 +3458,8 @@ com.sparkrico.v2ex.model.Topic: long getLast_modified()
 com.sparkrico.v2ex.model.Topic: void setLast_modified(long)
 com.sparkrico.v2ex.model.Topic: long getLast_touched()
 com.sparkrico.v2ex.model.Topic: void setLast_touched(long)
+com.sparkrico.v2ex.provider.RecentContentProvider
+com.sparkrico.v2ex.provider.RecentContentProvider: RecentContentProvider()
 com.sparkrico.v2ex.util.URLSpanV2ex
 com.sparkrico.v2ex.view.AlphabetViewForListView
 com.sparkrico.v2ex.view.AlphabetViewForListView: AlphabetViewForListView(android.content.Context)
